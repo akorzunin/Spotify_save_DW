@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/twstyles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+    <script defer src="{{ url_for('static', path='scripts/bundle.js') }}"></script>
+    <!-- Hot reload script -->
+    {% if DEBUG %} {{ hot_reload.script(url_for('hot-reload')) | safe }} {% endif
+    %}
+    <link rel="shortcut icon" type="image/png"
+        href="https://cdn.icon-icons.com/icons2/1132/PNG/512/1486348532-music-play-pause-control-go-arrow_80458.png" />
+    <title>DW saver</title>
+</head>
+<body>
+    <h1 class="text-2xl font-semibold">Home</h1>
+    <code>
+        {{ usr_data }}</div>
+        
+    </code>
+    
+    <div id="main">
+        <div id="app"></div>
+    </div>
+    <div>
+        <h1 class="pepe text-5xl font-bold underline">
+            Pog monka!
+        </h1>
+    </div>
+    <br>
+    <button type="submit">Start</button>
+    <button type="submit">Next</button>
+    <button type="submit">Save</button>
+    <br>
+    <img src="{{ url_for('static', path='images/Ai_Nav.png') }}" alt="pic" class="src">
+    <br>
+
+</body>
+</html>

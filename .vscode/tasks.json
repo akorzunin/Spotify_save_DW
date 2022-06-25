@@ -1,0 +1,71 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello"
+        },
+        {
+            "label": "start debug session",
+            "type": "shell",
+            "command": "echo End debug session",
+            "dependsOn":[
+                "fastapi run",
+                "tailwind run",
+                "webpack run dev",
+            ]
+        },
+        {
+            "label": "fastapi run",
+            "type": "shell",
+            "command": "C:/Users/akorz/AppData/Local/pypoetry/Cache/virtualenvs/spotify-dw-api-xfJ6mADH-py3.9/Scripts/python.exe c:/Users/akorz/Documents/Spotify_DW_API/src/main.py",
+        },
+        {
+            "label": "tailwind run",
+            "type": "shell",
+            "command": "npx tailwindcss -i ./src/input.css -o ./static/css/twstyles.css --watch",
+            "options": {
+                "cwd": "${workspaceFolder}/src/frontend/"
+            },
+        },
+        {
+            "label": "webpack run dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "options": {
+                "cwd": "${workspaceFolder}/src/frontend/"
+            },
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "python",
+            "dockerBuild": {
+                "tag": "spotifydwapi:latest",
+                "dockerfile": "${workspaceFolder}/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build"
+            ],
+            "python": {
+                "args": [
+                    "main:app",
+                    "--host",
+                    "0.0.0.0",
+                    "--port",
+                    "8000"
+                ],
+                "module": "uvicorn"
+            }
+        }
+    ]
+}

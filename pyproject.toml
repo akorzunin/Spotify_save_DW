@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "spotify_dw_api"
+version = "0.1.0"
+description = ""
+authors = ["WildElaeagnus <54314123+akorzunin@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+spotipy = "^2.20.0"
+fastapi = "^0.78.0"
+python-dotenv = "^0.20.0"
+uvicorn = "^0.18.1"
+fastapi-sessions = "^0.3.2"
+pydantic = "^1.9.1"
+Jinja2 = "^3.1.2"
+
+[tool.poetry.dev-dependencies]
+arel = "^0.2.0"
+websockets = "^10.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
