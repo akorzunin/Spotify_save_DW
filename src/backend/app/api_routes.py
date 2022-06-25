@@ -4,4 +4,4 @@ router = APIRouter()
 
 @router.get("/api_route/", )
 def api_route():
-    return '123'
+    return 'dev_check'
