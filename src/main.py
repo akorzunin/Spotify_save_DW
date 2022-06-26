@@ -35,7 +35,7 @@ temp_json = {}
 templates = Jinja2Templates(directory="src/frontend/templates")
 
 routes = [
-            Mount('/frontend/static', app=StaticFiles(directory='src/frontend/static',), name='static'),
+    Mount('/frontend/static', app=StaticFiles(directory='src/frontend/static',), name='static'),
 ]
 
 app = FastAPI(
@@ -54,8 +54,6 @@ app.include_router(
     prefix="/api",
     tags=["API"],
 )
-
-
 
 
 # move to frontend
@@ -98,15 +96,16 @@ async def get_tocken(code: str, ):
     # return r
     return RedirectResponse("/api/collect_dw_fast")
 
-### dev
-import arel
-if DEBUG := os.getenv('DEBUG'):
-    hot_reload = arel.HotReload(paths=[arel.Path(".")])
-    app.add_websocket_route("/hot-reload", route=hot_reload, name="hot-reload")
-    app.add_event_handler("startup", hot_reload.startup)
-    app.add_event_handler("shutdown", hot_reload.shutdown)
-    templates.env.globals["DEBUG"] = DEBUG 
-    templates.env.globals["hot_reload"] = hot_reload
+# ### dev
+# import arel
+# # if True:
+# if DEBUG := os.getenv('DEBUG'):
+#     hot_reload = arel.HotReload(paths=[arel.Path(".")])
+#     app.add_websocket_route("/hot-reload", route=hot_reload, name="hot-reload")
+#     app.add_event_handler("startup", hot_reload.startup)
+#     app.add_event_handler("shutdown", hot_reload.shutdown)
+#     templates.env.globals["DEBUG"] = True 
+#     templates.env.globals["hot_reload"] = hot_reload
 
 
 

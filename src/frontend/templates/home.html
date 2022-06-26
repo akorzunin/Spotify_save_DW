@@ -5,7 +5,7 @@
 
 
     <h1 class="text-2xl font-semibild">Home</h1>
-    <br>
+    <!-- <br>
     <br>
     <br>
     <div class="px-4 py-3 bg-purple-400 text-right sm:px-6">
@@ -33,23 +33,23 @@
             {{ usr_data }}</div>
         
         </code>
-    </div>
+    </div> -->
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="btn margin-auto shadow-xl shadow-sky-500/30">
+<!-- <div class="btn margin-auto shadow-xl shadow-sky-500/30">
     <div>
         <button type="button"
             class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
             id="menu-button" aria-expanded="true" aria-haspopup="true">
             Options
-            <!-- Heroicon name: solid/chevron-down -->
-            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            Heroicon name: solid/chevron-down -->
+            <!-- <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                 aria-hidden="true">
                 <path fill-rule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                     clip-rule="evenodd" />
             </svg>
         </button>
-    </div>
+    </div> --> 
 
 <!--     
     Dropdown menu, show/hide based on menu state.
@@ -61,10 +61,10 @@
       From: "transform opacity-100 scale-100"
       To: "transform opacity-0 scale-95"
   -->
-    <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-green-500 ring-1 ring-black ring-opacity-5 hover:outline-black"
+    <!-- <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-green-500 ring-1 ring-black ring-opacity-5 hover:outline-black"
         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
         <div class="py-1" role="none">
-            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+            Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" 
             <a href="#" class="text-gray-700 block px-4 py-2 text-sm " role="menuitem" tabindex="-1"
                 id="menu-item-0">Account settings</a>
             <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
@@ -77,22 +77,21 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
     <div id="main" class="bg-sky-300 ">
         <div id="app"></div>
     </div>
-    <div class="">
+    <!-- <div class="">
         <h1 class="pepe text-5xl font-bold underline bg-green-700">
             Pog monka!
         </h1>
-    </div>
-    <br>
+    </div> -->
+    <!-- <br>
     <button type="submit" class="w-full bg-sky-500 hover:bg-red-700">Start</button>
     <button type="submit" class="pr-20 hover:bg-green-700">Next</button>
     <button type="submit" class="bg-gray-700 hover:bg-transparent">Save</button>
-    <br>
+    <br> -->
     <img 
     class="img-responsive [clip-path:circle(70%_at_20%_30%)]"
     src="{{ url_for('static', path='images/Ai_Nav.png') }}" alt="pic" >
-    <br>
 {%endblock%}
