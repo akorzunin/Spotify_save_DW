@@ -19,4 +19,4 @@ scope_dict = {
             'user-read-currently-playing': True,
             'user-read-recently-played': False,
         }
-        
+scope_str = ' '.join([k for k, v in scope_dict.items() if v])

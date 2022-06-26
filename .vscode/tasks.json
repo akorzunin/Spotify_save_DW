@@ -12,24 +12,25 @@
             "label": "start debug session",
             "type": "shell",
             "command": "echo End debug session",
-            "dependsOn":[
+            "dependsOn": [
                 "fastapi run",
                 "tailwind run",
-                "webpack run dev",
+                "webpack run dev"
             ]
         },
         {
             "label": "fastapi run",
             "type": "shell",
-            "command": "C:/Users/akorz/AppData/Local/pypoetry/Cache/virtualenvs/spotify-dw-api-xfJ6mADH-py3.9/Scripts/python.exe c:/Users/akorz/Documents/Spotify_DW_API/src/main.py",
+            "command": "C:/Users/akorz/AppData/Local/pypoetry/Cache/virtualenvs/spotify-dw-api-xfJ6mADH-py3.9/Scripts/python.exe c:/Users/akorz/Documents/Spotify_DW_API/src/main.py"
         },
         {
             "label": "tailwind run",
             "type": "shell",
-            "command": "npx tailwindcss -i ./src/input.css -o ./static/css/twstyles.css --watch",
+            "command": "npm run tw",
             "options": {
                 "cwd": "${workspaceFolder}/src/frontend/"
             },
+            "problemMatcher": []
         },
         {
             "label": "webpack run dev",
@@ -37,7 +38,7 @@
             "command": "npm run dev",
             "options": {
                 "cwd": "${workspaceFolder}/src/frontend/"
-            },
+            }
         },
         {
             "type": "docker-build",

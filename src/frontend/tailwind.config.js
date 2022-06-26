@@ -3,11 +3,13 @@ module.exports = {
   content: [
     "./templates/*.html",
     "./src/frontend/static/css/styles.css",
-    "./src/frontend/static/scripts/bundle.js",
-    "./src/frontend/src/**/*.{ts,js,tsx,jsx}",
+    "./src/**/*.{ts, }",
+    "./src/**/*.{tsx, }",
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }

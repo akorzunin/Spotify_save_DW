@@ -12,13 +12,15 @@
     {% if DEBUG %} 
         {{ hot_reload.script(url_for('hot-reload')) | safe }} 
     {% endif %}
-
+    <!-- tailwindcss CND -->
+    <!-- <script defer src="https://cdn.tailwindcss.com"></script> -->
     <link rel="shortcut icon" type="image/png"
         href="https://cdn.icon-icons.com/icons2/1132/PNG/512/1486348532-music-play-pause-control-go-arrow_80458.png" />
     <title>{% block title %} {%endblock%}</title>
 </head>
 
-<body>
+<body class="bg-fuchsia-400 
+bg-[linear-gradient(45deg,_#FA8BFF_0%,_#2BD2FF_52%,_#2BFF88_90%)]">
     <div class="cont">
         <!-- dsfgag -->
     </div>
