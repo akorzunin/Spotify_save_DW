@@ -30,6 +30,7 @@
     "@babel/plugin-proposal-class-properties": "^7.17.12",
     "flowbite": "^1.4.7",
     "flowbite-react": "0.0.27",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "universal-cookie": "^4.0.4"
   }
 }

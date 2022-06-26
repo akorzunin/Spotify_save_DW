@@ -7,32 +7,42 @@ import BlobButton from "./components/BlobButton";
 
 
 export const App = () => {
+    const ButtonStyle = ""
     return (
-        <div >
-            <Header 
-                title='Home' 
+        <>
+        <header className="flex justify-between">
+            <Header
+                title='Home'
             />
-            <Button
-                    title="Help"
-                    link="/help"
+            <div className="mt-4 mr-4">
+                <Button
+                        style={ButtonStyle}
+                        title="Help"
+                        link="/help"
+                        color={undefined}
+                    />
+                <Button
+                    style={ButtonStyle+" ml-3"}
+                    title="Login"
+                    link="/login"
                     color={undefined}
                 />
-            <Button
-                title="Login"
-                link="/login"
-                color={undefined}
-            />
-            <Button
+            </div>
+        </header>
+        <main className="">
+            {/* <Button
                 title="Try it"
                 link="/login"
                 color={undefined}
-            />
+            /> */}
             <BlobButton
                 title={undefined}
                 link={undefined}
             />
-            <Footer />
-        </div>
+
+        </main>
+        <Footer />
+        </>
     )
 }
 

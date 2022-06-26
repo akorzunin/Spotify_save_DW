@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Footer = ({}) => {
     return (
-    <footer className="text-gray-600 body-font">
+        <footer className="text-gray-600 body-font fixed w-[100%] bottom-0">
         <div className="">
             <div className="container px-5 py-8 flex flex-wrap mx-auto items-center justify-center">
                 <div className="flex md:flex-nowrap flex-wrap justify-center items-end md:justify-start">
