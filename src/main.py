@@ -56,14 +56,9 @@ app.include_router(
 )
 
 
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    with open('usr_data.json', 'r') as f:
-        usr_data = json.load(f)
-    return templates.TemplateResponse("index.html", {"request": request, 'usr_data': usr_data})
 
 
-
+# move to frontend
 @app.get("/login", response_class=HTMLResponse)
 async def login_url():
     # print(region)
@@ -101,7 +96,7 @@ async def get_tocken(code: str, ):
     with open('usr_data.json', 'w+') as f:
         json.dump(temp_json, f)
     # return r
-    return RedirectResponse("/")
+    return RedirectResponse("/api/collect_dw_fast")
 
 ### dev
 import arel
