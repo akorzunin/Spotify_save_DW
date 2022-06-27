@@ -3,9 +3,9 @@ import os
 log_config = uvicorn.config.LOGGING_CONFIG
 log_config["formatters"]["access"]["fmt"] = "%(asctime)s - %(levelname)s - %(message)s"
 uvicorn_conf = dict(
-    'main:app',
+    app='main:app',
     host=os.getenv('HOST'),
-    port=os.getenv('PORT'),
+    port=int(os.getenv('PORT')),
     log_level='debug' if os.getenv('DEBUG', False) else 'info',
     log_config=log_config,
     reload=os.getenv('DEBUG', False),

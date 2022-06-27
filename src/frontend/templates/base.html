@@ -15,16 +15,14 @@
     <!-- tailwindcss CND -->
     <!-- <script defer src="https://cdn.tailwindcss.com"></script> -->
     <link rel="shortcut icon" type="image/png"
-        href="https://cdn.icon-icons.com/icons2/1132/PNG/512/1486348532-music-play-pause-control-go-arrow_80458.png" />
+        href="{{ url_for('static', path='/images/play-arrow.png') }}" />
     <title>{% block title %} {%endblock%}</title>
 </head>
 
 <body class="bg-fuchsia-400 
 bg-[linear-gradient(45deg,_#FA8BFF_0%,_#2BD2FF_52%,_#2BFF88_90%)]
 flex-col min-h-screen">
-    <div class="cont">
-        <!-- dsfgag -->
-    </div>
+
     {%block content%} {%endblock%}
 
 </body>

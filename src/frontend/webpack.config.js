@@ -11,6 +11,11 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+            },
         ],
     },
     resolve: {
@@ -21,7 +26,7 @@ module.exports = {
         path: path.resolve(__dirname, './static/scripts/'),
     },
     optimization: {
-        minimize: false,
+        minimize: true,
     },
     // plugins: [
     //     new webpack.DefinePlugin({
