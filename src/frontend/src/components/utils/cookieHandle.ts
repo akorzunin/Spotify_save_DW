@@ -31,10 +31,9 @@ export const getUserPath = async (cookie : SpotifyCoockie) => {
     let userPath = "/user/" + data.id
     return userPath    
 }
-export const validateCookies = (cookie : SpotifyCoockie) => {
+export const isValidCookies = (cookie : SpotifyCoockie) => {
     if (!Object.keys(cookie).length) {
         console.log("invalid cookies");
-        
         return false
     } else  {
         console.log("Valid cookies");
@@ -42,13 +41,14 @@ export const validateCookies = (cookie : SpotifyCoockie) => {
         
     }
 }
-export const deleteCookies = (item) => {
+export const deleteCookies = () => {
     const cookiesLib = new Cookies()
     SpotifyCoockieKeys.forEach(
-        (key:string) => {
-            cookiesLib.remove(key)
+        (key: string) => {
+            cookiesLib.remove(key, { path: '/' })
         }
     )
+    console.info("spotify api cookies deleted");
 }
 
 

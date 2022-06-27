@@ -4,7 +4,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
-
+import ClickButton from "./components/ClickButton";
+import * as cookieHandle from "./components/utils/cookieHandle"
+import LogoutButton from "./components/LogoutButton";
 
 export const UserApp = () => {
     const ButtonStyle = "mr-3"
@@ -23,11 +25,8 @@ export const UserApp = () => {
                         link="/"
                         color="bg-green-500"
                     />
-                <Button
-                    style={ButtonStyle}
-                    title="Logout"
-                    link="/logout"
-                    color="bg-red-500"
+                <LogoutButton
+                    ButtonStyle={ButtonStyle}
                 />
             </div>
         </header>

@@ -14,21 +14,25 @@ import Footer from "./components/Footer";
 import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 
-import * as cookieHandle from "./utils/cookieHandle"
+import * as cookieHandle from "./components/utils/cookieHandle"
 import ClickButton from "./components/ClickButton";
 
 export const App = () => {
-    // handek cookies
+// handle cookies
     const [userPath, setUserPath] = React.useState("/login");
     React.useEffect(() => {
-        cookieHandle.getUserPath(cookies)
-            .then((res) => {
-                setUserPath(res)
-                    .catch((err) => {
-                        console.warn("Cant get user info " + err);
-                        setUserPath("/login")
-                    })
-            })
+        if (cookieHandle.isValidCookies(cookies)) {
+            cookieHandle.getUserPath(cookies)
+                .then((res) => {
+                    setUserPath(res)
+                })
+                .catch((err: string) => {
+                    console.warn("Cant get user info " + err);
+                    setUserPath("/login")
+                })
+        } else {
+            setUserPath("/login")
+        }
     }, [])
     const cookiesLib = new Cookies()
     const cookies = cookiesLib.getAll()
@@ -41,12 +45,6 @@ export const App = () => {
                     title='Home'
                 />
                 <div className="mt-4 mr-4">
-                    <ClickButton
-                        style={ButtonStyle}
-                        title="Delete cookies"
-                        onClick={cookieHandle.deleteCookies}
-                        color="bg-red-700"
-                    />
                     <Button
                         style={ButtonStyle}
                         title="Dev User"
@@ -70,11 +68,7 @@ export const App = () => {
             <main className="">
                 <BlobButton
                     title="Save DW"
-                    link={
-                        cookieHandle.validateCookies(cookies) ?
-                            userPath :
-                            "/login"
-                    }
+                    link={ userPath }
                 />
             </main>
             <Footer
