@@ -1,3 +1,4 @@
+from datetime import datetime, date
 import json
 import time
 from fastapi import APIRouter
@@ -33,14 +34,16 @@ def collect_dw_fast():
             print(track_id)
             pl_target_set.add(track_id)
         time.sleep(0.5)
-    
-    #set to list
+    # get time
+    d = datetime.now()
+    week = date(d.year, d.month, d.day).strftime("%V")
+    time_full = f'{d.day}-{d.month}-{d.year} {d.hour}:{d.minute:02}:{d.second:02}'
     #save playlist w/ spotipy api
     new_pl = sp.user_playlist_create(
-        user=sp.current_user()['id'], # TODO no hardcode
-        name='test_mate',
+        user=sp.current_user()['id'],
+        name=f'{d.year}_{week}',
         public=True,
-        description='pepe',
+        description=f'Creation date: {time_full}. This playlist was created by a web service. Link to github repo /akorzunin/Spotify_save_DW',
     )
     sp.user_playlist_add_tracks(
         user=sp.current_user()['id'], 
