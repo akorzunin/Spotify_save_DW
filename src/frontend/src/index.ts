@@ -10,8 +10,6 @@ import {
 
 import App from "./app";
 import UserApp from "./userApp";
-import Invoices from "./components/Invoices";
-import Expenses from "./components/Expenses";
 
 // App
 const appDiv = document.getElementById("app");

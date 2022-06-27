@@ -65,7 +65,7 @@ async def login_url():
                 scope=scope_str,
                 redirect_uri=REDIRECT_URI,
                 # state='HMBibZ2hl8VIH7AI',
-                show_dialog='true',
+                # show_dialog='true',
             )
         )
     )

@@ -19,9 +19,9 @@ export const UserApp = () => {
             <div className="mt-4 mr-4">
                 <Button
                         style={ButtonStyle}
-                        title="Help"
-                        link="/help"
-                        color={undefined}
+                        title="Home"
+                        link="/"
+                        color="bg-green-500"
                     />
                 <Button
                     style={ButtonStyle}

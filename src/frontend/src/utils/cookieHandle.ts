@@ -19,10 +19,17 @@ const SpotifyCoockieKeys = [
 export const readCookies = () => {
     true
 }
-export const getUserPath = (cookie : SpotifyCoockie) => {
-    // debugger
-    // fetch()
-    return "/user/123"
+export const getUserPath = async (cookie : SpotifyCoockie) => {
+    let res = await fetch('https://api.spotify.com/v1/me', {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `${cookie.token_type} ${cookie.access_token}`
+        }
+    })
+    let data = await res.json()
+    let userPath = "/user/" + data.id
+    return userPath    
 }
 export const validateCookies = (cookie : SpotifyCoockie) => {
     if (!Object.keys(cookie).length) {

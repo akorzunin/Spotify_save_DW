@@ -14,88 +14,75 @@ import Footer from "./components/Footer";
 import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 
-import * as coockieHandle from "./utils/coockieHandle"
+import * as cookieHandle from "./utils/cookieHandle"
 import ClickButton from "./components/ClickButton";
 
-
-
 export const App = () => {
-    // const cookies = coockieHandle.readCoockies()
+    // handek cookies
+    const [userPath, setUserPath] = React.useState("/login");
+    React.useEffect(() => {
+        cookieHandle.getUserPath(cookies)
+            .then((res) => {
+                setUserPath(res)
+                    .catch((err) => {
+                        console.warn("Cant get user info " + err);
+                        setUserPath("/login")
+                    })
+            })
+    }, [])
     const cookiesLib = new Cookies()
     const cookies = cookiesLib.getAll()
-    // const cookies = cookiesLib.
-    console.log(cookies);
-    console.log(typeof cookies);
-    
+
     const ButtonStyle = "mr-3"
     return (
         <>
-        <header className="flex justify-between">
-            <Header
-                title='Home'
-            />
-            <div className="mt-4 mr-4">
-                <ClickButton
+            <header className="flex justify-between">
+                <Header
+                    title='Home'
+                />
+                <div className="mt-4 mr-4">
+                    <ClickButton
                         style={ButtonStyle}
                         title="Delete cookies"
-                        onClick={coockieHandle.deleteCookies}
+                        onClick={cookieHandle.deleteCookies}
                         color="bg-red-700"
                     />
-                <Button
+                    <Button
                         style={ButtonStyle}
                         title="Dev User"
                         link="/user/123"
                         color="bg-red-700"
                     />
-                <Button
+                    <Button
                         style={ButtonStyle}
                         title="Help"
                         link="/help" //use useNavigate
                         color={undefined}
                     />
-                <Button
-                    style={ButtonStyle}
-                    title="Login"
-                    link="/login"
-                    color={undefined}
+                    <Button
+                        style={ButtonStyle}
+                        title="Login"
+                        link="/login"
+                        color={undefined}
+                    />
+                </div>
+            </header>
+            <main className="">
+                <BlobButton
+                    title="Save DW"
+                    link={
+                        cookieHandle.validateCookies(cookies) ?
+                            userPath :
+                            "/login"
+                    }
                 />
-            </div>
-        </header>
-        <main className="">
-            {/* <Button
-                title="Try it"
-                link="/login"
-                color={undefined}
-            /> */}
-
-            <BlobButton
-                title={undefined}
-                link={ 
-                    coockieHandle.validateCookies(cookies) ?
-                    coockieHandle.getUserPath(cookies):
-                    "/login"
-                }
+            </main>
+            <Footer
+                style={undefined}
             />
-        {/* <div>
-            <h1>Bookkeeper</h1>
-            <nav
-                style={{
-                    borderBottom: "solid 1px",
-                    paddingBottom: "1rem",
-                }}
-            >
-            <Link to="/invoices">Invoices</Link> |{" "}
-            <Link to="/api/api_route">Expenses</Link>
-            </nav>
-        </div> */}
-        </main>
-        <Footer 
-            style={undefined}
-        />
         </>
     )
 }
-
 
 export default App;
 
