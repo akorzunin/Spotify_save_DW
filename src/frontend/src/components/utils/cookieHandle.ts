@@ -28,6 +28,7 @@ export const getUserPath = async (cookie : SpotifyCoockie) => {
         }
     })
     let data = await res.json()
+    // debugger
     let userPath = "/user/" + data.id
     return userPath    
 }
