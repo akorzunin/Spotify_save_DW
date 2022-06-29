@@ -1,13 +1,51 @@
 from datetime import datetime, date
 import json
+import os
+import requests
+import base64
 import time
 from fastapi import APIRouter
 import spotipy
-router = APIRouter()
+from pydantic import BaseModel
 
+class RefreshToken(BaseModel):
+    refresh_token: str
+
+from backend.app.utils import encode_b64
+
+router = APIRouter()
+    
 @router.get("/api_route", )
 def api_route():
     return 'dev_check'
+
+@router.post("/refresh_token", )
+def refresh_token(refresh_token: RefreshToken):
+
+    client_creds_b64 = encode_b64(
+        os.getenv('SPOTIPY_CLIENT_ID'),
+        os.getenv('SPOTIPY_CLIENT_SECRET')
+    )
+    r = requests.post(
+        url='https://accounts.spotify.com/api/token', 
+        data={
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token.refresh_token,
+        }, 
+        headers={
+            'Authorization': f'Basic {client_creds_b64}',
+            'Content-Type': 'application/x-www-form-urlencoded', 
+        }
+    ).json()
+    
+    ### dev
+    temp_json = dict(r)
+    temp_json |= dict(get_time=str(datetime.now()))
+    with open('usr_data.json', 'w+') as f:
+        json.dump(temp_json, f)
+    ### dev
+
+    return dict(r)
 
 @router.get("/collect_dw_fast", )
 def collect_dw_fast():

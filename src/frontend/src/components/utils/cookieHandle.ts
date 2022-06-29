@@ -15,9 +15,23 @@ const SpotifyCoockieKeys = [
     "refresh_token",
     "scope",
 ]
-
+export const setCookies = (cookies) => {
+    const cookiesLib = new Cookies()
+    SpotifyCoockieKeys.forEach((key) => {
+        cookiesLib.set(key,cookies[key],{path: "/", })
+    }
+    )
+}
 export const readCookies = () => {
-    true
+    const cookiesLib = new Cookies()
+    const allCookies = cookiesLib.getAll()
+    const spotifyCookies = {}
+    SpotifyCoockieKeys.forEach(
+        (key: string) => {
+            spotifyCookies[key] = cookiesLib.get(key, )
+        }
+    )
+    return [spotifyCookies, allCookies]
 }
 export const getUserPath = async (cookie : SpotifyCoockie) => {
     let res = await fetch('https://api.spotify.com/v1/me', {
@@ -30,7 +44,7 @@ export const getUserPath = async (cookie : SpotifyCoockie) => {
     let data = await res.json()
     // debugger
     let userPath = "/user/" + data.id
-    return userPath    
+    return userPath
 }
 export const isValidCookies = (cookie : SpotifyCoockie) => {
     if (!Object.keys(cookie).length) {

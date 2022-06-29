@@ -12,4 +12,4 @@ export const getWeekNumber = (d: Date ) : number[] => {
     return [d.getUTCFullYear(), weekNo];
 }
 
-export const weekNumber = getWeekNumber(new Date());
+export const [ fullYear, weekNumber ]  = getWeekNumber(new Date());
