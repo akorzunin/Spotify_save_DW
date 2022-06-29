@@ -5,30 +5,40 @@ import Footer from "./components/Footer";
 import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 import ClickButton from "./components/ClickButton";
-import * as cookieHandle from "./components/utils/cookieHandle"
-import * as timeMangment from "./components/utils/timeMangment"
 import LogoutButton from "./components/LogoutButton";
 import UserCard from "./components/UserCard";
 import { WeekCounter } from "./components/WeekCounter";
 import Playlist from "./components/Playlist";
 import FullPlaylist from "./components/FullPlaylist";
 
+import * as cookieHandle from "./components/utils/cookieHandle"
+import * as timeMangment from "./components/utils/timeMangment"
+import * as apiManager from "./components/utils/apiManager"
+
 export const UserApp = () => {
     const [Session, setSession] = useState("SaveDW")
+    const [User, setUser] = useState({
+        name: undefined, 
+        img: undefined,
+        followers: undefined,
+    })
     const cookie = cookieHandle.readCookies()[0]
     const ButtonStyle = "mr-3"
+
     useEffect(() => {
-        // getUserData()
-        
+        apiManager.getUserData(cookie)
+            .then((user) => {
+                setUser(user)
+            })
     }, [])
     
     return (
         <>
         <header className="flex justify-between">
             <UserCard 
-                userName={undefined}
-                imgUrl={undefined}
-                followers={undefined}
+                userName={User.name}
+                imgUrl={User.img}
+                followers={User.followers}
             />
             <WeekCounter className={undefined} />
             <div className="mt-4 mr-4">

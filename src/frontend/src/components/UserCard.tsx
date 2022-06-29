@@ -23,13 +23,13 @@ const UserCard = ({userName, imgUrl, followers}) => {
 UserCard.defaultProps = {
     userName: "DefaultUser",
     imgUrl: "https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7",
-    followers: "999",
+    followers: 999,
 }
 
 UserCard.propTypes = {
     userName: PropTypes.string,
     imgUrl: PropTypes.string,
-    followers: PropTypes.string,
+    followers: PropTypes.number,
 }
 
 export default UserCard

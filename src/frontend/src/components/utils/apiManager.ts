@@ -55,7 +55,23 @@ const refreshToken = () => {
             setCookies(data)
         })
 }
-
+export const getUserData = async (cookie: SpotifyCoockie) => {
+    const res = await fetch('https://api.spotify.com/v1/me/', {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `${cookie.token_type} ${cookie.access_token}`
+        }
+    })
+    if (checkStatusCode(res)) {
+        const data = await res.json()
+        return {
+            name: data.display_name,
+            img: data.images[0].url,
+            followers: data.followers.total,
+        }
+    }
+}
 export const getUserPlayback = async (cookie: SpotifyCoockie) => {
     const res = await fetch('https://api.spotify.com/v1/me/player', {
         headers: {
