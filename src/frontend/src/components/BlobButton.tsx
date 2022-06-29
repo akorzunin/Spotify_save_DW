@@ -13,7 +13,8 @@ const BlobButton = ({ title, link, }) => {
                     alt="pic" >
                 </img>
                 <Button
-                    style="absolute w-full py-[50%] bottom-0 inset-x-0  text-white  text-xl text-center bg-opacity-0"
+                    style="absolute w-full py-[50%] bottom-0 inset-x-0  
+                    text-white  text-2xl text-center bg-opacity-0"
                     title={title}
                     link={link}
                     color=""

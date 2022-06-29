@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from datetime import datetime
 import json
 import os
 from urllib.parse import urlencode
@@ -69,13 +70,13 @@ async def login_url():
             )
         )
     )
-    # return ''.join(r.text.split('\n'))
     return RedirectResponse(r.prepare().url)
 
 @router.get("/{region}/login", )
 async def login_redirect(region: str, ):    
     return RedirectResponse('/login')
 
+# move to api
 @router.get("/get_token", )
 async def get_tocken(code: str, ) -> RedirectResponse:   
     # wrap to a function
@@ -86,8 +87,7 @@ async def get_tocken(code: str, ) -> RedirectResponse:
         'client_id': os.getenv('SPOTIPY_CLIENT_ID'),
         'client_secret': os.getenv('SPOTIPY_CLIENT_SECRET'),
     }).json()
-    temp_json = dict(r)
-
+    temp_json = dict(r) | dict(get_time=str(datetime.now()))
     ### dev
     with open('usr_data.json', 'w+') as f:
         json.dump(temp_json, f)

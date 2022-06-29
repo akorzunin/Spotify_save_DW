@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -9,30 +9,23 @@ import * as cookieHandle from "./components/utils/cookieHandle"
 import * as timeMangment from "./components/utils/timeMangment"
 import LogoutButton from "./components/LogoutButton";
 import UserCard from "./components/UserCard";
+import { WeekCounter } from "./components/WeekCounter";
+import Playlist from "./components/Playlist";
+import FullPlaylist from "./components/FullPlaylist";
 
 export const UserApp = () => {
+    const [Session, setSession] = useState("SaveDW")
+    const cookie = cookieHandle.readCookies()[0]
     const ButtonStyle = "mr-3"
     return (
         <>
         <header className="flex justify-between">
-            {/* <Header
-                title='Home'
-            /> */}
             <UserCard 
                 userName={undefined}
                 imgUrl={undefined}
                 followers={undefined}
             />
-            <Button
-                title={
-                    timeMangment
-                    .getWeekNumber(new Date())
-                    .join(" ") 
-                }
-                color="bg-green-400"
-                link={undefined}
-                style={undefined}
-            />
+            <WeekCounter className={undefined} />
             <div className="mt-4 mr-4">
                 <Button
                         style={ButtonStyle}
@@ -46,11 +39,10 @@ export const UserApp = () => {
             </div>
         </header>
         <main className="">
-            <h1>Pepe</h1>
-                {/* <ContentCard /> */}
-                {/* <FullDWpl /> */}
-                    {/* <SongCard /> */}
-                {/* <SongCard... /> */}
+            <FullPlaylist
+                // title="Current playlist"
+                cookie = {cookie}
+            />
 
         </main>
         <Footer 

@@ -56,7 +56,7 @@ const refreshToken = () => {
         })
 }
 
-const getUserPlayback = async (cookie: SpotifyCoockie) => {
+export const getUserPlayback = async (cookie: SpotifyCoockie) => {
     const res = await fetch('https://api.spotify.com/v1/me/player', {
         headers: {
             'Accept': 'application/json',
