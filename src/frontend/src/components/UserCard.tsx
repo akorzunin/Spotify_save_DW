@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const UserCard = ({userName, imgUrl, followers}) => {
     return (
-        <div className="bg-orange-500 flex">
+        <div className="flex">
             <img src={ imgUrl } alt="User icon" 
                 className="w-12 h-12 p-2 rounded-full"/>
             <div className="p-2">

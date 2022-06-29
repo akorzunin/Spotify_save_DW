@@ -43,8 +43,8 @@ export const getUserPath = async (cookie : SpotifyCoockie) => {
     })
     let data = await res.json()
     // debugger
-    let userPath = "/user/" + data.id
-    return userPath
+    if (data.id) return "/user/" + data.id
+    return "/login"
 }
 export const isValidCookies = (cookie : SpotifyCoockie) => {
     if (!Object.keys(cookie).length) {

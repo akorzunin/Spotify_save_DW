@@ -9,7 +9,7 @@ export interface Song {
 }
 const SongCard = ({ song, index, }) => {
     return (
-        <div className="bg-orange-500 flex">
+        <div className="flex">
             <div>{index}</div>
             <img src={song.imgUrl} alt="User icon"
                 className="w-12 h-12 p-2" />

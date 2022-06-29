@@ -94,7 +94,7 @@ const isPlaybackPlaylist = ( data ):string|boolean => {
 }
 const getPlaylistSongs = async (
     playlistUri: string, cookie: SpotifyCoockie
-    ): Promise<Song[]> => {
+    ): Promise<[Song[], any]> => {
     const playlistId = playlistUri.split(':').pop()
     const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
         headers: {
@@ -113,9 +113,9 @@ const getPlaylistSongs = async (
             imgUrl: song.track.album.images[2].url,
         })
     })
-    return songs
+    return [songs, data]
 }
-export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<Song[]> => {
+export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[], any]> => {
     const data = await getUserPlayback(cookie)
     if (!data) {
         throw new Error("No user playback")
@@ -123,8 +123,9 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<Song[]> 
     // debugger
     const playlistUri = isPlaybackPlaylist(data)
     let songs = []
+    let plInfo
     if (playlistUri) {
-        songs = await getPlaylistSongs(playlistUri.toString(), cookie)
+        return await getPlaylistSongs(playlistUri.toString(), cookie)
     } else {
         songs = [
             {
@@ -135,6 +136,6 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<Song[]> 
             }
         ]
     }
-    return songs
+    return [songs, plInfo]
 }
 
