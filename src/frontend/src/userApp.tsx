@@ -17,6 +17,11 @@ export const UserApp = () => {
     const [Session, setSession] = useState("SaveDW")
     const cookie = cookieHandle.readCookies()[0]
     const ButtonStyle = "mr-3"
+    useEffect(() => {
+        // getUserData()
+        
+    }, [])
+    
     return (
         <>
         <header className="flex justify-between">
