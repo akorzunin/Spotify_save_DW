@@ -22,7 +22,7 @@ app = FastAPI(
 
 app.include_router(
     router=front_routes,
-    tags=["frontend"],
+    tags=["Frontend"],
 )
 app.include_router(
     router=api_routes,
