@@ -1,20 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { WeekCounter } from './WeekCounter'
 
 const UserCard = ({userName, imgUrl, followers}) => {
     return (
-        <div className="flex">
-            <img src={ imgUrl } alt="User icon" 
-                className="w-12 h-12 p-2 rounded-full"/>
-            <div className="p-2">
-                <div>
-                    {userName}
+        <div className="flex p-5">
+            <div className="mr-9">
+                <img src={ imgUrl } alt="User icon "
+                    className="h-16 rounded-full"/>
+            </div>
+            <div>
+                <div className="p-0.5 flex ">
+                    <div className="font-semibold text-white text-lg mr-6 leading-6">
+                        {userName}
+                    </div>
+                    <div className="text-white text-base mt-[2px] leading-6 opacity-80 hidden xl:block">
+                        {followers > 999 ?
+                            (followers / 1000) + "k" :
+                            followers} followers
+                    </div>
                 </div>
-                <div>
-                    {followers > 999 ?
-                        (followers / 1000) + "k" :
-                        followers} followers
-                </div>
+                <WeekCounter
+                    className="text-white text-sm xl:text-lg p-0.5"
+                />
             </div>
         </div>
     )

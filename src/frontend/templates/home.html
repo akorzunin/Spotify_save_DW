@@ -2,14 +2,7 @@
 {%block title%} DW Saver Home {%endblock%}
 
 {%block content%}
-    <script>
-        var userData= "{{ user_data }}"
-        console.log(userData)
-        var ACCESS_TOKEN= "{{ access_token }}"
-        console.log(ACCESS_TOKEN)
-        let pepe = 123
-        //document.cookie += `access_token=${ACCESS_TOKEN}`
-    </script>
+    
     <div id="BlobSvg" 
         class="{{ url_for('static', path='images/Blob.svg') }}">
     </div>
@@ -19,7 +12,7 @@
     <!-- <button class="inline-flex text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
         Tailwind Snippets
     </button> -->
-        <!-- <img id="" class="img-responsive [clip-path:circle(70%_at_20%_30%)]"
+    <!-- <img id="" class="img-responsive [clip-path:circle(70%_at_20%_30%)]"
     src="{{ url_for('static', path='images/Ai_Nav.png') }}" 
     alt="pic" >
     <img class="img-responsive [clip-path:circle(70%_at_20%_70%)]"

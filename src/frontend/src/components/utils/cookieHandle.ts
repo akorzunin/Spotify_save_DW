@@ -17,6 +17,7 @@ const SpotifyCoockieKeys = [
 ]
 export const setCookies = (cookies) => {
     const cookiesLib = new Cookies()
+    debugger
     SpotifyCoockieKeys.forEach((key) => {
         cookiesLib.set(key,cookies[key],{path: "/", })
     }

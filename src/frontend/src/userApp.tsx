@@ -10,10 +10,14 @@ import UserCard from "./components/UserCard";
 import { WeekCounter } from "./components/WeekCounter";
 import Playlist from "./components/Playlist";
 import FullPlaylist from "./components/FullPlaylist";
+import SongCard from './components/SongCard'
 
 import * as cookieHandle from "./components/utils/cookieHandle"
 import * as timeMangment from "./components/utils/timeMangment"
 import * as apiManager from "./components/utils/apiManager"
+import SavePlaylist from "./components/SavePlaylist";
+import Burger from "./components/Burger";
+import BurgerMenu from "./components/BurgerMenu";
 
 export const UserApp = () => {
     const [Session, setSession] = useState("SaveDW")
@@ -25,43 +29,144 @@ export const UserApp = () => {
     const cookie = cookieHandle.readCookies()[0]
     const ButtonStyle = "mr-3"
 
+    const isDiscoverWeekly = (data): boolean => {
+        return data.images[0].url.search('discover') > 0 ? true : false
+    }
+    const usePlaylistData = (info) => {
+        const songs = info[0]
+        const data = info[1]
+        const currentSong = info[2]
+        if (data) {
+            setPlaylistName(data.name)
+            setIsDW(
+                isDiscoverWeekly(data)
+            )
+        }
+        setCurrentSong(currentSong)
+        setPlSongs(songs)
+    }
+    const [PlSongs, setPlSongs] = useState("No songs")
+    const [isDW, setIsDW] = useState(false)
+    const [PlaylistName, setPlaylistName] = useState("No playlist name")
+    const [CurrentSong, setCurrentSong] = useState({
+        name: "No track data",
+        imgUrl: "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
+        artists: "No artist data",
+    })
     useEffect(() => {
+        // get user data
         apiManager.getUserData(cookie)
             .then((user) => {
                 setUser(user)
             })
+        let data
+        // look for user palyback
+        apiManager.getPlayBackSongs(cookie)
+            .then((plData) => {
+                usePlaylistData(plData)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        const updateInterval = setInterval(function () {
+            apiManager.getUserPlayback(cookie)
+                .then(tempData => {
+                    if (typeof data === 'undefined') {
+                        data = tempData
+                    }
+                    if (!data) {
+                        console.log('i dunno what went wrong');
+                        clearInterval(updateInterval)
+                        throw new Error('sth went wrong')
+                    }
+                    try {
+                        if (data.error.status > 399) {
+                            clearInterval(updateInterval)
+                            throw new Error(data.error.message)
+                        }
+                    } catch (error) {
+                        // if (error instanceof TypeError) console.log("No error message");
+                    }
+                    //  if there is no changes in playback, dont request songs
+                    if (data.item.uri != tempData.item.uri) {
+                        data = tempData
+                        apiManager.getPlayBackSongs(cookie)
+                            .then((plData) => {
+                                usePlaylistData(plData)
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                clearInterval(updateInterval)
+                            }
+                            )
+                    }
+                })
+        }, 2000);
     }, [])
-    
+    const [burgerClass, setburgerClass] = useState("")
+
     return (
         <>
-        <header className="flex justify-between">
+        <header className="flex justify-between mb-12 relative">
             <UserCard 
                 userName={User.name}
                 imgUrl={User.img}
                 followers={User.followers}
             />
-            <WeekCounter className={undefined} />
-            <div className="mt-4 mr-4">
+            <SongCard
+                song={CurrentSong}
+                index={''}
+                isDeletable={ false }
+                onDelete={undefined}
+                isHidden={undefined}
+            />
+            <div className=" items-center hidden lg:flex">
+                <Button
+                        style={ButtonStyle}
+                        title="Help"
+                        link="/help"
+                        color="bg-white text-black"
+                    />
                 <Button
                         style={ButtonStyle}
                         title="Home"
                         link="/"
-                        color="bg-green-500"
+                        color="bg-white text-black"
                     />
                 <LogoutButton
-                    ButtonStyle={ButtonStyle}
+                    ButtonStyle={"ml-12"}
+                />
+            </div>
+            <div className="block lg:hidden">
+                <Burger 
+                    burgerClass={ burgerClass} 
+                        handleBM={() => {
+                            setburgerClass(burgerClass ? "" : "header__burger-menu_active")
+                        }}                    
                 />
             </div>
         </header>
         <main className="">
-            <FullPlaylist
-                // title="Current playlist"
-                cookie = {cookie}
-            />
-
+            <div className="flex">
+                <FullPlaylist
+                    PlaylistName={PlaylistName}
+                    PlSongs={PlSongs}
+                    isDW={isDW}
+                />
+                <SavePlaylist
+                    playbackSong={CurrentSong }
+                    fullPlaylist={PlSongs}
+                    // PlSongs={SavedSongs} 
+                    // handleDelete={handleDelete}
+                />
+            </div>
         </main>
         <Footer 
-            style={undefined}
+                style={"mt-12"}
+        />
+        <BurgerMenu 
+            burgerClass={burgerClass}
+            ButtonStyle={ButtonStyle}
         />
         </>
     )

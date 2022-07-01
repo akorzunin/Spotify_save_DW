@@ -1,3 +1,4 @@
+import { instanceOf } from "prop-types";
 import { SpotifyCoockie, readCookies, setCookies } from "./cookieHandle";
 
 export interface Song {
@@ -16,7 +17,7 @@ const checkStatusCode = (res) => {
 
             });
     };
-    if (res.status !== 200) {
+    if (res.status > 399) {
         // debugger
         // if (res.status > 399 && res.status <= 402) {
         if (res.status === 401) {
@@ -38,10 +39,15 @@ const checkStatusCode = (res) => {
     return true
 }
 
-const refreshToken = () => {
+export const refreshToken = () => {
     const pref = window.location.href.split('//')[0]
     const location = window.location.href.split('//')[1].split('/')[0];
     const refreshToken = readCookies()[0].refresh_token
+    if (refreshToken === 'undefined' || typeof refreshToken === undefined) {
+        throw new Error("Cant refresh token because no cookies available");
+        
+    }
+    debugger
     fetch(`${pref}//${location}/api/refresh_token`, {
         method: 'POST',
         headers: {
@@ -52,7 +58,12 @@ const refreshToken = () => {
         .then((res) => res.json())
         .then((data) => {
             // save data to local storage
+            console.log('refresh token');
+            debugger
             setCookies(data)
+        })
+        .catch((err) => {
+            debugger
         })
 }
 export const getUserData = async (cookie: SpotifyCoockie) => {
@@ -80,7 +91,14 @@ export const getUserPlayback = async (cookie: SpotifyCoockie) => {
             'Authorization': `${cookie.token_type} ${cookie.access_token}`
         }
     })
-
+    if (res.status === 204) {
+        console.log("No content"); 
+        //TODO implement refresh tocken logick if problem in token
+        // refreshToken()
+        return false
+        throw new Error("Cant do something");
+        
+    }
     if (checkStatusCode(res)){
         const data = await res.json()
         return data
@@ -109,8 +127,8 @@ const isPlaybackPlaylist = ( data ):string|boolean => {
     }
 }
 const getPlaylistSongs = async (
-    playlistUri: string, cookie: SpotifyCoockie
-    ): Promise<[Song[], any]> => {
+    playlistUri: string, cookie: SpotifyCoockie, currentSong
+    ): Promise<[Song[], any, any]> => {
     const playlistId = playlistUri.split(':').pop()
     const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
         headers: {
@@ -129,19 +147,23 @@ const getPlaylistSongs = async (
             imgUrl: song.track.album.images[2].url,
         })
     })
-    return [songs, data]
+    return [songs, data, currentSong]
 }
-export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[], any]> => {
+export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[], any, any]> => {
     const data = await getUserPlayback(cookie)
     if (!data) {
         throw new Error("No user playback")
     }
-    // debugger
+    const currentSong = {
+        name: data.item.name,
+        imgUrl: data.item.album.images[2].url,
+        artists: data.item.artists[0].name
+    }
     const playlistUri = isPlaybackPlaylist(data)
     let songs = []
     let plInfo
     if (playlistUri) {
-        return await getPlaylistSongs(playlistUri.toString(), cookie)
+        return await getPlaylistSongs(playlistUri.toString(), cookie, currentSong)
     } else {
         songs = [
             {
@@ -152,6 +174,6 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[],
             }
         ]
     }
-    return [songs, plInfo]
+    return [songs, plInfo, currentSong]
 }
 

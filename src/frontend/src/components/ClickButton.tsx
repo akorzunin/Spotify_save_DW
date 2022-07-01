@@ -5,7 +5,7 @@ const ClickButton = ({ title, onClick, color, style }) => {
     return (
         <a onClick={onClick}
             className={`cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
-                text-sm font-medium rounded-md text-white ${color} hover:opacity-80 transition-opacity
+                text-sm text-left font-medium rounded-md text-white ${color} hover:opacity-80 transition-opacity
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${style}`}>
             {title}
         </a>
