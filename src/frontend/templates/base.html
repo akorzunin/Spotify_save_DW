@@ -6,14 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='css/twstyles.css') }}">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}"> -->
     <script defer src="{{ url_for('static', path='scripts/bundle.js') }}"></script>
     <!-- Hot reload script -->
     {% if DEBUG %} 
         {{ hot_reload.script(url_for('hot-reload')) | safe }} 
     {% endif %}
-    <!-- tailwindcss CND -->
-    <!-- <script defer src="https://cdn.tailwindcss.com"></script> -->
     <link rel="shortcut icon" type="image/png"
         href="{{ url_for('static', path='/images/play-arrow.png') }}" />
     <title>{% block title %} {%endblock%}</title>

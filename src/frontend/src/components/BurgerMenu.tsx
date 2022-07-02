@@ -7,9 +7,6 @@ const BurgerMenu = ({ burgerClass, ButtonStyle}) => {
     const [burgerOpen, setburgerOpen] = useState("")
     useEffect(() => {
         setburgerOpen(burgerClass ? "popup_open" : "")
-        //  dev
-        // setburgerOpen(burgerClass ? "" : "popup_open")
-        
     }, [burgerClass])
     
     return (

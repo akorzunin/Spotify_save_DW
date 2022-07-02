@@ -1,4 +1,3 @@
-import { instanceOf } from "prop-types";
 import { SpotifyCoockie, readCookies, setCookies } from "./cookieHandle";
 import * as timeMangment from './timeMangment'
 
@@ -19,14 +18,10 @@ const checkStatusCode = (res) => {
             });
     };
     if (res.status > 399) {
-        // debugger
-        // if (res.status > 399 && res.status <= 402) {
         if (res.status === 401) {
             console.error('Token is invalid trying to refresh');
-
             const location = window.location.href.split('//')[1].split('/')[0];
             console.log(location);
-            // debugger
             logErr(res);
             refreshToken()
             return false
@@ -48,7 +43,6 @@ export const refreshToken = () => {
         throw new Error("Cant refresh token because no cookies available");
         
     }
-    // debugger
     fetch(`${pref}//${location}/api/refresh_token`, {
         method: 'POST',
         headers: {

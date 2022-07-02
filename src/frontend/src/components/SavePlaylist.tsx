@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Playlist from './Playlist'
 import * as apiManager from './utils/apiManager'
 import * as timeMangment from './utils/timeMangment'
 import SaveSongPlaylist from './SaveSongPlaylist'
 import ClickButton from './ClickButton'
 import PlaylistTitle from './PlaylistTitle'
-import SavePlaylistButtons from './SavePlaylistButtons'
 import { Song } from './SongCard'
 
 const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie }) => {
@@ -16,7 +14,6 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie }) => {
     const [listenPlayback, setListenPlayback] = useState(true)
     const [PingState, setPingState] = useState("hidden")
     const [isPlSaved, setIsPlSaved] = useState(false)
-    //isSaved
     // Functions
     const handleDelete = (song: Song, index) => {
         console.log('Del', song, index);
@@ -52,7 +49,6 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie }) => {
                     setPlayedSongsSet(playedSongsSet.add(hashedSong))
                 } else {
                     // all playable song are already saved
-                    // debugger
                     if (!isPlSaved) {
                         console.log('all SET');
                         setPingState('')

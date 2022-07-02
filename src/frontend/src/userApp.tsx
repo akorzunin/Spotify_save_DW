@@ -1,19 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
 
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Button from "./components/Button";
-import BlobButton from "./components/BlobButton";
-import ClickButton from "./components/ClickButton";
 import LogoutButton from "./components/LogoutButton";
 import UserCard from "./components/UserCard";
-import { WeekCounter } from "./components/WeekCounter";
-import Playlist from "./components/Playlist";
 import FullPlaylist from "./components/FullPlaylist";
 import SongCard from './components/SongCard'
 
 import * as cookieHandle from "./components/utils/cookieHandle"
-import * as timeMangment from "./components/utils/timeMangment"
 import * as apiManager from "./components/utils/apiManager"
 import SavePlaylist from "./components/SavePlaylist";
 import Burger from "./components/Burger";
@@ -63,11 +57,6 @@ export const UserApp = () => {
         setCurrentSong(emptySong)
     }
     // Effects
-    useEffect(() => {
-        
-        // setCookie(cookieHandle.readCookies()[0])
-    }, [])
-    
     useEffect(() => {
         // get user data
         apiManager.getUserData(cookie)

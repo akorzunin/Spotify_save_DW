@@ -20,11 +20,8 @@ if (appDiv.className == 'mainApp'){
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />}></Route>
-                {/* <Route path="expenses" element={<Expenses />} ></Route>
-                <Route path="invoices" element={<Invoices />} ></Route> */}
             </Routes>
         </BrowserRouter>
-        // <App/>
     )
 } else if (appDiv.className = 'userApp') {
     root = ReactDOM.createRoot(appDiv);

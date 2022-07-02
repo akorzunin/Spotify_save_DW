@@ -10,9 +10,7 @@ export interface Song {
 const SongCard = ({ song, index,  isDeletable, onDelete, isHidden}) => {
     const handleChange = () => {
         if (isDeletable) {
-            // const text = event.target.value;
             console.log('Deletable');
-            
             onDelete(index, true);
         }
     }

@@ -1,13 +1,5 @@
 import React, { Component } from "react";
 import Cookies from 'universal-cookie';
-// import { Link } from "react-router-dom";
-// import {
-//     BrowserRouter as Router,
-//     Routes,
-//     useRoutes,
-//     Route,
-//     useNavigate,
-// } from 'react-router-dom';
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,7 +7,6 @@ import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 
 import * as cookieHandle from "./components/utils/cookieHandle"
-import ClickButton from "./components/ClickButton";
 
 export const App = () => {
 // handle cookies
