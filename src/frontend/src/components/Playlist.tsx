@@ -9,7 +9,7 @@ const Playlist = ({ title, songs, isDW}) => {
     return (      
         <div>
             <PlaylistTitle
-                title={ title }
+                title={ "Playlist: " + title }
                 isDW={ isDW }
             />
             <div className="flex justify-between pl-3 pr-3 mt-3 opacity-0">

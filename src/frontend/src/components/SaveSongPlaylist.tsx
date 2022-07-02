@@ -7,7 +7,7 @@ const SaveSongPlaylist = ({ songs, alertDeleted}) => {
     const [hiddenValues, setHiddenValues] = useState({});
     const handleDelete = (index, value) => {
         setHiddenValues({ ...hiddenValues, [index]: value })
-        alertDeleted(index)
+        alertDeleted(songs[index], index)
     }
     return (      
         <div>

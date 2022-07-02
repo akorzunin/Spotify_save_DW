@@ -1,5 +1,6 @@
 import { instanceOf } from "prop-types";
 import { SpotifyCoockie, readCookies, setCookies } from "./cookieHandle";
+import * as timeMangment from './timeMangment'
 
 export interface Song {
     name: string, // this.track.name
@@ -47,7 +48,7 @@ export const refreshToken = () => {
         throw new Error("Cant refresh token because no cookies available");
         
     }
-    debugger
+    // debugger
     fetch(`${pref}//${location}/api/refresh_token`, {
         method: 'POST',
         headers: {
@@ -59,11 +60,12 @@ export const refreshToken = () => {
         .then((data) => {
             // save data to local storage
             console.log('refresh token');
-            debugger
+            data.refresh_token = refreshToken
             setCookies(data)
         })
         .catch((err) => {
-            debugger
+            console.error(err);
+            
         })
 }
 export const getUserData = async (cookie: SpotifyCoockie) => {
@@ -80,6 +82,7 @@ export const getUserData = async (cookie: SpotifyCoockie) => {
             name: data.display_name,
             img: data.images[0].url,
             followers: data.followers.total,
+            id: data.id
         }
     }
 }
@@ -93,11 +96,7 @@ export const getUserPlayback = async (cookie: SpotifyCoockie) => {
     })
     if (res.status === 204) {
         console.log("No content"); 
-        //TODO implement refresh tocken logick if problem in token
-        // refreshToken()
         return false
-        throw new Error("Cant do something");
-        
     }
     if (checkStatusCode(res)){
         const data = await res.json()
@@ -157,7 +156,8 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[],
     const currentSong = {
         name: data.item.name,
         imgUrl: data.item.album.images[2].url,
-        artists: data.item.artists[0].name
+        artists: data.item.artists[0].name,
+        id: data.item.uri,
     }
     const playlistUri = isPlaybackPlaylist(data)
     let songs = []
@@ -176,4 +176,49 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[],
     }
     return [songs, plInfo, currentSong]
 }
-
+const generatePlData = () => {
+    return { 
+        name: `${timeMangment.fullYear}_${timeMangment.weekNumber}`,
+        description: `Creation date: ${new Date().toString()}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
+    }
+}
+export const saveUserPl = async (cookie: SpotifyCoockie, songs,) => {
+    // Create new playlist
+    const userData = await getUserData(cookie)
+    const PlData = generatePlData()
+    const res = await fetch(`https://api.spotify.com/v1/users/${userData.id}/playlists`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `${cookie.token_type} ${cookie.access_token}`,
+        },
+        body: JSON.stringify({
+            'name': PlData.name,
+            'description': PlData.description,
+            'public': true,
+        })
+    })
+    if (checkStatusCode(res)) {
+        const data = await res.json()
+        // add songs to playlist
+        const plRes = await fetch(`https://api.spotify.com/v1/playlists/${data.id}/tracks`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie.token_type} ${cookie.access_token}`,
+            },
+            body: JSON.stringify({
+                'uris': songs.map(x => x.id),
+            })
+        })
+        if (checkStatusCode(plRes)) {
+            const data = await plRes.json()
+            console.log("Saved", data);
+            return true
+        }
+        return false
+    }
+    return false
+}

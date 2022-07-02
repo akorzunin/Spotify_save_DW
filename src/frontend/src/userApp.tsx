@@ -20,15 +20,26 @@ import Burger from "./components/Burger";
 import BurgerMenu from "./components/BurgerMenu";
 
 export const UserApp = () => {
-    const [Session, setSession] = useState("SaveDW")
+    // vars
+    const ButtonStyle = "mr-3"
+    const emptySong = {
+        name: "No track data",
+        imgUrl: "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
+        artists: "No artist data",
+    }
+    // States
     const [User, setUser] = useState({
         name: undefined, 
         img: undefined,
         followers: undefined,
     })
-    const cookie = cookieHandle.readCookies()[0]
-    const ButtonStyle = "mr-3"
-
+    const [PlSongs, setPlSongs] = useState("No songs")
+    const [isDW, setIsDW] = useState(false)
+    const [PlaylistName, setPlaylistName] = useState("No playlist name")
+    const [CurrentSong, setCurrentSong] = useState(emptySong)
+    const [burgerClass, setburgerClass] = useState("")
+    const [cookie, setCookie] = useState(cookieHandle.readCookies()[0])
+    // functions
     const isDiscoverWeekly = (data): boolean => {
         return data.images[0].url.search('discover') > 0 ? true : false
     }
@@ -45,14 +56,18 @@ export const UserApp = () => {
         setCurrentSong(currentSong)
         setPlSongs(songs)
     }
-    const [PlSongs, setPlSongs] = useState("No songs")
-    const [isDW, setIsDW] = useState(false)
-    const [PlaylistName, setPlaylistName] = useState("No playlist name")
-    const [CurrentSong, setCurrentSong] = useState({
-        name: "No track data",
-        imgUrl: "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
-        artists: "No artist data",
-    })
+    const setDefaults = () => {
+        setPlSongs("No songs")
+        setIsDW(false)
+        setPlaylistName("No playlist name")
+        setCurrentSong(emptySong)
+    }
+    // Effects
+    useEffect(() => {
+        
+        // setCookie(cookieHandle.readCookies()[0])
+    }, [])
+    
     useEffect(() => {
         // get user data
         apiManager.getUserData(cookie)
@@ -71,13 +86,15 @@ export const UserApp = () => {
         const updateInterval = setInterval(function () {
             apiManager.getUserPlayback(cookie)
                 .then(tempData => {
+                    if (!tempData) {
+                        setDefaults()
+                    }
                     if (typeof data === 'undefined') {
                         data = tempData
                     }
                     if (!data) {
-                        console.log('i dunno what went wrong');
                         clearInterval(updateInterval)
-                        throw new Error('sth went wrong')
+                        throw new Error('Since no palyback available exiting palyback fetch loop')
                     }
                     try {
                         if (data.error.status > 399) {
@@ -103,7 +120,6 @@ export const UserApp = () => {
                 })
         }, 2000);
     }, [])
-    const [burgerClass, setburgerClass] = useState("")
 
     return (
         <>
@@ -156,8 +172,8 @@ export const UserApp = () => {
                 <SavePlaylist
                     playbackSong={CurrentSong }
                     fullPlaylist={PlSongs}
-                    // PlSongs={SavedSongs} 
-                    // handleDelete={handleDelete}
+                    isDW={isDW}
+                    cookie={cookie}
                 />
             </div>
         </main>

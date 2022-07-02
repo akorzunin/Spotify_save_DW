@@ -9,7 +9,7 @@ const PlaylistTitle = ({ title, isDW }) => {
                 className={`inline-flex py-2 px-4 border border-transparent shadow-sm
                 font-medium rounded-md text-white ${isDW ? 'bg-green-500' : 'bg-yellow-500'} hover:opacity-80 transition-opacity
                 w-[100%] `}>
-                {"Playlist: " + title}
+                {title}
             </a>
         </div>
         )
