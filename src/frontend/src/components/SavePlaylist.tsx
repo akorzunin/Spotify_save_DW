@@ -7,7 +7,7 @@ import ClickButton from './ClickButton'
 import PlaylistTitle from './PlaylistTitle'
 import { Song } from './SongCard'
 
-const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie }) => {
+const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     // States
     const [playedSongsSet, setPlayedSongsSet] = useState(new Set())
     const [SavedSongs, setSavedSongs] = useState([]);
@@ -121,7 +121,8 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie }) => {
             </div>
             <SaveSongPlaylist
                 songs={SavedSongs} 
-                alertDeleted={handleDelete}            
+                alertDeleted={handleDelete} 
+                style={style}           
             />
         </div>
     )

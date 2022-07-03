@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import Playlist from './Playlist'
 
 
-const FullPlaylist = ({ PlaylistName, PlSongs,isDW,}) => {
+const FullPlaylist = ({ PlaylistName, PlSongs,isDW, style}) => {
     return (
         <div className="">
             <Playlist
                 title={ PlaylistName }
                 songs={ PlSongs }
                 isDW={ isDW }
+                style={style}
             />
         </div>
     )

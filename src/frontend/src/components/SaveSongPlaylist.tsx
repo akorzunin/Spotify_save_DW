@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import SongCard from './SongCard'
 import { Song,  } from './utils/apiManager'
 
-const SaveSongPlaylist = ({ songs, alertDeleted}) => {
+const SaveSongPlaylist = ({ songs, alertDeleted, style}) => {
     const [hiddenValues, setHiddenValues] = useState({});
     const handleDelete = (index, value) => {
         setHiddenValues({ ...hiddenValues, [index]: value })
@@ -11,7 +11,7 @@ const SaveSongPlaylist = ({ songs, alertDeleted}) => {
     }
     return (      
         <div>
-            <div className="container overflow-y-scroll max-h-[870px] mt-3">
+            <div className={`container overflow-y-scroll ${style} mt-3`}>
                 {
                     Array.isArray(songs) && songs.length ?
                     songs.map((song: Song, index: number) => (

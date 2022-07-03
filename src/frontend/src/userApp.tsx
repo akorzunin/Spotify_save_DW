@@ -15,7 +15,7 @@ import BurgerMenu from "./components/BurgerMenu";
 
 export const UserApp = () => {
     // vars
-    const ButtonStyle = "mr-3"
+    const ButtonStyle = "mr-3 text-neutral-900"
     const emptySong = {
         name: "No track data",
         imgUrl: "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
@@ -112,62 +112,66 @@ export const UserApp = () => {
 
     return (
         <>
-        <header className="flex justify-between mb-12 relative">
-            <UserCard 
-                userName={User.name}
-                imgUrl={User.img}
-                followers={User.followers}
-            />
-            <SongCard
-                song={CurrentSong}
-                index={''}
-                isDeletable={ false }
-                onDelete={undefined}
-                isHidden={undefined}
-            />
-            <div className=" items-center hidden lg:flex">
-                <Button
-                        style={ButtonStyle}
-                        title="Help"
-                        link="/help"
-                        color="bg-white text-black"
+        <div className="min-h-screen">
+            <header className="flex justify-between mb-12 relative">
+                <UserCard
+                    userName={User.name}
+                    imgUrl={User.img}
+                    followers={User.followers}
+                />
+                <SongCard
+                    song={CurrentSong}
+                    index={''}
+                    isDeletable={ false }
+                    onDelete={undefined}
+                    isHidden={undefined}
+                />
+                <div className=" items-center hidden lg:flex">
+                    <Button
+                            style={ButtonStyle}
+                            title="Help"
+                            link="/help"
+                            color="bg-white text-black"
+                        />
+                    <Button
+                            style={ButtonStyle}
+                            title="Home"
+                            link="/"
+                            color="bg-white text-black"
+                        />
+                    <LogoutButton
+                        ButtonStyle={"ml-12 "}
                     />
-                <Button
-                        style={ButtonStyle}
-                        title="Home"
-                        link="/"
-                        color="bg-white text-black"
+                </div>
+                <div className="block lg:hidden">
+                    <Burger
+                        burgerClass={ burgerClass}
+                            handleBM={() => {
+                                setburgerClass(burgerClass ? "" : "header__burger-menu_active")
+                            }}
                     />
-                <LogoutButton
-                    ButtonStyle={"ml-12"}
-                />
-            </div>
-            <div className="block lg:hidden">
-                <Burger 
-                    burgerClass={ burgerClass} 
-                        handleBM={() => {
-                            setburgerClass(burgerClass ? "" : "header__burger-menu_active")
-                        }}                    
-                />
-            </div>
-        </header>
-        <main className="">
-            <div className="flex">
-                <FullPlaylist
-                    PlaylistName={PlaylistName}
-                    PlSongs={PlSongs}
-                    isDW={isDW}
-                />
-                <SavePlaylist
-                    playbackSong={CurrentSong }
-                    fullPlaylist={PlSongs}
-                    isDW={isDW}
-                    cookie={cookie}
-                />
-            </div>
-        </main>
+                </div>
+            </header>
+            <main className="">
+                <div className="flex">
+                    <FullPlaylist
+                        PlaylistName={PlaylistName}
+                        PlSongs={PlSongs}
+                        isDW={isDW}
+                        style={"max-h-[70vh]"}
+                    />
+                    <SavePlaylist
+                        playbackSong={CurrentSong }
+                        fullPlaylist={PlSongs}
+                        isDW={isDW}
+                        cookie={cookie}
+                        style={"max-h-[70vh]"}
+                    />
+                </div>
+            </main>
+        </div>
         <Footer 
-                style={"mt-12"}
+                style={""}
         />
         <BurgerMenu 
             burgerClass={burgerClass}

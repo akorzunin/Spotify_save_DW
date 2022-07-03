@@ -28,42 +28,44 @@ export const App = () => {
     const cookiesLib = new Cookies()
     const cookies = cookiesLib.getAll()
 
-    const ButtonStyle = "mr-3"
+    const ButtonStyle = "mr-3 text-neutral-900 "
     return (
         <>
-            <header className="flex justify-between">
-                <Header
-                    title='Home'
-                />
-                <div className="mt-4 mr-4">
-                    <Button
-                        style={ButtonStyle}
-                        title="Dev User"
-                        link="/user/123"
-                        color="bg-red-700"
+            <div className="min-h-screen">
+                <header className="flex justify-between">
+                    <Header
+                        title='Home'
                     />
-                    <Button
-                        style={ButtonStyle}
-                        title="Help"
-                        link="/help" //use useNavigate
-                        color={undefined}
+                    <div className="mt-4 mr-4">
+                        <Button
+                            style={ButtonStyle}
+                            title="Dev User"
+                            link="/user/123"
+                            color="bg-red-700"
+                        />
+                        <Button
+                            style={ButtonStyle}
+                            title="Help"
+                            link="/help" //use useNavigate
+                            color={"bg-white"}
+                        />
+                        <Button
+                            style={ButtonStyle}
+                            title="Login"
+                            link="/login"
+                            color={"bg-white"}
+                        />
+                    </div>
+                </header>
+                <main className="">
+                    <BlobButton
+                        title="Save DW"
+                        link={ userPath }
                     />
-                    <Button
-                        style={ButtonStyle}
-                        title="Login"
-                        link="/login"
-                        color={undefined}
-                    />
-                </div>
-            </header>
-            <main className="">
-                <BlobButton
-                    title="Save DW"
-                    link={ userPath }
-                />
-            </main>
+                </main>
+            </div>
             <Footer
-                style={undefined}
+                style={"fixed bottom-0"}
             />
         </>
     )

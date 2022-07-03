@@ -17,7 +17,7 @@ module.exports = {
                 use: ['source-map-loader'],
             },
             {
-                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/i,
                 type: 'asset/resource'
             },
         ],

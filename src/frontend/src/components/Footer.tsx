@@ -3,43 +3,36 @@ import PropTypes from 'prop-types'
 
 const Footer = ({ style }) => {
     return (
-        <div className={` mb-0 ${style}`}>
+        <div className={` mb-0 ${style}  w-[100%] sm:w-[600px] md:w-[728px] lg:w-[974px] xl:w-[1220px] 2xl:w-[1456px]`}>
             <div className="border-t border-gray-200 ">
-                <div className="container px-5 py-8 flex flex-wrap mx-auto items-center">
-                    <div className="flex md:flex-nowrap flex-wrap justify-center items-end md:justify-start">
-                        <div className="relative sm:w-64 w-40 sm:mr-4 mr-2">
-                            <label htmlFor="footer-field" className="leading-7 text-sm text-gray-600">Placeholder</label>
-                            <input type="text" id="footer-field" name="footer-field" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:ring-2 focus:bg-transparent focus:ring-indigo-200 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                            </input>
-                        </div>
-                        <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
-                        <p className="text-gray-500 text-sm md:ml-6 md:mt-0 mt-2 sm:text-left text-center">Bitters chicharrones fanny pack
-                            className="lg:block hidden" waistcoat green juice
-                        </p>
-                    </div>
-                    <span className="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
-                        <a className="text-gray-500">
-                            <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                            </svg>
+                <div className="container px-5 py-8 flex flex-wrap mx-auto items-center justify-end">
+                    <span className=" ml-0 mr-2 inline-flex  lg:mt-0 w-full justify-center md:justify-start md:w-auto">
+                        Contact me 
+                    </span>
+                    <span className=" ml-0 inline-flex  lg:mt-0  w-full justify-center md:justify-start md:w-auto">
+                        <a className="text-gray-500" href="mailto:akorzunin123@gmail.com">
+                            <img className="img-responsive object-cover w-6 h-6 "
+                                src={new URL('./../../static/images/email-logo-48.png', import.meta.url)}
+                                alt="mail" >
+                            </img>
                         </a>
-                        <a className="ml-3 text-gray-500">
-                            <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                            </svg>
+                        <a className="ml-3 text-gray-500" href="https://t.me/akorzunin">
+                            <img className="img-responsive object-cover w-6 h-6 "
+                                src={new URL('./../../static/images/telegram-logo-48.PNG', import.meta.url)}
+                                alt="telegram" >
+                            </img>
                         </a>
-                        <a className="ml-3 text-gray-500">
-                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-                            </svg>
-                        </a>
-                        <a className="ml-3 text-gray-500">
-                            <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0" className="w-5 h-5" viewBox="0 0 24 24">
-                                <path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-                                <circle cx="4" cy="4" r="2" stroke="none"></circle>
-                            </svg>
-                        </a>
+                    </span>
+                    <span className=" ml-2 inline-flex  lg:mt-0 w-full justify-center md:justify-start md:w-auto">
+                        Source code 
+                    </span>
+                    <span className="ml-0 inline-flex  lg:mt-0  w-full justify-center md:justify-start md:w-auto" >
+                            <a className="ml-3 text-gray-500" href="https://github.com/akorzunin/Spotify_save_DW">
+                                <img className="img-responsive object-cover w-6 h-6 "
+                                    src={new URL('./../../static/images/github-48.PNG', import.meta.url)}
+                                    alt="github" >
+                                </img>
+                            </a>
                     </span>
                 </div>
             </div>
@@ -48,10 +41,10 @@ const Footer = ({ style }) => {
 
                 <div className="bg-gray-100">
                     <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-                        <p className="text-gray-500 text-sm text-center sm:text-left">© 2021 Tailwind Snippets —
-                            <a href="https://twitter.com/knyttneve" className="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@knyttneve</a>
+                        <p className="text-gray-500 text-sm text-center sm:text-left"> 2022 Save Spotify Discover Weekly playlist —
+                            <a href="https://github.com/akorzunin" className="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@akorzunin</a>
                         </p>
-                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">Enamel pin tousled raclette tacos irony</span>
+                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">┬─┬ ノ( ゜-゜ノ)</span>
                     </div>
                 </div>
             </footer>
@@ -59,7 +52,7 @@ const Footer = ({ style }) => {
     )
 }
 Footer.defaultProps = {
-    style: "mt-72"
+    style: ""
 }
 
 Footer.propTypes = {

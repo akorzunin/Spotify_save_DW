@@ -5,7 +5,7 @@ import { Song,  } from './utils/apiManager'
 import ClickButton from './ClickButton'
 import PlaylistTitle from './PlaylistTitle'
 
-const Playlist = ({ title, songs, isDW}) => {
+const Playlist = ({ title, songs, isDW, style}) => {
     return (      
         <div>
             <PlaylistTitle
@@ -20,7 +20,7 @@ const Playlist = ({ title, songs, isDW}) => {
                     style={undefined}
                 />
             </div>
-            <div className="container overflow-y-scroll max-h-[870px] mt-3">
+            <div className={`container overflow-y-scroll ${style} mt-3`}>
                 {
                     Array.isArray(songs) ?
                     songs.map((song: Song, index: number) => (

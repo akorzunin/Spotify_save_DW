@@ -3,9 +3,11 @@ import * as timeMangment from './timeMangment'
 
 export interface Song {
     name: string, // this.track.name
-    artists: string[], // this.track.artists[0].name
-    uri: string, // this.track.uri
     imgUrl: string, // this.track.album.images[2].url 640/300/64
+    artists: string[], // this.track.artists[0].name
+    artist?: string,
+    id?: string,
+    uri?: string, // this.track.uri
 }
 const checkStatusCode = (res) => {
 
@@ -120,7 +122,7 @@ const isPlaybackPlaylist = ( data ):string|boolean => {
     }
 }
 const getPlaylistSongs = async (
-    playlistUri: string, cookie: SpotifyCoockie, currentSong
+    playlistUri: string, cookie: SpotifyCoockie, currentSong: Song
     ): Promise<[Song[], any, any]> => {
     const playlistId = playlistUri.split(':').pop()
     const res = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
@@ -147,7 +149,7 @@ export const getPlayBackSongs = async (cookie: SpotifyCoockie): Promise<[Song[],
     if (!data) {
         throw new Error("No user playback")
     }
-    const currentSong = {
+    const currentSong: Song = {
         name: data.item.name,
         imgUrl: data.item.album.images[2].url,
         artists: data.item.artists[0].name,
