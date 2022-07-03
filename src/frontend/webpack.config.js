@@ -11,6 +11,15 @@ module.exports = {
                     loader: 'babel-loader',
                 }
             },
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                use: ['source-map-loader'],
+            },
+            {
+                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/i,
+                type: 'asset/resource'
+            },
         ],
     },
     resolve: {
@@ -21,7 +30,7 @@ module.exports = {
         path: path.resolve(__dirname, './static/scripts/'),
     },
     optimization: {
-        minimize: false,
+        minimize: true,
     },
     // plugins: [
     //     new webpack.DefinePlugin({

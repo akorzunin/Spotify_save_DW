@@ -137,3 +137,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 src/frontend/src/components/index.ts
+usr_data.json
+src/frontend/static/images/Ai_Nav.png

@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  spotifydwapi:
+    image: spotifydwapi
+    build:
+      context: .
+      dockerfile: ./PiDockerfile
+    ports:
+      - 8000:8000
+    env_file:
+      - .env

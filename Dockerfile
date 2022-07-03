@@ -1,19 +1,31 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim
+FROM python:3.10-slim
 
 EXPOSE 8000
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONHASHSEED=random \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_VERSION=1.1.13 \
+    PORT=8000
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
+# System deps:
+RUN pip install "poetry==$POETRY_VERSION"
 
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
-
+# Copy only requirements to cache them in docker layer
 WORKDIR /app
+COPY poetry.lock pyproject.toml /app/
+
+# Project initialization:
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi --no-dev
+    # $(test "$YOUR_ENV" == production && echo "--no-dev")
+
+# Creating folders, and files for a project:
 COPY . /app
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
@@ -22,4 +34,4 @@ RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /
 USER appuser
 
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "backend\main:app"]
+CMD ["python", "/app/src/main.py"]
