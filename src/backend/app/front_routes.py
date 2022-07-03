@@ -29,23 +29,15 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    with open('usr_data.json', 'r') as f:
-        user_data = json.load(f)
-    print(user_data)
     return templates.TemplateResponse(
         "home.html", 
         {
             "request": request, 
-            'user_data': [*(user_data.keys())],
-            **dict(user_data)
         }
     )
 
 @router.get("/user/{user_id}", response_class=HTMLResponse)
 async def user_page(request: Request, user_id: str):
-    # with open('usr_data.json', 'r') as f:
-    #     usr_data = json.load(f)
-    # print(user_data)
     return templates.TemplateResponse(
         "user.html", 
         {
@@ -88,10 +80,7 @@ async def get_tocken(code: str, ) -> RedirectResponse:
         'client_secret': os.getenv('SPOTIPY_CLIENT_SECRET'),
     }).json()
     temp_json = dict(r) | dict(get_time=str(datetime.now()))
-    ### dev
-    with open('usr_data.json', 'w+') as f:
-        json.dump(temp_json, f)
-    ### dev
+
     sp = spotipy.Spotify(
         auth=temp_json['access_token'],
     )
@@ -102,12 +91,13 @@ async def get_tocken(code: str, ) -> RedirectResponse:
     return res
 
 ### dev
-# if True:
+import contextlib
 if DEBUG := os.getenv('DEBUG'):
-    import arel
-    hot_reload = arel.HotReload(paths=[arel.Path(".")])
-    router.add_websocket_route(path="/hot-reload", endpoint=hot_reload, name="hot-reload")
-    router.add_event_handler("startup", hot_reload.startup)
-    router.add_event_handler("shutdown", hot_reload.shutdown)
-    templates.env.globals["DEBUG"] = True 
-    templates.env.globals["hot_reload"] = hot_reload
+    with contextlib.suppress(ModuleNotFoundError):
+        import arel
+        hot_reload = arel.HotReload(paths=[arel.Path(".")])
+        router.add_websocket_route(path="/hot-reload", endpoint=hot_reload, name="hot-reload")
+        router.add_event_handler("startup", hot_reload.startup)
+        router.add_event_handler("shutdown", hot_reload.shutdown)
+        templates.env.globals["DEBUG"] = True
+        templates.env.globals["hot_reload"] = hot_reload

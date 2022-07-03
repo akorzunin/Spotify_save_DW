@@ -14,15 +14,18 @@ ENV PYTHONFAULTHANDLER=1 \
     PORT=8000
 
 # System deps:
-RUN pip install "poetry==$POETRY_VERSION"
+# RUN pip install "poetry==$POETRY_VERSION"
+
+COPY pirequirements.txt .
+RUN pip install -r pirequirements.txt
 
 # Copy only requirements to cache them in docker layer
 WORKDIR /app
-COPY poetry.lock pyproject.toml /app/
+# COPY poetry.lock pyproject.toml /app/
 
 # Project initialization:
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi --no-dev
+# RUN poetry config virtualenvs.create false \
+#     && poetry install --no-interaction --no-ansi --no-dev
     # $(test "$YOUR_ENV" == production && echo "--no-dev")
 
 # Creating folders, and files for a project:
