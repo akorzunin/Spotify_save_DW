@@ -1,4 +1,5 @@
 '''Main app for Spotify DW saver web server'''
+import logging
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 
@@ -19,6 +20,13 @@ app = FastAPI(
     openapi_tags=tags_metadata,
     routes=routes,
 )
+
+@app.on_event("startup")
+async def startup_event():
+    logger = logging.getLogger("uvicorn.access")
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logger.addHandler(handler)
 
 app.include_router(
     router=front_routes,
