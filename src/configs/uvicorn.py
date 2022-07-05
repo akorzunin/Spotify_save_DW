@@ -6,7 +6,7 @@ uvicorn_conf = dict(
     app='main:app',
     host=os.getenv('HOST'),
     port=int(os.getenv('PORT')),
-    log_level='debug' if os.getenv('DEBUG', False) else 'info',
+    log_level='info',
     log_config=log_config,
     reload=os.getenv('DEBUG', False),
 )
