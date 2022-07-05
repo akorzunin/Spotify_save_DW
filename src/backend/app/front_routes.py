@@ -22,7 +22,7 @@ class UserData(BaseModel):
     refresh_token: str
     scope: str
 ###
-REDIRECT_URI = 'http://127.0.0.1:8000/get_token'
+REDIRECT_URI = os.getenv('REDIRECT_URI', )
 templates = Jinja2Templates(directory="src/frontend/templates")
 
 router = APIRouter()
