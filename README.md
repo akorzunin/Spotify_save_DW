@@ -8,7 +8,7 @@ Website: https://savespotifydw.duckdns.org/
  - OR use this service
 
 ## How to use
-1. Press Save DW button to login with you Spotify account
+1. Press Save DW button to login with you Spotifyu account
 2. Now site listening you playback 
 ## Install
 
@@ -16,6 +16,6 @@ License
 ---
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).## Licence
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg5OTExMDAzMyw5NTAzNDg3MTYsLTEzMz
-I5NzkxODJdfQ==
+eyJoaXN0b3J5IjpbMTA2ODk4MDUyMCwtODk5MTEwMDMzLDk1MD
+M0ODcxNiwtMTMzMjk3OTE4Ml19
 -->
