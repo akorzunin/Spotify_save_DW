@@ -16,13 +16,14 @@ But don't worry it just an indicator ![enter image description here](https://use
 4. Now if you don't have Spotify Premium (that means site can't control user playback) you can quickly play all songs in playlist to add them to new playlist ![enter image description here](https://user-images.githubusercontent.com/54314123/178078970-9bd523e4-bfed-4b35-a50a-e041c0c675b1.png)
 5. When playlist start repeating itself a little dot will appear to indicate that you didn't lost any tracks 
  ![enter image description here](https://user-images.githubusercontent.com/54314123/178079135-72a64c12-d283-462c-b8e1-a1b3d778af8c.png)
- 1. That's is just press Save button and playlist will be a
+ 1. That's it! ust press Save button and playlist will be automatically created
+ ![enter image description here](https://user-images.githubusercontent.com/54314123/178079251-484d8a93-b0d6-4c8d-94f7-c1da0f2f57a6.png)
 
 
 License
 ---
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).## Licence
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzMDIyMTE2MTQsMTA2ODk4MDUyMCwtOD
-k5MTEwMDMzLDk1MDM0ODcxNiwtMTMzMjk3OTE4Ml19
+eyJoaXN0b3J5IjpbNjQwMDE3MzA3LDEwNjg5ODA1MjAsLTg5OT
+ExMDAzMyw5NTAzNDg3MTYsLTEzMzI5NzkxODJdfQ==
 -->
