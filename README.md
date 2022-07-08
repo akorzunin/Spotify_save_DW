@@ -14,13 +14,13 @@ Website: https://savespotifydw.duckdns.org/
 ![enter image description here](https://user-images.githubusercontent.com/54314123/178078452-f82753d4-a958-430f-93cf-7eb075ae661e.png)
 But don't worry it just an indicator ![enter image description here](https://user-images.githubusercontent.com/54314123/178078679-22ff5738-bbda-4adc-9eaf-587bd9b978d7.png)
 4. Now if you don't have Spotify Premium (that means site can't control user playback) you can quickly play all songs in playlist to add them to new playlist ![enter image description here](https://user-images.githubusercontent.com/54314123/178078970-9bd523e4-bfed-4b35-a50a-e041c0c675b1.png)
-5. When playlsit
+5. When playlist start repeating itself a little dot will appear to indicate that you didn't lost any tracks 
 
 
 License
 ---
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).## Licence
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTgxMTQ3NDc5OSwxMDY4OTgwNTIwLC04OT
+eyJoaXN0b3J5IjpbMTUyODc0NTQ1OCwxMDY4OTgwNTIwLC04OT
 kxMTAwMzMsOTUwMzQ4NzE2LC0xMzMyOTc5MTgyXX0=
 -->
