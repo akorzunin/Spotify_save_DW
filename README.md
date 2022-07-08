@@ -22,8 +22,9 @@ But don't worry it just an indicator ![enter image description here](https://use
 
 License
 ---
-Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).## Licence
+Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQyOTk1MjM4MiwxMDY4OTgwNTIwLC04OT
-kxMTAwMzMsOTUwMzQ4NzE2LC0xMzMyOTc5MTgyXX0=
+eyJoaXN0b3J5IjpbMTU5MjQxMTAyMywxNDI5OTUyMzgyLDEwNj
+g5ODA1MjAsLTg5OTExMDAzMyw5NTAzNDg3MTYsLTEzMzI5Nzkx
+ODJdfQ==
 -->
