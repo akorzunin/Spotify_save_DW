@@ -12,13 +12,13 @@ Website: https://savespotifydw.duckdns.org/
 2. Now site listening you playback 
 3. If current playlist is not a DW playlist this panel will be yellow 
 ![enter image description here](https://user-images.githubusercontent.com/54314123/178078452-f82753d4-a958-430f-93cf-7eb075ae661e.png)
-1. 
+1. But don't worry it just an indicator ![enter image description here](https://user-images.githubusercontent.com/54314123/178078679-22ff5738-bbda-4adc-9eaf-587bd9b978d7.png)
 ## Install
 
 License
 ---
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).## Licence
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0ODY2MTU5MSwxMDY4OTgwNTIwLC04OT
-kxMTAwMzMsOTUwMzQ4NzE2LC0xMzMyOTc5MTgyXX0=
+eyJoaXN0b3J5IjpbMzY5MTA2NDI5LDEwNjg5ODA1MjAsLTg5OT
+ExMDAzMyw5NTAzNDg3MTYsLTEzMzI5NzkxODJdfQ==
 -->
