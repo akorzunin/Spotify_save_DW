@@ -2,9 +2,9 @@
 module.exports = {
   content: [
     "./templates/*.html",
-    "./src/frontend/static/css/styles.css",
-    "./src/**/*.{ts, }",
-    "./src/**/*.{tsx, }",
+    "./static/scripts/bundle.js",
+    // "./src/**/*.{ts, }",
+    // "./src/**/*.{tsx, }",
   ],
   theme: {
     extend: {},

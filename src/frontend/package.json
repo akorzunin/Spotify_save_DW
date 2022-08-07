@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development --watch",
+    "devb": "webpack --mode development",
     "tw": "tailwindcss -i ./src/input.css -o ./static/css/twstyles.css --watch",
+    "twb": "tailwindcss -i ./src/input.css -o ./static/css/twstyles.css",
     "buld": "webpack --mode production"
   },
   "keywords": [],

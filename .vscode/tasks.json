@@ -19,6 +19,17 @@
             ]
         },
         {
+            "label": "debug single time",
+            "type": "shell",
+            "command": "npm run twb",
+            "options": {
+                "cwd": "${workspaceFolder}/src/frontend/"
+            },
+            "dependsOn": [
+                "webpack run dev single time",
+            ]
+        },
+        {
             "label": "fastapi run",
             "type": "shell",
             "command": "C:/Users/akorz/AppData/Local/pypoetry/Cache/virtualenvs/spotify-dw-api-xfJ6mADH-py3.9/Scripts/python.exe c:/Users/akorz/Documents/Spotify_DW_API/src/main.py"
@@ -33,9 +44,26 @@
             "problemMatcher": []
         },
         {
+            "label": "tailwind run single time",
+            "type": "shell",
+            "command": "npm run twb",
+            "options": {
+                "cwd": "${workspaceFolder}/src/frontend/"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "webpack run dev",
             "type": "shell",
             "command": "npm run dev",
+            "options": {
+                "cwd": "${workspaceFolder}/src/frontend/"
+            }
+        },
+        {
+            "label": "webpack run dev single time",
+            "type": "shell",
+            "command": "npm run devb",
             "options": {
                 "cwd": "${workspaceFolder}/src/frontend/"
             }
