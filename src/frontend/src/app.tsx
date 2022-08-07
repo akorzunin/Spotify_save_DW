@@ -27,8 +27,6 @@ export const App = () => {
     }, [])
     const cookiesLib = new Cookies()
     const cookies = cookiesLib.getAll()
-
-    const ButtonStyle = "mr-3 text-neutral-900 "
     return (
         <>
             <div className="min-h-screen">
@@ -38,22 +36,22 @@ export const App = () => {
                     />
                     <div className="mt-4 mr-4">
                         <Button
-                            style={ButtonStyle}
+                            style="mr-3 "
                             title="Dev User"
                             link="/user/123"
                             color="bg-red-700"
                         />
                         <Button
-                            style={ButtonStyle}
+                            style="mr-3 "
                             title="Help"
                             link="/help" //use useNavigate
-                            color={"bg-white"}
+                            color="bg-white"
                         />
                         <Button
-                            style={ButtonStyle}
+                            style="mr-3 "
                             title="Login"
                             link="/login"
-                            color={"bg-white"}
+                            color="bg-white"
                         />
                     </div>
                 </header>

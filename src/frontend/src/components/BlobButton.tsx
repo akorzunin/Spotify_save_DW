@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from "./Button";
 
-
 const BlobButton = ({ title, link, }) => {
-    // const BlobSvg = document.querySelector("#BlobSvg").className
     return (
         <div className="grid grid-cols-1 place-items-center h-[100%] mt-[20%]">
             <div className='relative w-44  overflow-hidden '>
@@ -12,13 +10,13 @@ const BlobButton = ({ title, link, }) => {
                     src={new URL('./../../static/images/Blob.svg', import.meta.url) }
                     alt="blob" >
                 </img>
-                <Button
-                    style="absolute w-full py-[50%] bottom-[calc(50%-23px)] inset-x-0  
-                    text-purple-700 font-bold text-xl text-center bg-opacity-0 shadow-none rounded-full"
-                    title={title}
-                    link={link}
-                    color=""
-                />
+                <a href={link}
+                    className={`cursor-pointer inline-flex justify-center px-4 py-2 border border-transparent 
+                    hover:opacity-80 transition-opacity
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 absolute w-full bottom-[calc(50%-23px)] inset-x-0  
+                    text-purple-700 font-bold text-xl text-center bg-opacity-0 shadow-none rounded-full`}>
+                    {title}
+                </a>
             </div>
         </div>
     )
