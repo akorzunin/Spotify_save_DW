@@ -15,7 +15,6 @@ templates = Jinja2Templates(directory="src/frontend/templates")
 routes = [
     Mount('/frontend/static', app=StaticFiles(directory='src/frontend/static',), name='static'),
 ]
-
 app = FastAPI(
     openapi_tags=tags_metadata,
     routes=routes,

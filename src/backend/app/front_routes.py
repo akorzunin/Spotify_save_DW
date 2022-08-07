@@ -35,20 +35,12 @@ async def root(request: Request):
             "request": request, 
         }
     )
-
 @router.get("/user/{user_id}", response_class=HTMLResponse)
 async def user_page(request: Request, user_id: str):
-    return templates.TemplateResponse(
-        "user.html", 
-        {
-            "request": request, 
-            'user_id': user_id,
-        }
-    )
+    return RedirectResponse(f"/#/user/{user_id}")
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_url():
-    # print(region)
     # scope = 'user-read-private user-read-email'
     r = requests.Request('GET', 'https://accounts.spotify.com/en/authorize?' +\
         urlencode(
@@ -84,7 +76,7 @@ async def get_tocken(code: str, ) -> RedirectResponse:
     sp = spotipy.Spotify(
         auth=temp_json['access_token'],
     )
-    res = RedirectResponse(f"/user/{sp.current_user()['id']}")
+    res = RedirectResponse(f"/#/user/{sp.current_user()['id']}")
     for k, v in temp_json.items():
         res.set_cookie(k, v)
 

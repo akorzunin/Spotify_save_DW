@@ -7,6 +7,7 @@ import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 
 import * as cookieHandle from "./components/utils/cookieHandle"
+import { Link } from "react-router-dom";
 
 export const App = () => {
 // handle cookies
@@ -35,18 +36,22 @@ export const App = () => {
                         title='Home'
                     />
                     <div className="mt-4 mr-4">
-                        <Button
-                            style="mr-3 "
-                            title="Dev User"
-                            link="/user/123"
-                            color="bg-red-700"
-                        />
-                        <Button
-                            style="mr-3 "
-                            title="Help"
-                            link="/help" //use useNavigate
-                            color="bg-white"
-                        />
+                        <Link to="/user/123">
+                            <Button
+                                style="mr-3 "
+                                title="Dev User"
+                                link="/user/123"
+                                color="bg-red-700"
+                            />
+                        </Link>
+                        <Link to="/help" >
+                            <Button
+                                style="mr-3 "
+                                title="Help"
+                                link="/help" //use useNavigate
+                                color="bg-white"
+                            />
+                        </Link>
                         <Button
                             style="mr-3 "
                             title="Login"
