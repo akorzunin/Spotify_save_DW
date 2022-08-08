@@ -13,6 +13,7 @@ uvicorn = "^0.18.1"
 fastapi-sessions = "^0.3.2"
 pydantic = "^1.9.1"
 Jinja2 = "^3.1.2"
+email-validator = "^1.2.1"
 
 [tool.poetry.dev-dependencies]
 arel = "^0.2.0"
