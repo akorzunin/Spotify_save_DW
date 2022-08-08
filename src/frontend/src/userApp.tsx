@@ -12,6 +12,7 @@ import * as apiManager from "./components/utils/apiManager"
 import SavePlaylist from "./components/SavePlaylist";
 import Burger from "./components/Burger";
 import BurgerMenu from "./components/BurgerMenu";
+import { Link } from "react-router-dom";
 
 export const UserApp = () => {
     // vars
@@ -127,18 +128,22 @@ export const UserApp = () => {
                     isHidden={undefined}
                 />
                 <div className=" items-center hidden lg:flex">
-                    <Button
-                            style={ButtonStyle}
-                            title="Help"
-                            link="/help"
-                            color="bg-white text-black"
-                        />
-                    <Button
-                            style={ButtonStyle}
-                            title="Home"
-                            link="/"
-                            color="bg-white text-black"
-                        />
+                    <Link to="/help">
+                        <Button
+                                style={ButtonStyle}
+                                title="Help"
+                                link="/help"
+                                color="bg-white text-black"
+                            />
+                    </Link>
+                    <Link to="/">
+                        <Button
+                                style={ButtonStyle}
+                                title="Home"
+                                link="/"
+                                color="bg-white text-black"
+                            />
+                    </Link>
                     <LogoutButton
                         ButtonStyle={"ml-12 "}
                     />

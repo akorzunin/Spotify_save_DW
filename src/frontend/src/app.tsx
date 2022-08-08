@@ -36,11 +36,11 @@ export const App = () => {
                         title='Home'
                     />
                     <div className="mt-4 mr-4">
-                        <Link to="/user/123">
+                        <Link to="/user/dev_user">
                             <Button
                                 style="mr-3 "
                                 title="Dev User"
-                                link="/user/123"
+                                link="/user/dev_user"
                                 color="bg-red-700"
                             />
                         </Link>
