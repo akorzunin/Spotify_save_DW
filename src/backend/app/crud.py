@@ -22,9 +22,13 @@ def create_user(db, user: shemas.CreateUser) -> shemas.User:
         return parced_user
 
 
-def update_user(db, user: shemas.UpdateUser): # TODO fix docs
-    return db.update(user.dict(), where("user_id") == user.user_id)
+def update_user(db, user: shemas.UpdateUser, user_id: str) -> shemas.User: # TODO fix docs
+    if user_upd := {k: v for k, v in user.dict().items() if v is not None}:
+        db.update(user_upd, where("user_id") == user_id)
+        return db.get(where('user_id') == user_id)
 
 
 def delete_user(db, user_id: str):
-    return db.remove(where("user_id") == user_id)
+    if db.get(where("user_id") == user_id):
+        return db.remove(where("user_id") == user_id)
+    

@@ -86,9 +86,9 @@ async def create_user(user: shemas.CreateUser) -> shemas.User:
 @router.put(
     "/update_user",
 )
-async def update_user(user: shemas.UpdateUser):
+async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     """Update user"""
-    return crud.update_user(users, user)
+    return crud.update_user(users, user, user_id)
 
 
 
