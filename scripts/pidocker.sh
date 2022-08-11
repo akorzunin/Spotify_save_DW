@@ -1,1 +1,1 @@
-docker compose -f "pi-docker-compose.yml" up -d --build
+sudo docker-compose -f "pi-docker-compose.yml" up -d --build

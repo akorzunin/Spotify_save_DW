@@ -5,25 +5,27 @@ import {
     Routes,
     Route,
     useNavigate,
+    HashRouter,
+    Link,
+    useParams,
 
 } from "react-router-dom";
 
 import App from "./app";
 import UserApp from "./userApp";
-
+import { AboutPage } from "./aboutPage";
 // App
 const appDiv = document.getElementById("app");
-let root
-if (appDiv.className == 'mainApp'){
-    root = ReactDOM.createRoot(appDiv);
-    root.render(
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App />}></Route>
-            </Routes>
-        </BrowserRouter>
-    )
-} else if (appDiv.className = 'userApp') {
-    root = ReactDOM.createRoot(appDiv);
-    root.render(<UserApp />)
-}
+// let { user_id } = useParams();
+
+let root = ReactDOM.createRoot(appDiv);
+root.render(
+    <HashRouter>
+        <Routes>
+            <Route path="/" element={<App />}></Route>
+            <Route path="/user/:user_id" element={<UserApp />}></Route>
+            <Route path="/help" element={<AboutPage />}></Route>
+        </Routes>
+    </HashRouter>
+)
+

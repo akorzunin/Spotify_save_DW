@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { get_text_emoji } from './utils/utils'
 
 const Footer = ({ style }) => {
     return (
@@ -44,7 +45,7 @@ const Footer = ({ style }) => {
                         <p className="text-gray-500 text-sm text-center sm:text-left"> 2022 Save Spotify Discover Weekly playlist —
                             <a href="https://github.com/akorzunin" className="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@akorzunin</a>
                         </p>
-                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">┬─┬ ノ( ゜-゜ノ)</span>
+                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">{get_text_emoji()}</span>
                     </div>
                 </div>
             </footer>

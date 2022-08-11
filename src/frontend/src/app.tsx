@@ -7,6 +7,7 @@ import Button from "./components/Button";
 import BlobButton from "./components/BlobButton";
 
 import * as cookieHandle from "./components/utils/cookieHandle"
+import { Link } from "react-router-dom";
 
 export const App = () => {
 // handle cookies
@@ -27,8 +28,6 @@ export const App = () => {
     }, [])
     const cookiesLib = new Cookies()
     const cookies = cookiesLib.getAll()
-
-    const ButtonStyle = "mr-3 text-neutral-900 "
     return (
         <>
             <div className="min-h-screen">
@@ -37,23 +36,27 @@ export const App = () => {
                         title='Home'
                     />
                     <div className="mt-4 mr-4">
+                        <Link to="/user/dev_user">
+                            <Button
+                                style="mr-3 "
+                                title="Dev User"
+                                link="/user/dev_user"
+                                color="bg-red-700"
+                            />
+                        </Link>
+                        <Link to="/help" >
+                            <Button
+                                style="mr-3 "
+                                title="Help"
+                                link="/help" //use useNavigate
+                                color="bg-white"
+                            />
+                        </Link>
                         <Button
-                            style={ButtonStyle}
-                            title="Dev User"
-                            link="/user/123"
-                            color="bg-red-700"
-                        />
-                        <Button
-                            style={ButtonStyle}
-                            title="Help"
-                            link="/help" //use useNavigate
-                            color={"bg-white"}
-                        />
-                        <Button
-                            style={ButtonStyle}
+                            style="mr-3 "
                             title="Login"
                             link="/login"
-                            color={"bg-white"}
+                            color="bg-white"
                         />
                     </div>
                 </header>
