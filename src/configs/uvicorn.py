@@ -8,5 +8,5 @@ uvicorn_conf = dict(
     port=int(os.getenv('PORT')),
     log_level='info',
     log_config=log_config,
-    reload=os.getenv('DEBUG', False),
+    reload=bool(eval(os.getenv('DEBUG', 'False'))),
 )
