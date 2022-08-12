@@ -17,7 +17,7 @@
             "detail": "export poetry dependencies to pip reqirements file",
             "label": "poetry export",
             "type": "shell",
-            "command": "poetry export -f requirements.txt --output requirements.txt --without-hashes",
+            "command": "poetry export -f requirements.txt --output requirements.txt --without-hashes"
         },
         {
             "label": "start debug session",
@@ -37,7 +37,7 @@
                 "cwd": "${workspaceFolder}/src/frontend/"
             },
             "dependsOn": [
-                "webpack run dev single time",
+                "webpack run dev single time"
             ]
         },
         {
@@ -98,15 +98,16 @@
                 "docker-build"
             ],
             "python": {
-                "args": [
-                    "main:app",
-                    "--host",
-                    "0.0.0.0",
-                    "--port",
-                    "8000"
-                ],
-                "module": "uvicorn"
+                "file": "/app/src/main.py"
             }
+        },
+        {
+            "type": "npm",
+            "script": "buld",
+            "path": "src/frontend",
+            "problemMatcher": [],
+            "label": "npm: buld - src/frontend",
+            "detail": "webpack --mode production"
         }
     ]
 }
