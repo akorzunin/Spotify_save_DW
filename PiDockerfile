@@ -17,7 +17,7 @@ ENV PYTHONFAULTHANDLER=1 \
 # RUN pip install "poetry==$POETRY_VERSION"
 
 COPY pirequirements.txt .
-RUN pip install -r pirequirements.txt
+RUN pip install -r requirements.txt
 
 # Copy only requirements to cache them in docker layer
 WORKDIR /app
