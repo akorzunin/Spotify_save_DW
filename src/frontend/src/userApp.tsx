@@ -13,6 +13,7 @@ import SavePlaylist from "./components/SavePlaylist";
 import Burger from "./components/Burger";
 import BurgerMenu from "./components/BurgerMenu";
 import { Link } from "react-router-dom";
+import SettingsPanel from "./components/SettingsPanel";
 
 export const UserApp = () => {
     // vars
@@ -76,36 +77,40 @@ export const UserApp = () => {
         const updateInterval = setInterval(function () {
             apiManager.getUserPlayback(cookie)
                 .then(tempData => {
+                    // debugger
+
                     if (!tempData) {
                         setDefaults()
                     }
                     if (typeof data === 'undefined') {
+                        // init data variable w/ available content
                         data = tempData
                     }
-                    if (!data) {
-                        clearInterval(updateInterval)
-                        throw new Error('Since no palyback available exiting palyback fetch loop')
-                    }
-                    try {
-                        if (data.error.status > 399) {
-                            clearInterval(updateInterval)
-                            throw new Error(data.error.message)
-                        }
-                    } catch (error) {
-                        // if (error instanceof TypeError) console.log("No error message");
-                    }
-                    //  if there is no changes in playback, dont request songs
-                    if (data.item.uri != tempData.item.uri) {
-                        data = tempData
-                        apiManager.getPlayBackSongs(cookie)
-                            .then((plData) => {
-                                usePlaylistData(plData)
-                            })
-                            .catch((error) => {
-                                console.log(error);
+                    if (data){
+                        // debugger
+                        if (data.error) {
+                            if (data.error.status > 399) {
                                 clearInterval(updateInterval)
+                                throw new Error(data.error.message)
                             }
-                            )
+                        }
+                        // check that playback was not empty
+                        if (tempData) {
+                            //  if there is no changes in playback, dont request songs
+                            if (data.item.uri != tempData.item.uri) {
+                                data = tempData
+                                debugger
+                                apiManager.getPlayBackSongs(cookie)
+                                    .then((plData) => {
+                                        usePlaylistData(plData)
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                        clearInterval(updateInterval)
+                                    }
+                                    )
+                            }
+                        }
                     }
                 })
         }, 2000);
@@ -158,20 +163,26 @@ export const UserApp = () => {
                 </div>
             </header>
             <main className="">
-                <div className="flex">
-                    <FullPlaylist
-                        PlaylistName={PlaylistName}
-                        PlSongs={PlSongs}
-                        isDW={isDW}
-                        style={"max-h-[70vh]"}
-                    />
-                    <SavePlaylist
-                        playbackSong={CurrentSong }
-                        fullPlaylist={PlSongs}
-                        isDW={isDW}
-                        cookie={cookie}
-                        style={"max-h-[70vh]"}
-                    />
+                <div className="xl:flex">
+                    <div className="lg:flex justify-center">
+                        <FullPlaylist
+                            PlaylistName={PlaylistName}
+                            PlSongs={PlSongs}
+                            isDW={isDW}
+                            style={"max-h-[70vh] max-w-md"}
+                        />
+                        <SavePlaylist
+                            playbackSong={CurrentSong }
+                            fullPlaylist={PlSongs}
+                            isDW={isDW}
+                            cookie={cookie}
+                            style={"max-h-[70vh] max-w-md"}
+                        />
+                    </div>
+                    <div className="flex justify-center">
+                        <SettingsPanel
+                        />
+                    </div>
                 </div>
             </main>
         </div>
