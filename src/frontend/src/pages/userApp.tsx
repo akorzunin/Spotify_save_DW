@@ -10,7 +10,7 @@ import SavePlaylist from "../components/SavePlaylist"
 import Burger from "../components/Burger"
 import BurgerMenu from "../components/BurgerMenu"
 import { Link, useParams } from "react-router-dom"
-import SettingsPanel from "../components/SettingsPanel"
+import SettingsPanel from "../components/UserSettingsField/SettingsPanel"
 import Button from "../components/Buttons/BaseButton"
 import LogoutButton from "../components/Buttons/LogoutButton"
 
