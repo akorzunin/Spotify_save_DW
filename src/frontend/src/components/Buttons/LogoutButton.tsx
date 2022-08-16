@@ -1,13 +1,11 @@
+import React from "react"
+import { Link } from "react-router-dom"
+import Button from "./BaseButton"
+import { deleteCookies } from "../../utils/cookieHandle"
 
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Button from './Button'
-import * as cookieHandle from './utils/cookieHandle'
-
-
-const LogoutButton = ({ButtonStyle}) => {
+const LogoutButton = ({ ButtonStyle }) => {
     return (
-        <div onClick={ cookieHandle.deleteCookies }>
+        <div onClick={deleteCookies}>
             <Link to="/">
                 <Button
                     style={ButtonStyle}

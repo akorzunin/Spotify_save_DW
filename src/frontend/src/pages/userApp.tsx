@@ -1,19 +1,18 @@
 import React, { Component, useState, useEffect } from "react"
 
-import Footer from "./components/Footer"
-import Button from "./components/Button"
-import LogoutButton from "./components/LogoutButton"
-import UserCard from "./components/UserCard"
-import FullPlaylist from "./components/FullPlaylist"
-import SongCard from "./components/SongCard"
-
-import * as cookieHandle from "./components/utils/cookieHandle"
-import * as apiManager from "./components/utils/apiManager"
-import SavePlaylist from "./components/SavePlaylist"
-import Burger from "./components/Burger"
-import BurgerMenu from "./components/BurgerMenu"
+import Footer from "../components/Footer"
+import UserCard from "../components/UserCard"
+import FullPlaylist from "../components/FullPlaylist"
+import SongCard from "../components/SongCard"
+import * as cookieHandle from "../utils/cookieHandle"
+import * as apiManager from "../utils/apiManager"
+import SavePlaylist from "../components/SavePlaylist"
+import Burger from "../components/Burger"
+import BurgerMenu from "../components/BurgerMenu"
 import { Link, useParams } from "react-router-dom"
-import SettingsPanel from "./components/SettingsPanel"
+import SettingsPanel from "../components/SettingsPanel"
+import Button from "../components/Buttons/BaseButton"
+import LogoutButton from "../components/Buttons/LogoutButton"
 
 export const UserApp = () => {
     // vars

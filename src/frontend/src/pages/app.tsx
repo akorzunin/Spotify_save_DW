@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import Cookies from 'universal-cookie';
+import React, { Component } from "react"
+import Cookies from "universal-cookie"
+import { Link } from "react-router-dom"
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Button from "./components/Button";
-import BlobButton from "./components/BlobButton";
-
-import * as cookieHandle from "./components/utils/cookieHandle"
-import { Link } from "react-router-dom";
+import Header from "../components/Header"
+import Footer from "../components/Footer"
+import Button from "../components/Buttons/BaseButton"
+import BlobButton from "../components/Buttons/BlobButton"
+import * as cookieHandle from "../utils/cookieHandle"
 
 export const App = () => {
-// handle cookies
-    const [userPath, setUserPath] = React.useState("/login");
+    // handle cookies
+    const [userPath, setUserPath] = React.useState("/login")
     React.useEffect(() => {
         if (cookieHandle.isValidCookies(cookies)) {
-            cookieHandle.getUserPath(cookies)
+            cookieHandle
+                .getUserPath(cookies)
                 .then((res) => {
                     setUserPath(res)
                 })
                 .catch((err: string) => {
-                    console.warn("Cant get user info " + err);
+                    console.warn("Cant get user info " + err)
                     setUserPath("/login")
                 })
         } else {
@@ -32,9 +32,7 @@ export const App = () => {
         <>
             <div className="min-h-screen">
                 <header className="flex justify-between">
-                    <Header
-                        title='Home'
-                    />
+                    <Header title="Home" />
                     <div className="mt-4 mr-4">
                         <Link to="/user/dev_user">
                             <Button
@@ -44,7 +42,7 @@ export const App = () => {
                                 color="bg-red-700"
                             />
                         </Link>
-                        <Link to="/help" >
+                        <Link to="/help">
                             <Button
                                 style="mr-3 "
                                 title="Help"
@@ -61,18 +59,12 @@ export const App = () => {
                     </div>
                 </header>
                 <main className="">
-                    <BlobButton
-                        title="Save DW"
-                        link={ userPath }
-                    />
+                    <BlobButton title="Save DW" link={userPath} />
                 </main>
             </div>
-            <Footer
-                style={"fixed bottom-0"}
-            />
+            <Footer style={"fixed bottom-0"} />
         </>
     )
 }
 
-export default App;
-
+export default App
