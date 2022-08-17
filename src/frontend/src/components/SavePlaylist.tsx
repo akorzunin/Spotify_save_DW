@@ -93,44 +93,48 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     }, [listenPlayback])
 
     return (
-        <div className="">
-            <PlaylistTitle
-                title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
-                isDW={true}
-            />
-            <div className="flex justify-between pl-3 pr-3 mt-3">
-                <div className="relative inline-flex">
+        <div className="flex justify-center">
+            <div className="max-w-md mb-3">
+                <PlaylistTitle
+                    title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
+                    isDW={true}
+                />
+                <div className="flex justify-between pl-3 pr-3 mt-3">
+                    <div className="relative inline-flex">
+                        <ClickButton
+                            title={isPlSaved ? "Saved" : "Save"}
+                            onClick={saveUserPlaylist}
+                            color={"bg-green-500"}
+                            style={undefined}
+                        />
+                        <div>
+                            <span className={`fixed flex h-3 w-3 ${PingState}`}>
+                                <span className="animate-ping absolute right-2 top-[-6px] inline-flex h-full w-full rounded-full bg-purple-700 opacity-75"></span>
+                                <span className="relative right-2 top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
+                            </span>
+                        </div>
+                    </div>
                     <ClickButton
-                        title={isPlSaved ? "Saved" : "Save"}
-                        onClick={saveUserPlaylist}
-                        color={"bg-green-500"}
+                        title="Refresh"
+                        onClick={onRefresh}
+                        color={"bg-yellow-500"}
                         style={undefined}
                     />
-                    <div>
-                        <span className={`fixed flex h-3 w-3 ${PingState}`}>
-                            <span className="animate-ping absolute right-2 top-[-6px] inline-flex h-full w-full rounded-full bg-purple-700 opacity-75"></span>
-                            <span className="relative right-2 top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
-                        </span>
-                    </div>
+                    <ClickButton
+                        title="From playback"
+                        onClick={() => setListenPlayback(!listenPlayback)}
+                        color={
+                            listenPlayback ? "bg-green-500" : "bg-yellow-500"
+                        }
+                        style={undefined}
+                    />
                 </div>
-                <ClickButton
-                    title="Refresh"
-                    onClick={onRefresh}
-                    color={"bg-yellow-500"}
-                    style={undefined}
-                />
-                <ClickButton
-                    title="From playback"
-                    onClick={() => setListenPlayback(!listenPlayback)}
-                    color={listenPlayback ? "bg-green-500" : "bg-yellow-500"}
-                    style={undefined}
+                <SaveSongPlaylist
+                    songs={SavedSongs}
+                    alertDeleted={handleDelete}
+                    style={style}
                 />
             </div>
-            <SaveSongPlaylist
-                songs={SavedSongs}
-                alertDeleted={handleDelete}
-                style={style}
-            />
         </div>
     )
 }

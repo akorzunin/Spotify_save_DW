@@ -11,7 +11,7 @@ const SaveSongPlaylist = ({ songs, alertDeleted, style }) => {
         alertDeleted(songs[index], index)
     }
     return (
-        <div>
+        <div className="">
             <div className={`container overflow-y-scroll ${style} mt-3`}>
                 {Array.isArray(songs) && songs.length ? (
                     songs.map((song: Song, index: number) => (

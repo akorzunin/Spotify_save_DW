@@ -4,7 +4,7 @@ import Playlist from "./Playlist"
 
 const FullPlaylist = ({ PlaylistName, PlSongs, isDW, style }) => {
     return (
-        <div className="">
+        <div className="flex justify-center">
             <Playlist
                 title={PlaylistName}
                 songs={PlSongs}

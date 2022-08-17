@@ -7,9 +7,9 @@ import PlaylistTitle from "./PlaylistTitle"
 
 const Playlist = ({ title, songs, isDW, style }) => {
     return (
-        <div>
+        <div className="max-w-md mb-3">
             <PlaylistTitle title={"Playlist: " + title} isDW={isDW} />
-            <div className="flex justify-between pl-3 pr-3 mt-3 opacity-0">
+            <div className="justify-between pl-3 pr-3 mt-3 opacity-0 hidden lg:flex">
                 <ClickButton
                     title="Placeholder"
                     onClick={() => console.log("Save pl")}

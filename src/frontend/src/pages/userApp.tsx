@@ -163,20 +163,24 @@ export const UserApp = () => {
                     </div>
                 </header>
                 <main className="">
-                    <div className="xl:flex">
+                    <div className="xl:flex 2xl:justify-center">
                         <div className="lg:flex justify-center">
                             <FullPlaylist
                                 PlaylistName={PlaylistName}
                                 PlSongs={PlSongs}
                                 isDW={isDW}
-                                style={"max-h-[70vh] max-w-md"}
+                                style={
+                                    "max-h-[70vh] max-w-md"
+                                }
                             />
                             <SavePlaylist
                                 playbackSong={CurrentSong}
                                 fullPlaylist={PlSongs}
                                 isDW={isDW}
                                 cookie={cookie}
-                                style={"max-h-[70vh] max-w-md"}
+                                style={
+                                    "max-h-[70vh] max-w-md"
+                                }
                             />
                         </div>
                         <div className="flex justify-center">
