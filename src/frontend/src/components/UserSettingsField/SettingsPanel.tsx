@@ -1,12 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
 import AccountStatus from "./AccountStatus"
 import SettingsTitle from "./SettingsTitle"
 import SettingsButton from "./SettingsButton"
-const SettingsPanel = ({ IsPremium }) => {
+import { getUserData, createUser } from "../../utils/dbManager"
+const SettingsPanel = ({ IsPremium, userId }) => {
     const [AutosaveHint, setAutosaveHint] = useState(false)
     const [SendmailHint, setSendmailHint] = useState(false)
+    const [SubmitMessage, setSubmitMessage] = useState('')
     const showHint = (event) => {
         if (event) {
             if (event.target.id == "autosave") {
@@ -27,13 +29,35 @@ const SettingsPanel = ({ IsPremium }) => {
             }
         }
     }
+    const handleSubmit = (event) => {
+        let formData = {}
+        Array.from(event.currentTarget.elements).map((item: any) => {
+            console.log(item.id, item.value)
+            if (!item.id) return null
+            if (item.type === 'checkbox') return item.checked
+            return (formData[item.id] = item.value)
+        })
+        
+    }
+    useEffect(() => {
+        getUserData(userId)
+            .then((data) => {
+                if (!data) {
+                    // create user
+
+                }
+                console.log(data);
+                
+            })
+    }, [])
+    
     return (
-        <div className="w-[448px]">
+        <div className="w-[448px] mb-3">
             <SettingsTitle />
             <AccountStatus IsPremium={IsPremium} />
             <div className="mx-3 mt-3 bg-green-500 rounded-md p-3 bg-opacity-20">
-                <form className="w-full max-w-lg">
-                    <div className="flex items-center mb-4">
+                <form onSubmit={handleSubmit} className="w-full max-w-lg">
+                    <div className="flex items-center relative mb-4">
                         <input
                             id="email-checkbox"
                             type="checkbox"
@@ -54,7 +78,7 @@ const SettingsPanel = ({ IsPremium }) => {
                         </label>
                         <div
                             className={`text-sm font-light text-gray-900 
-                            bg-gray-500 absolute max-w-[192px] right-[192px]
+                            bg-gray-500 absolute max-w-[192px] right-[30px]
                             rounded-md
                             ${SendmailHint ? "" : "hidden"}`}
                         >
@@ -65,10 +89,10 @@ const SettingsPanel = ({ IsPremium }) => {
                         </div>
                     </div>
                     <input
+                        id="email-input"
                         className={`w-full mb-3 appearance-none block bg-gray-200 
                         text-gray-700 border border-red-500 rounded py-3 px-4 
-                        leading-tight focus:outline-none focus:bg-white"
-                        id="email-input`}
+                        leading-tight focus:outline-none focus:bg-white`}
                         type="email"
                         placeholder="Email"
                     ></input>
@@ -80,7 +104,7 @@ const SettingsPanel = ({ IsPremium }) => {
                         type="datetime-local"
                     ></input>
 
-                    <div className="flex items-center mb-4">
+                    <div className="flex items-center relative mb-4">
                         <input
                             id="autosave-checkbox"
                             type="checkbox"
@@ -101,8 +125,8 @@ const SettingsPanel = ({ IsPremium }) => {
                         </label>
                         <div
                             className={`text-sm font-light text-gray-900
-                                bg-gray-500 absolute max-w-[192px] right-[280px]
-                                rounded-md
+                                bg-gray-500 absolute max-w-[192px] 
+                                right-[100px] rounded-md
                                 ${AutosaveHint ? "" : "hidden"}`}
                         >
                             <div className="p-3">
@@ -113,12 +137,13 @@ const SettingsPanel = ({ IsPremium }) => {
                         </div>
                     </div>
                     <div className="flex justify-between">
-                        <div></div>
+                        <div>{SubmitMessage}</div>
                         <SettingsButton
                             title="Save"
-                            onClick={undefined}
+                            onClick={handleSubmit}
                             className="mb-3"
                         />
+                        <input type="submit" value="Submit" />
                     </div>
                 </form>
                 <SettingsButton

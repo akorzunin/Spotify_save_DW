@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import SongCard from "./SongCard"
-import { Song } from "../interfaces/Song"
+import { emptySong, Song } from "../interfaces/Song"
 import ClickButton from "./Buttons/ClickButton"
 import PlaylistTitle from "./PlaylistTitle"
 
@@ -18,7 +18,7 @@ const Playlist = ({ title, songs, isDW, style }) => {
                 />
             </div>
             <div className={`container overflow-y-scroll ${style} mt-3`}>
-                {Array.isArray(songs) ? (
+                {Array.isArray(songs) && songs.length ? (
                     songs.map((song: Song, index: number) => (
                         <SongCard
                             key={index.toString()}
@@ -30,13 +30,9 @@ const Playlist = ({ title, songs, isDW, style }) => {
                         />
                     ))
                 ) : (
-                    <div className="opacity-0">
+                    <div className="opacity-50">
                         <SongCard
-                            song={{
-                                name: "undef",
-                                imgUrl: "undef",
-                                artists: "undef",
-                            }}
+                            song={emptySong}
                             index={0}
                             isDeletable={false}
                             onDelete={undefined}

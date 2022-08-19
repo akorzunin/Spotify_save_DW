@@ -1,6 +1,6 @@
 import { SpotifyCookie } from "../interfaces/Cookies"
 import { readCookies, setCookies } from "./cookieHandle"
-import { Song } from "../interfaces/Song"
+import { emptySong, Song } from "../interfaces/Song"
 
 import * as timeMangment from "./timeMangment"
 
@@ -19,12 +19,20 @@ const checkStatusCode = (res) => {
             logErr(res)
             refreshToken()
             return false
-        } else if (res.status === 403) {
+        } 
+        if (res.status === 403) {
             console.error("Need paid user for that")
             logErr(res)
             return false
         }
+        if (res.status === 503) {
+            // somtimes happening for no reason
+            // probably cause of packet loss or sth like that
+            console.log("Connection error")
+            return false
+        }
     }
+
     return true
 }
 
@@ -151,7 +159,11 @@ export const getPlayBackSongs = async (
 ): Promise<[Song[], any, any]> => {
     const data = await getUserPlayback(cookie)
     if (!data) {
-        throw new Error("No user playback")
+        // throw new Error("No user playback")
+        console.warn("No user playback")
+        const noPlInfo = false
+        const emptySongs = [emptySong]
+        return [emptySongs, noPlInfo, emptySong]
     }
     const currentSong: Song = {
         name: data.item.name,
@@ -209,6 +221,8 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
         )
         if (checkStatusCode(res)) {
             const data = await res.json()
+            // wait some time before spotify create playlist
+            await new Promise((resolve) => setTimeout(resolve, 500))
             // add songs to playlist
             const plRes = await fetch(
                 `https://api.spotify.com/v1/playlists/${data.id}/tracks`,

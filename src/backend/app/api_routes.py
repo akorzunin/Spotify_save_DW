@@ -68,7 +68,11 @@ async def get_users():
 )
 async def get_user(user_id: str):
     """Get user by user_id"""
-    return crud.get_user(users, user_id)
+    if user := crud.get_user(users, user_id):
+        return user
+    return JSONResponse(
+        status_code=404, content={"message": "User not found"}
+    )
 
 
 @router.post(

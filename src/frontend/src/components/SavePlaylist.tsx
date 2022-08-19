@@ -10,6 +10,7 @@ import { Song } from "../interfaces/Song"
 
 const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     // States
+    const [SavePlState, setSavePlState] = useState("Save")
     const [playedSongsSet, setPlayedSongsSet] = useState(new Set())
     const [SavedSongs, setSavedSongs] = useState([])
     const [listenPlayback, setListenPlayback] = useState(true)
@@ -27,6 +28,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
         setPlayedSongsSet(new Set())
         setPingState("hidden")
         setIsPlSaved(false)
+        setSavePlState("Save")
     }
     const hash = (str: string): number =>
         Array.from(str).reduce(
@@ -44,7 +46,11 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
 
             // add song to SavePlaylist
             if (!playedSongsSet.has(hashSong(playbackSong))) {
-                setSavedSongs([...SavedSongs, playbackSong])
+                if (Array.isArray(SavedSongs))
+                    setSavedSongs([...SavedSongs, playbackSong])
+                else { 
+                    setSavedSongs([playbackSong])
+                }
             }
             // complete playlist check
             if (isDW) {
@@ -54,7 +60,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                     !playedSongsSet.has(hashedSong)
                 ) {
                     setPlayedSongsSet(playedSongsSet.add(hashedSong))
-                } else {
+                } else if (playedSongsSet.size > 1) {
                     // all playable song are already saved
                     if (!isPlSaved) {
                         console.log("all SET")
@@ -73,11 +79,14 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
         return AllSongs.filter((x) => toSave.has(x.hash))
     }
     const saveUserPlaylist = () => {
+        // set save button text to ...
+        setSavePlState("Saving...")
         apiManager
             .saveUserPl(cookie, filterSongsBySet())
             .then((res) => {
                 setPingState("hidden")
                 setIsPlSaved(true)
+                setSavePlState("Saved")
             })
             .catch((err) => console.log(err))
     }
@@ -94,7 +103,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
 
     return (
         <div className="flex justify-center">
-            <div className="max-w-md mb-3">
+            <div className="w-[448px] mb-3">
                 <PlaylistTitle
                     title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
                     isDW={true}
@@ -102,7 +111,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                 <div className="flex justify-between pl-3 pr-3 mt-3">
                     <div className="relative inline-flex">
                         <ClickButton
-                            title={isPlSaved ? "Saved" : "Save"}
+                            title={SavePlState}
                             onClick={saveUserPlaylist}
                             color={"bg-green-500"}
                             style={undefined}
@@ -131,6 +140,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                 </div>
                 <SaveSongPlaylist
                     songs={SavedSongs}
+                    setSongs={setSavedSongs}
                     alertDeleted={handleDelete}
                     style={style}
                 />

@@ -13,15 +13,11 @@ import { Link, useParams } from "react-router-dom"
 import SettingsPanel from "../components/UserSettingsField/SettingsPanel"
 import Button from "../components/Buttons/BaseButton"
 import LogoutButton from "../components/Buttons/LogoutButton"
+import { emptySong } from "../interfaces/Song"
 
 export const UserApp = () => {
     // vars
     const ButtonStyle = "mr-3 text-neutral-900"
-    const emptySong = {
-        name: "No track data",
-        imgUrl: "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
-        artists: "No artist data",
-    }
     let { user_id } = useParams()
     // States
     const [User, setUser] = useState({
@@ -30,7 +26,7 @@ export const UserApp = () => {
         followers: undefined,
         isPremium: false,
     })
-    const [PlSongs, setPlSongs] = useState("No songs")
+    const [PlSongs, setPlSongs] = useState([emptySong])
     const [isDW, setIsDW] = useState(false)
     const [PlaylistName, setPlaylistName] = useState("No playlist name")
     const [CurrentSong, setCurrentSong] = useState(emptySong)
@@ -52,7 +48,7 @@ export const UserApp = () => {
         setPlSongs(songs)
     }
     const setDefaults = () => {
-        setPlSongs("No songs")
+        setPlSongs(emptySong)
         setIsDW(false)
         setPlaylistName("No playlist name")
         setCurrentSong(emptySong)
@@ -73,10 +69,8 @@ export const UserApp = () => {
             .catch((error) => {
                 console.log(error)
             })
-        const updateInterval = setInterval(function () {
+        const updateInterval = setInterval(() => {
             apiManager.getUserPlayback(cookie).then((tempData) => {
-                // debugger
-
                 if (!tempData) {
                     setDefaults()
                 }
@@ -84,7 +78,7 @@ export const UserApp = () => {
                     // init data variable w/ available content
                     data = tempData
                 }
-                if (data) {
+                if (tempData) {
                     // debugger
                     if (data.error) {
                         if (data.error.status > 399) {
@@ -94,6 +88,19 @@ export const UserApp = () => {
                     }
                     // check that playback was not empty
                     if (tempData) {
+                        if (!data) {
+                            data = tempData
+                            apiManager
+                                .getPlayBackSongs(cookie)
+                                .then((plData) => {
+                                    usePlaylistData(plData)
+                                })
+                                .catch((error) => {
+                                    console.log(error)
+                                    clearInterval(updateInterval)
+                                })
+                            return
+                        }
                         //  if there is no changes in playback, dont request songs
                         if (data.item.uri != tempData.item.uri) {
                             data = tempData
@@ -169,22 +176,21 @@ export const UserApp = () => {
                                 PlaylistName={PlaylistName}
                                 PlSongs={PlSongs}
                                 isDW={isDW}
-                                style={
-                                    "max-h-[70vh] max-w-md"
-                                }
+                                style={"max-h-[70vh] max-w-md"}
                             />
                             <SavePlaylist
                                 playbackSong={CurrentSong}
                                 fullPlaylist={PlSongs}
                                 isDW={isDW}
                                 cookie={cookie}
-                                style={
-                                    "max-h-[70vh] max-w-md"
-                                }
+                                style={"max-h-[70vh] max-w-md"}
                             />
                         </div>
                         <div className="flex justify-center">
-                            <SettingsPanel IsPremium={User.isPremium} />
+                            <SettingsPanel
+                                IsPremium={User.isPremium}
+                                userId={user_id}
+                            />
                         </div>
                     </div>
                 </main>

@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import SongCard from "./SongCard"
 
-import { Song } from "../interfaces/Song"
+import { emptySong, Song } from "../interfaces/Song"
 
-const SaveSongPlaylist = ({ songs, alertDeleted, style }) => {
+const SaveSongPlaylist = ({ songs, setSongs, alertDeleted, style }) => {
     const [hiddenValues, setHiddenValues] = useState({})
     const handleDelete = (index, value) => {
         setHiddenValues({ ...hiddenValues, [index]: value })
         alertDeleted(songs[index], index)
     }
+
     return (
         <div className="">
             <div className={`container overflow-y-scroll ${style} mt-3`}>
@@ -25,13 +26,9 @@ const SaveSongPlaylist = ({ songs, alertDeleted, style }) => {
                         />
                     ))
                 ) : (
-                    <div className="opacity-0">
+                    <div className="opacity-50">
                         <SongCard
-                            song={{
-                                name: "undef",
-                                imgUrl: "undef",
-                                artists: "undef",
-                            }}
+                            song={emptySong}
                             index={0}
                             isDeletable={false}
                             onDelete={undefined}
