@@ -1,9 +1,14 @@
-from typing import Optional
+from typing import Literal, Optional
 from pydantic import BaseModel, EmailStr, validator
 from datetime import datetime
 
 class RefreshToken(BaseModel):
     refresh_token: str
+
+class SpotifyToken(BaseModel):
+    access_token: str
+    token_type: Literal['Bearer']
+    expires_in: int
 
 class User(BaseModel):
     user_id: str
@@ -19,6 +24,7 @@ class User(BaseModel):
     @validator("send_time", "save_time", "created_at", pre=True)
     def parse_birthdate(cls, value):
         if value:
+            if isinstance(value, str): return value
             assert isinstance(value, datetime)
             return str(value)
 
@@ -51,3 +57,6 @@ class UserEmail(BaseModel):
     email: EmailStr
     subject: str
     text: str
+
+class Message(BaseModel):
+    message: str
