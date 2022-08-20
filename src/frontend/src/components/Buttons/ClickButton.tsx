@@ -1,13 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
+import { BaseButtonClass } from "./BaseButton"
 
 const ClickButton = ({ title, onClick, color, style }) => {
     return (
         <a
             onClick={onClick}
-            className={`cursor-pointer inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
-                text-sm text-left font-medium rounded-md text-white ${color} hover:opacity-80 transition-opacity
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${style}`}
+            className={`${BaseButtonClass} ${color} ${style}`}
         >
             {title}
         </a>

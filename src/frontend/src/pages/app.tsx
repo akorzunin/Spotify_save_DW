@@ -7,6 +7,7 @@ import Footer from "../components/Footer"
 import Button from "../components/Buttons/BaseButton"
 import BlobButton from "../components/Buttons/BlobButton"
 import * as cookieHandle from "../utils/cookieHandle"
+import LoginButton from "../components/Buttons/LoginButton"
 
 export const App = () => {
     // handle cookies
@@ -50,12 +51,7 @@ export const App = () => {
                                 color="bg-white"
                             />
                         </Link>
-                        <Button
-                            style="mr-3 "
-                            title="Login"
-                            link="/login"
-                            color="bg-white"
-                        />
+                        <LoginButton/>
                     </div>
                 </header>
                 <main className="">
