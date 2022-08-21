@@ -4,11 +4,21 @@ import PropTypes from "prop-types"
 import AccountStatus from "./AccountStatus"
 import SettingsTitle from "./SettingsTitle"
 import SettingsButton from "./SettingsButton"
-import { getUserData, createUser } from "../../utils/dbManager"
-const SettingsPanel = ({ IsPremium, userId }) => {
+import {
+    getUserData,
+    createUser,
+    getDbData,
+    parseDateFromDb,
+    updateUserData,
+    parseFormData,
+} from "../../utils/dbManager"
+import { formDataMap } from "../../interfaces/FormDataMap"
+import { BaseButtonClass } from "../Buttons/BaseButton"
+
+const SettingsPanel = ({ IsPremium, userId, cookie }) => {
     const [AutosaveHint, setAutosaveHint] = useState(false)
     const [SendmailHint, setSendmailHint] = useState(false)
-    const [SubmitMessage, setSubmitMessage] = useState('')
+    const [SubmitMessage, setSubmitMessage] = useState("")
     const showHint = (event) => {
         if (event) {
             if (event.target.id == "autosave") {
@@ -32,25 +42,49 @@ const SettingsPanel = ({ IsPremium, userId }) => {
     const handleSubmit = (event) => {
         let formData = {}
         Array.from(event.currentTarget.elements).map((item: any) => {
-            console.log(item.id, item.value)
             if (!item.id) return null
-            if (item.type === 'checkbox') return item.checked
+            if (item.type === "checkbox") {
+                return (formData[item.id] = item.checked)
+            }
             return (formData[item.id] = item.value)
         })
-        
+        console.table(formData)
+        const updateData = parseFormData(formData, formDataMap)
+        updateUserData(userId, updateData)
+    }
+
+    const setFormData = (data) => {
+        Array.from(document.forms[0]).map((item: any) => {
+            // console.log(item.type)
+            if (item.type === "checkbox") {
+                return (item.checked = getDbData(item, data, formDataMap))
+            }
+            if (item.type === "datetime-local") {
+                return (item.value = parseDateFromDb(item, formDataMap))
+            }
+            if (item.type === "submit") {
+                return
+            }
+            return (item.value = getDbData(item, data, formDataMap))
+        })
     }
     useEffect(() => {
-        getUserData(userId)
-            .then((data) => {
-                if (!data) {
-                    // create user
-
+        getUserData(userId).then((data) => {
+            if (!data) {
+                // create user
+                const userData = {
+                    user_id: userId,
+                    is_premium: IsPremium,
+                    refresh_token: cookie.refresh_token,
                 }
-                console.log(data);
-                
-            })
+                createUser(userId, userData)
+            }
+            console.table(data)
+            // set user settings
+            setFormData(data)
+        })
     }, [])
-    
+
     return (
         <div className="w-[448px] mb-3">
             <SettingsTitle />
@@ -136,14 +170,20 @@ const SettingsPanel = ({ IsPremium, userId }) => {
                             </div>
                         </div>
                     </div>
+                    <input
+                        className={`w-full mb-3 appearance-none block bg-gray-200 
+                            text-gray-700 border border-red-500 rounded py-3 px-4 
+                            leading-tight focus:outline-none focus:bg-white`}
+                        id="autosave-date-input"
+                        type="datetime-local"
+                    ></input>
                     <div className="flex justify-between">
                         <div>{SubmitMessage}</div>
-                        <SettingsButton
-                            title="Save"
-                            onClick={handleSubmit}
-                            className="mb-3"
+                        <input
+                            className={`${BaseButtonClass} bg-white h-10`}
+                            type="submit"
+                            value="Submit"
                         />
-                        <input type="submit" value="Submit" />
                     </div>
                 </form>
                 <SettingsButton

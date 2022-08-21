@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { get_text_emoji } from "../utils/utils"
+import { get_text_emoji, updateTextEmoji } from "../utils/utils"
 
 const Footer = ({ style }) => {
     return (
@@ -82,7 +82,10 @@ const Footer = ({ style }) => {
                                 @akorzunin
                             </a>
                         </p>
-                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
+                        <span
+                            className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm hover:cursor-help"
+                            onClick={updateTextEmoji}
+                        >
                             {get_text_emoji()}
                         </span>
                     </div>

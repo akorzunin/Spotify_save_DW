@@ -27,10 +27,12 @@ const UserCard = ({ userName, imgUrl, followers }) => {
         </div>
     )
 }
+export const DefaultUserImage =
+    "https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7"
 
 UserCard.defaultProps = {
     userName: "DefaultUser",
-    imgUrl: "https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7",
+    imgUrl: DefaultUserImage,
     followers: 999,
 }
 

@@ -35,3 +35,34 @@ export const createUser = async (userId: string, userData): Promise<any> => {
 
     return data
 }
+export const updateUserData = async (userId, updateData): Promise<any> => {
+    const res = await fetch(`/api/update_user?user_id=${userId}`, {
+        method: "PUT",
+        headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+    })
+
+    const data = await res.json()
+    console.log("User updated: ", data)
+
+    return data
+}
+export const getDbData = (item, data, formDataMap) => {
+    return data[formDataMap[item.id]]
+}
+
+export const parseDateFromDb = (item, formDataMap) => {
+    return "2022-08-20T17:58"
+}
+
+export const parseFormData = (formData, formDataMap) => {
+    const UpdateData = {}
+    Object.entries(formData).forEach(([key, value]) => {
+        console.log(key, value)
+        UpdateData[formDataMap[key]] = value
+    })
+    return UpdateData
+}

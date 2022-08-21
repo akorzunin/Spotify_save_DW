@@ -18,3 +18,7 @@ const text_emojis = [
 export const get_text_emoji = (): String => {
     return text_emojis[Math.floor(Math.random() * text_emojis.length)]
 }
+
+export const updateTextEmoji = (event) => {
+    event.target.textContent = get_text_emoji()
+}

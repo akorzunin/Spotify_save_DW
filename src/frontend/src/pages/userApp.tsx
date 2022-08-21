@@ -1,7 +1,6 @@
 import React, { Component, useState, useEffect } from "react"
 
 import Footer from "../components/Footer"
-import UserCard from "../components/UserCard"
 import FullPlaylist from "../components/FullPlaylist"
 import SongCard from "../components/SongCard"
 import * as cookieHandle from "../utils/cookieHandle"
@@ -14,6 +13,7 @@ import SettingsPanel from "../components/UserSettingsField/SettingsPanel"
 import Button from "../components/Buttons/BaseButton"
 import LogoutButton from "../components/Buttons/LogoutButton"
 import { emptySong } from "../interfaces/Song"
+import UserCard from "../components/UserCard"
 
 export const UserApp = () => {
     // vars
@@ -190,6 +190,7 @@ export const UserApp = () => {
                             <SettingsPanel
                                 IsPremium={User.isPremium}
                                 userId={user_id}
+                                cookie={cookie}
                             />
                         </div>
                     </div>

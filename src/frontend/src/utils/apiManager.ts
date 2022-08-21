@@ -3,6 +3,7 @@ import { readCookies, setCookies } from "./cookieHandle"
 import { emptySong, Song } from "../interfaces/Song"
 
 import * as timeMangment from "./timeMangment"
+import { DefaultUserImage } from "../components/UserCard"
 
 const checkStatusCode = (res) => {
     const logErr = (res) => {
@@ -79,9 +80,15 @@ export const getUserData = async (cookie: SpotifyCookie) => {
         if (data.product === "premium"){
             isPremium = true
         }
+        let userImage: string
+        if (!data.images) {
+            userImage = DefaultUserImage
+        } else {
+            userImage = data.images[0].url
+        }
         return {
             name: data.display_name,
-            img: data.images[0].url,
+            img: userImage,
             followers: data.followers.total,
             id: data.id,
             isPremium: isPremium,

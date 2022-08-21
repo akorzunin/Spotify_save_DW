@@ -10,6 +10,7 @@ import { Song } from "../interfaces/Song"
 
 const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     // States
+    const [IsSpinning, setIsSpinning] = useState(false)
     const [SavePlState, setSavePlState] = useState("Save")
     const [playedSongsSet, setPlayedSongsSet] = useState(new Set())
     const [SavedSongs, setSavedSongs] = useState([])
@@ -30,6 +31,9 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
         setIsPlSaved(false)
         setSavePlState("Save")
     }
+    const onSpin = () => {
+        setIsSpinning(!IsSpinning)
+    }
     const hash = (str: string): number =>
         Array.from(str).reduce(
             (hash, char) => 0 | (31 * hash + char.charCodeAt(0)),
@@ -48,7 +52,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
             if (!playedSongsSet.has(hashSong(playbackSong))) {
                 if (Array.isArray(SavedSongs))
                     setSavedSongs([...SavedSongs, playbackSong])
-                else { 
+                else {
                     setSavedSongs([playbackSong])
                 }
             }
@@ -103,7 +107,9 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
 
     return (
         <div className="flex justify-center">
-            <div className="w-[448px] mb-3">
+            <div
+                className={`${IsSpinning ? "animate-spin" : ""} w-[448px] mb-3`}
+            >
                 <PlaylistTitle
                     title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
                     isDW={true}
@@ -127,6 +133,12 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                         title="Refresh"
                         onClick={onRefresh}
                         color={"bg-yellow-500"}
+                        style={undefined}
+                    />
+                    <ClickButton
+                        title="Spin"
+                        onClick={onSpin}
+                        color="bg-green-500"
                         style={undefined}
                     />
                     <ClickButton
