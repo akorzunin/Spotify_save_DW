@@ -1,7 +1,7 @@
 import asyncio
 import os
 import requests
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 
 from backend.app.mail_handle import send_email
@@ -14,11 +14,16 @@ router = APIRouter()
 
 @router.post(
     "/refresh_token",
+    response_model=shemas.SpotifyToken,
+    status_code=status.HTTP_202_ACCEPTED,
 )
-async def refresh_token(refresh_token: shemas.RefreshToken):
+async def refresh_token(
+    refresh_token: shemas.RefreshToken,
+):
 
     client_creds_b64 = encode_b64(
-        os.getenv("SPOTIPY_CLIENT_ID"), os.getenv("SPOTIPY_CLIENT_SECRET")
+        os.getenv("SPOTIPY_CLIENT_ID"),
+        os.getenv("SPOTIPY_CLIENT_SECRET"),
     )
     r = requests.post(
         url="https://accounts.spotify.com/api/token",
@@ -38,6 +43,7 @@ async def refresh_token(refresh_token: shemas.RefreshToken):
 ### Mail routes
 @router.post(
     "/send_mail",
+    status_code=status.HTTP_200_OK,
 )
 async def send_mail(user_email: shemas.UserEmail):
     """Send mail to user"""
@@ -49,56 +55,80 @@ async def send_mail(user_email: shemas.UserEmail):
         )
     )
     return JSONResponse(
-        status_code=200, content={"message": "email has been sent"}
+        status_code=status.HTTP_200_OK,
+        content={"message": "email has been sent"},
     )
 
 
 ### Db routes
 @router.get(
     "/users",
+    response_model=list[shemas.User],
 )
 async def get_users():
-    """Get all users by ..."""
+    """Get all users from database"""
     return crud.get_all_users(users)
-    
 
 
 @router.get(
     "/user",
+    status_code=status.HTTP_200_OK,
+    responses={status.HTTP_404_NOT_FOUND: {"model": shemas.Message}},
 )
 async def get_user(user_id: str):
     """Get user by user_id"""
-    return crud.get_user(users, user_id)
+    if user := crud.get_user(users, user_id):
+        return user
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"message": "User not found"},
+    )
 
 
 @router.post(
     "/new_user",
+    responses={status.HTTP_400_BAD_REQUEST: {"model": shemas.Message}},
 )
 async def create_user(user: shemas.CreateUser) -> shemas.User:
     """Create new user"""
     if user := crud.create_user(users, user):
         return user
     return JSONResponse(
-        status_code=400, content={"message": "User already exists"}
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={"message": "User already exists"},
     )
 
 
 @router.put(
     "/update_user",
+    response_model=shemas.User,
+    responses={status.HTTP_404_NOT_FOUND: {"model": shemas.Message}},
 )
 async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     """Update user"""
-    return crud.update_user(users, user, user_id)
-
+    if user := crud.update_user(users, user, user_id):
+        return user
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND,
+        content={"message": "User not found"},
+    )
 
 
 @router.delete(
     "/delete_user",
+    responses={
+        status.HTTP_200_OK: {"model": shemas.Message},
+        status.HTTP_202_ACCEPTED: {"model": shemas.Message},
+    },
 )
 async def delete_user(user_id: str):
     """Delete user by ..."""
-    crud.delete_user(users, user_id)
-
+    if user := crud.delete_user(users, user_id):
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={"message": "User deleted"},
+        )
     return JSONResponse(
-        status_code=200, content={"message": "User deleted"}
+        status_code=status.HTTP_202_ACCEPTED,
+        content={"message": "User does not exists"},
     )

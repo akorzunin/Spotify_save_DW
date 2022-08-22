@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import * as apiManager from './utils/apiManager'
-import * as timeMangment from './utils/timeMangment'
-import SaveSongPlaylist from './SaveSongPlaylist'
-import ClickButton from './ClickButton'
-import PlaylistTitle from './PlaylistTitle'
-import { Song } from './SongCard'
+import React, { useEffect, useState } from "react"
+
+import PropTypes from "prop-types"
+import * as apiManager from "../utils/apiManager"
+import * as timeMangment from "../utils/timeMangment"
+import SaveSongPlaylist from "./SaveSongPlaylist"
+import PlaylistTitle from "./PlaylistTitle"
+import ClickButton from "./Buttons/ClickButton"
+import { Song } from "../interfaces/Song"
 
 const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     // States
+    const [IsSpinning, setIsSpinning] = useState(false)
+    const [SavePlState, setSavePlState] = useState("Save")
     const [playedSongsSet, setPlayedSongsSet] = useState(new Set())
-    const [SavedSongs, setSavedSongs] = useState([]);
+    const [SavedSongs, setSavedSongs] = useState([])
     const [listenPlayback, setListenPlayback] = useState(true)
     const [PingState, setPingState] = useState("hidden")
     const [isPlSaved, setIsPlSaved] = useState(false)
     // Functions
     const handleDelete = (song: Song, index) => {
-        console.log('Del', song, index);
+        console.log("Del", song, index)
         const newSet = playedSongsSet
         newSet.delete(hashSong(song))
         setPlayedSongsSet(newSet)
@@ -26,34 +29,47 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
         setPlayedSongsSet(new Set())
         setPingState("hidden")
         setIsPlSaved(false)
+        setSavePlState("Save")
     }
-    const hash = (str: string): number => 
-        Array.from(str)
-        .reduce((hash, char) => 0 | (31 * hash + char.charCodeAt(0)), 0)
+    const onSpin = () => {
+        setIsSpinning(!IsSpinning)
+    }
+    const hash = (str: string): number =>
+        Array.from(str).reduce(
+            (hash, char) => 0 | (31 * hash + char.charCodeAt(0)),
+            0
+        )
 
     const hashSong = (song): number => hash(song.name + song.artists)
-    
+
     const updateSavedSongs = () => {
         if (listenPlayback && playbackSong.name !== "No track data") {
-
-            const fullPlSet = new Set(fullPlaylist.map((x) => hash(x.name+x.artists)))
+            const fullPlSet = new Set(
+                fullPlaylist.map((x) => hash(x.name + x.artists))
+            )
 
             // add song to SavePlaylist
             if (!playedSongsSet.has(hashSong(playbackSong))) {
-                setSavedSongs([...SavedSongs, playbackSong])
+                if (Array.isArray(SavedSongs))
+                    setSavedSongs([...SavedSongs, playbackSong])
+                else {
+                    setSavedSongs([playbackSong])
+                }
             }
             // complete playlist check
             if (isDW) {
                 const hashedSong = hashSong(playbackSong)
-                if (fullPlSet.has(hashedSong) && !playedSongsSet.has(hashedSong)) {
+                if (
+                    fullPlSet.has(hashedSong) &&
+                    !playedSongsSet.has(hashedSong)
+                ) {
                     setPlayedSongsSet(playedSongsSet.add(hashedSong))
-                } else {
+                } else if (playedSongsSet.size > 1) {
                     // all playable song are already saved
                     if (!isPlSaved) {
-                        console.log('all SET');
-                        setPingState('')
+                        console.log("all SET")
+                        setPingState("")
                     }
-                    
                 }
             }
         }
@@ -61,16 +77,22 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     const filterSongsBySet = () => {
         const toSave = playedSongsSet
         const AllSongs = SavedSongs
-        AllSongs.forEach(x => { x.hash = hashSong(x) })
-        return AllSongs.filter(x => toSave.has(x.hash))
+        AllSongs.forEach((x) => {
+            x.hash = hashSong(x)
+        })
+        return AllSongs.filter((x) => toSave.has(x.hash))
     }
     const saveUserPlaylist = () => {
-        apiManager.saveUserPl(cookie, filterSongsBySet())
-            .then(res => {
+        // set save button text to ...
+        setSavePlState("Saving...")
+        apiManager
+            .saveUserPl(cookie, filterSongsBySet())
+            .then((res) => {
                 setPingState("hidden")
                 setIsPlSaved(true)
+                setSavePlState("Saved")
             })
-            .catch(err => console.log(err))
+            .catch((err) => console.log(err))
     }
     // Effects
     useEffect(() => {
@@ -78,52 +100,63 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
     }, [playbackSong])
 
     useEffect(() => {
-        // add song if user just turned "from playback" 
+        // add song if user just turned "from playback"
         //but new song did not appeared yet
         updateSavedSongs()
     }, [listenPlayback])
-    
-    return (
 
-        <div className="">
-            
-            <PlaylistTitle
-                title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
-                isDW={ true }
-            />
-            <div className="flex justify-between pl-3 pr-3 mt-3">
-                <div className="relative inline-flex">
-                    <ClickButton
-                        title={isPlSaved ? "Saved" :"Save"}
-                        onClick={saveUserPlaylist}
-                        color={"bg-green-500"}
-                        style={undefined}
-                        />
-                    <div>
-                        <span className={`fixed flex h-3 w-3 ${PingState}`}>
-                            <span className="animate-ping absolute right-2 top-[-6px] inline-flex h-full w-full rounded-full bg-purple-700 opacity-75"></span>
-                            <span className="relative right-2 top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
-                        </span>
-                    </div>
-                </div>
-                <ClickButton
-                    title="Refresh"
-                    onClick={onRefresh}
-                    color={"bg-yellow-500"}
-                    style={undefined}
+    return (
+        <div className="flex justify-center">
+            <div
+                className={`${IsSpinning ? "animate-spin" : ""} w-[448px] mb-3`}
+            >
+                <PlaylistTitle
+                    title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
+                    isDW={true}
                 />
-                <ClickButton
-                    title="From playback"
-                    onClick={() => setListenPlayback(!listenPlayback)}
-                    color={listenPlayback ? "bg-green-500" : "bg-yellow-500"}
-                    style={undefined}
+                <div className="flex justify-between pl-3 pr-3 mt-3">
+                    <div className="relative inline-flex">
+                        <ClickButton
+                            title={SavePlState}
+                            onClick={saveUserPlaylist}
+                            color={"bg-green-500"}
+                            style={undefined}
+                        />
+                        <div>
+                            <span className={`fixed flex h-3 w-3 ${PingState}`}>
+                                <span className="animate-ping absolute right-2 top-[-6px] inline-flex h-full w-full rounded-full bg-purple-700 opacity-75"></span>
+                                <span className="relative right-2 top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <ClickButton
+                        title="Refresh"
+                        onClick={onRefresh}
+                        color={"bg-yellow-500"}
+                        style={undefined}
+                    />
+                    <ClickButton
+                        title="Spin"
+                        onClick={onSpin}
+                        color="bg-green-500"
+                        style={undefined}
+                    />
+                    <ClickButton
+                        title="From playback"
+                        onClick={() => setListenPlayback(!listenPlayback)}
+                        color={
+                            listenPlayback ? "bg-green-500" : "bg-yellow-500"
+                        }
+                        style={undefined}
+                    />
+                </div>
+                <SaveSongPlaylist
+                    songs={SavedSongs}
+                    setSongs={setSavedSongs}
+                    alertDeleted={handleDelete}
+                    style={style}
                 />
             </div>
-            <SaveSongPlaylist
-                songs={SavedSongs} 
-                alertDeleted={handleDelete} 
-                style={style}           
-            />
         </div>
     )
 }

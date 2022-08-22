@@ -5,7 +5,7 @@ import os
 from urllib.parse import urlencode
 import spotipy
 
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi import Request
@@ -35,8 +35,13 @@ templates = Jinja2Templates(directory="src/frontend/templates")
 router = APIRouter()
 
 
-@router.get("/", response_class=HTMLResponse)
+@router.get(
+    "/",
+    response_class=HTMLResponse,
+    status_code=status.HTTP_300_MULTIPLE_CHOICES,
+)
 async def root(request: Request):
+    """Redirect to react hash router main page"""
     return templates.TemplateResponse(
         "home.html",
         {
@@ -45,13 +50,23 @@ async def root(request: Request):
     )
 
 
-@router.get("/user/{user_id}", response_class=HTMLResponse)
+@router.get(
+    "/user/{user_id}",
+    response_class=HTMLResponse,
+    status_code=status.HTTP_300_MULTIPLE_CHOICES,
+)
 async def user_page(request: Request, user_id: str):
+    """Redirect to react hash router user page"""
     return RedirectResponse(f"/#/user/{user_id}")
 
 
-@router.get("/login", response_class=HTMLResponse)
+@router.get(
+    "/login",
+    response_class=HTMLResponse,
+    status_code=status.HTTP_300_MULTIPLE_CHOICES,
+)
 async def login_url():
+    """Redirect to Spotify login page"""
     # scope = 'user-read-private user-read-email'
     r = requests.Request(
         "GET",
@@ -72,6 +87,7 @@ async def login_url():
 
 @router.get(
     "/{region}/login",
+    status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
 async def login_redirect(
     region: str,
@@ -79,8 +95,11 @@ async def login_redirect(
     return RedirectResponse("/login")
 
 
-@router.get("/get_token")
-async def get_tocken(code: str) -> RedirectResponse:
+@router.get(
+    "/get_token",
+    status_code=status.HTTP_300_MULTIPLE_CHOICES,
+)
+async def get_token(code: str) -> RedirectResponse:
     r = requests.post(
         "https://accounts.spotify.com/api/token",
         data={
@@ -101,9 +120,9 @@ async def get_tocken(code: str) -> RedirectResponse:
 
 
 ### dev
-import contextlib
 
 if DEBUG := bool(eval(os.getenv("DEBUG", "False"))):
+    import contextlib
     with contextlib.suppress(ModuleNotFoundError):
         import arel
 

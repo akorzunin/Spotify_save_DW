@@ -1,7 +1,7 @@
 '''permissions for soptify token'''
 scope_dict = {
             'user-read-playback-position': False,
-            'user-read-private': False,
+            'user-read-private': True,
             'user-read-email': False,
             'playlist-read-private': False,
             'user-library-read': False,

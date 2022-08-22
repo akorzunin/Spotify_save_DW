@@ -8,6 +8,7 @@ smtp_conf = ConnectionConfig(
     MAIL_USERNAME = os.getenv('MAIL_USERNAME'),
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD'),
     MAIL_FROM = os.getenv('MAIL_FROM'),
+    MAIL_FROM_NAME = "savespotifydw",
     MAIL_SERVER = os.getenv('MAIL_SERVER'),
     MAIL_PORT = int(os.getenv('MAIL_PORT')),
     MAIL_TLS = True,

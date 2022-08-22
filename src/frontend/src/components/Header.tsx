@@ -1,18 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
-const Header = ({ title, }) => {
+const Header = ({ title }) => {
     return (
-        <div >
-            <h1 className="text-6xl font-bold">
-                {title}
-            </h1>
+        <div>
+            <h1 className="text-6xl font-bold">{title}</h1>
         </div>
     )
 }
 
 Header.defaultProps = {
-    title: 'Header',
+    title: "Header",
 }
 
 Header.propTypes = {

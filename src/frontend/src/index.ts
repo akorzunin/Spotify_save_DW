@@ -1,5 +1,5 @@
-import ReactDOM from "react-dom/client";
-import React from "react";
+import ReactDOM from "react-dom/client"
+import React from "react"
 import {
     BrowserRouter,
     Routes,
@@ -8,17 +8,15 @@ import {
     HashRouter,
     Link,
     useParams,
+} from "react-router-dom"
 
-} from "react-router-dom";
-
-import App from "./app";
-import UserApp from "./userApp";
-import { AboutPage } from "./aboutPage";
+import App from "./pages/app"
+import UserApp from "./pages/userApp"
+import { AboutPage } from "./pages/aboutPage"
 // App
-const appDiv = document.getElementById("app");
-// let { user_id } = useParams();
+const appDiv = document.getElementById("app")
 
-let root = ReactDOM.createRoot(appDiv);
+let root = ReactDOM.createRoot(appDiv)
 root.render(
     <HashRouter>
         <Routes>
@@ -28,4 +26,3 @@ root.render(
         </Routes>
     </HashRouter>
 )
-
