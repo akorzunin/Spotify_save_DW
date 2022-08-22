@@ -1,6 +1,5 @@
-import { readCookies } from "./cookieHandle"
 
-const getLocation = () => {
+export const getLocation = () => {
     const pref = window.location.href.split("//")[0]
     const location = window.location.href.split("//")[1].split("/")[0]
     return [pref, location]
@@ -54,8 +53,12 @@ export const getDbData = (item, data, formDataMap) => {
     return data[formDataMap[item.id]]
 }
 
-export const parseDateFromDb = (item, formDataMap) => {
-    return "2022-08-20T17:58"
+export const parseDateFromDb = (dbData, item, formDataMap) => {
+    const time = dbData[formDataMap[item.id]]
+    // "2022-08-21T20:11:19.981Z" from db
+    const datetime = new Date(time)
+    // TODO localize date to user timezone
+    return datetime.toJSON().slice(0, -8)
 }
 
 export const parseFormData = (formData, formDataMap) => {
@@ -65,4 +68,8 @@ export const parseFormData = (formData, formDataMap) => {
         UpdateData[formDataMap[key]] = value
     })
     return UpdateData
+}
+
+export const parseFormOutputDate = (value) => {
+    return value + "Z"
 }

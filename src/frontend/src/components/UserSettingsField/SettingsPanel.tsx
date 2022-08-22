@@ -11,6 +11,7 @@ import {
     parseDateFromDb,
     updateUserData,
     parseFormData,
+    parseFormOutputDate,
 } from "../../utils/dbManager"
 import { formDataMap } from "../../interfaces/FormDataMap"
 import { BaseButtonClass } from "../Buttons/BaseButton"
@@ -46,6 +47,9 @@ const SettingsPanel = ({ IsPremium, userId, cookie }) => {
             if (item.type === "checkbox") {
                 return (formData[item.id] = item.checked)
             }
+            if (item.type === "datetime-local") {
+                return (formData[item.id] = parseFormOutputDate(item.value))
+            }
             return (formData[item.id] = item.value)
         })
         console.table(formData)
@@ -60,7 +64,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie }) => {
                 return (item.checked = getDbData(item, data, formDataMap))
             }
             if (item.type === "datetime-local") {
-                return (item.value = parseDateFromDb(item, formDataMap))
+                return (item.value = parseDateFromDb(data, item, formDataMap))
             }
             if (item.type === "submit") {
                 return
