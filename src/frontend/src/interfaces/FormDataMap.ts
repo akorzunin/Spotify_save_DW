@@ -5,4 +5,5 @@ export const formDataMap = {
     "email-input": "email",
     "email-date-input": "send_time",
     "autosave-date-input": "save_time",
+    "dw-link": "dw_playlist_id",
 }

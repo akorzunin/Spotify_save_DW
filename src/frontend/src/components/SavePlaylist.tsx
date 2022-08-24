@@ -120,7 +120,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                             title={SavePlState}
                             onClick={saveUserPlaylist}
                             color={"bg-green-500"}
-                            style={undefined}
+                            style={"text-white"}
                         />
                         <div>
                             <span className={`fixed flex h-3 w-3 ${PingState}`}>
@@ -133,13 +133,13 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                         title="Refresh"
                         onClick={onRefresh}
                         color={"bg-yellow-500"}
-                        style={undefined}
+                        style={"text-white"}
                     />
                     <ClickButton
                         title="Spin"
                         onClick={onSpin}
                         color="bg-green-500"
-                        style={undefined}
+                        style={"text-white"}
                     />
                     <ClickButton
                         title="From playback"
@@ -147,7 +147,7 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                         color={
                             listenPlayback ? "bg-green-500" : "bg-yellow-500"
                         }
-                        style={undefined}
+                        style={"text-white"}
                     />
                 </div>
                 <SaveSongPlaylist

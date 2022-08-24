@@ -48,6 +48,7 @@ class UpdateUser(BaseModel):
     refresh_token: Optional[str]
     save_dw_weekly: Optional[bool]
     save_time: Optional[datetime]
+    dw_playlist_id: Optional[str]
     @validator("send_time", "save_time", pre=False)
     def parse_birthdate(cls, value):
         # assert isinstance(value, datetime)

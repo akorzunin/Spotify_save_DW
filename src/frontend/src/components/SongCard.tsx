@@ -14,7 +14,7 @@ const SongCard = ({ song, index, isDeletable, onDelete, isHidden }) => {
             }`}
         >
             <div
-                className={`text-white p-2 mb-auto mt-auto inline ${
+                className={`text-black p-2 mb-auto mt-auto inline ${
                     index < 10 && "ml-2"
                 }`}
             >
@@ -26,11 +26,11 @@ const SongCard = ({ song, index, isDeletable, onDelete, isHidden }) => {
                 className="h-[100%] p-2 max-h-[calc(64+8)px]"
             />
             <div className="p-2 w-72 items-center">
-                <div className="text-white mt-1 flex truncate mr-4 max-w-[180px]">
+                <div className="text-black mt-1 flex truncate mr-4 max-w-[180px]">
                     {song.name}
                 </div>
                 <div
-                    className="text-white mt-1 opacity-80 flex truncate mr-4 
+                    className="text-black mt-1 opacity-80 flex truncate mr-4 
                     max-w-[180px]"
                 >
                     {song.artists}

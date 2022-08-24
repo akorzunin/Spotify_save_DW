@@ -28,6 +28,7 @@ export const UserApp = () => {
     })
     const [PlSongs, setPlSongs] = useState([emptySong])
     const [isDW, setIsDW] = useState(false)
+    const [DwPlaylistId, setDwPlaylistId] = useState()
     const [PlaylistName, setPlaylistName] = useState("No playlist name")
     const [CurrentSong, setCurrentSong] = useState(emptySong)
     const [burgerClass, setburgerClass] = useState("")
@@ -42,7 +43,11 @@ export const UserApp = () => {
         const currentSong = info[2]
         if (data) {
             setPlaylistName(data.name)
-            setIsDW(isDiscoverWeekly(data))
+            const isDiscoverWeeklyPl = isDiscoverWeekly(data)
+            setIsDW(isDiscoverWeeklyPl)
+            if (isDiscoverWeeklyPl) {
+                setDwPlaylistId(data.id)
+            }
         }
         setCurrentSong(currentSong)
         setPlSongs(songs)
@@ -191,6 +196,7 @@ export const UserApp = () => {
                                 IsPremium={User.isPremium}
                                 userId={user_id}
                                 cookie={cookie}
+                                DwPlaylistId={DwPlaylistId}
                             />
                         </div>
                     </div>
