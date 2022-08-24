@@ -17,6 +17,6 @@ scope_dict = {
             'user-read-playback-state': True,
             'user-modify-playback-state': True,
             'user-read-currently-playing': True,
-            'user-read-recently-played': False,
+            'user-read-recently-played': True,
         }
 scope_str = ' '.join([k for k, v in scope_dict.items() if v])

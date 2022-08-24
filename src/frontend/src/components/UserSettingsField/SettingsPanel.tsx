@@ -16,7 +16,7 @@ import {
 import { formDataMap } from "../../interfaces/FormDataMap"
 import { BaseButtonClass } from "../Buttons/BaseButton"
 
-const SettingsPanel = ({ IsPremium, userId, cookie }) => {
+const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
     const [AutosaveHint, setAutosaveHint] = useState(false)
     const [SendmailHint, setSendmailHint] = useState(false)
     const [SubmitMessage, setSubmitMessage] = useState("")
@@ -72,6 +72,13 @@ const SettingsPanel = ({ IsPremium, userId, cookie }) => {
             return (item.value = getDbData(item, data, formDataMap))
         })
     }
+    // automatically pick up dw palylist id for user
+    useEffect(() => {
+        if (DwPlaylistId) {
+            document.forms[0][3].value = DwPlaylistId
+        }
+    }, [DwPlaylistId])
+
     useEffect(() => {
         getUserData(userId).then((data) => {
             if (!data) {
@@ -141,7 +148,26 @@ const SettingsPanel = ({ IsPremium, userId, cookie }) => {
                         id="email-date-input"
                         type="datetime-local"
                     ></input>
-
+                    <div className="flex-none">
+                        <label
+                            id="dw-link-label"
+                            htmlFor="dw-link"
+                            className="whitespace-nowrap mx-2 font-medium text-gray-900"
+                            // onMouseEnter={showHint}
+                            // onMouseLeave={hideHint}
+                        >
+                            Dw playlist id
+                        </label>
+                        <input
+                            id="dw-link"
+                            type="text"
+                            defaultValue=""
+                            placeholder="Discover Weekly playlist id"
+                            className={`w-full mb-3 appearance-none block bg-gray-200 
+                        text-gray-700 border border-red-500 rounded py-3 px-4 
+                        leading-tight focus:outline-none focus:bg-white`}
+                        ></input>
+                    </div>
                     <div className="flex items-center relative mb-4">
                         <input
                             id="autosave-checkbox"
