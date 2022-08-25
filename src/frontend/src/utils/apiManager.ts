@@ -118,7 +118,11 @@ const isPlaybackPlaylist = (data): string | boolean => {
     try {
         if (data.context.type === "playlist") {
             return data.context.uri
+        } else if (data.context.type === "collection") {
+            console.warn("No playlist found, collection is playing")
+            return false
         } else {
+            debugger
             throw new Error("No playlist found")
         }
     } catch (err) {

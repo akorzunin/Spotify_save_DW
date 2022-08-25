@@ -16,8 +16,14 @@ import {
 import { formDataMap } from "../../interfaces/FormDataMap"
 import { BaseButtonClass } from "../Buttons/BaseButton"
 
+export const TextFormStyle = "w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+export const CheckboxFormStyle = "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+export const HintFormStyle = "text-sm font-light text-gray-900 bg-gray-500 absolute max-w-[192px] rounded-md transition-all duration-600 ease-in-out"
+
 const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
     const [AutosaveHint, setAutosaveHint] = useState(false)
+    const [FilterDislikesHint, setFilterDislikesHint] = useState(false)
+    const [SaveFullPlHint, setSaveFullPlHint] = useState(false)
     const [SendmailHint, setSendmailHint] = useState(false)
     const [SubmitMessage, setSubmitMessage] = useState("")
     const showHint = (event) => {
@@ -28,6 +34,12 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
             if (event.target.id == "email-checkbox-label") {
                 setSendmailHint(true)
             }
+            if (event.target.id == "filter-dislikes") {
+                setFilterDislikesHint(true)
+            }
+            if (event.target.id == "save-full-playlist") {
+                setSaveFullPlHint(true)
+            }
         }
     }
     const hideHint = (event) => {
@@ -37,6 +49,12 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
             }
             if (event.target.id == "email-checkbox-label") {
                 setSendmailHint(false)
+            }
+            if (event.target.id == "filter-dislikes") {
+                setFilterDislikesHint(false)
+            }
+            if (event.target.id == "save-full-playlist") {
+                setSaveFullPlHint(false)
             }
         }
     }
@@ -107,10 +125,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                             id="email-checkbox"
                             type="checkbox"
                             value=""
-                            className={`w-4 h-4 text-blue-600 bg-gray-100 rounded 
-                            border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 
-                            dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 
-                            dark:border-gray-600`}
+                            className={`${CheckboxFormStyle}`}
                         ></input>
                         <label
                             id="email-checkbox-label"
@@ -122,10 +137,11 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                             Send weekly email
                         </label>
                         <div
-                            className={`text-sm font-light text-gray-900 
-                            bg-gray-500 absolute max-w-[192px] right-[30px]
-                            rounded-md
-                            ${SendmailHint ? "" : "hidden"}`}
+                            className={`${HintFormStyle} right-[30px] ${
+                                SendmailHint
+                                    ? "opacity-100"
+                                    : "opacity-0 invisible"
+                            }`}
                         >
                             <div className="p-3">
                                 Send email everery week at Sunday to not
@@ -135,16 +151,12 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                     </div>
                     <input
                         id="email-input"
-                        className={`w-full mb-3 appearance-none block bg-gray-200 
-                        text-gray-700 border border-red-500 rounded py-3 px-4 
-                        leading-tight focus:outline-none focus:bg-white`}
+                        className={`${TextFormStyle}`}
                         type="email"
                         placeholder="Email"
                     ></input>
                     <input
-                        className={`w-full mb-3 appearance-none block bg-gray-200 
-                        text-gray-700 border border-red-500 rounded py-3 px-4 
-                        leading-tight focus:outline-none focus:bg-white`}
+                        className={`${TextFormStyle}`}
                         id="email-date-input"
                         type="datetime-local"
                     ></input>
@@ -153,8 +165,6 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                             id="dw-link-label"
                             htmlFor="dw-link"
                             className="whitespace-nowrap mx-2 font-medium text-gray-900"
-                            // onMouseEnter={showHint}
-                            // onMouseLeave={hideHint}
                         >
                             Dw playlist id
                         </label>
@@ -163,9 +173,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                             type="text"
                             defaultValue=""
                             placeholder="Discover Weekly playlist id"
-                            className={`w-full mb-3 appearance-none block bg-gray-200 
-                        text-gray-700 border border-red-500 rounded py-3 px-4 
-                        leading-tight focus:outline-none focus:bg-white`}
+                            className={`${TextFormStyle}`}
                         ></input>
                     </div>
                     <div className="flex items-center relative mb-4">
@@ -173,10 +181,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                             id="autosave-checkbox"
                             type="checkbox"
                             value=""
-                            className={`w-4 h-4 text-blue-600 bg-gray-100 rounded
-                                border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600
-                                dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700
-                                dark:border-gray-600`}
+                            className={`${CheckboxFormStyle}`}
                         ></input>
                         <label
                             id="autosave"
@@ -187,11 +192,43 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                         >
                             Autosave
                         </label>
+                        <input
+                            id="filter-dislikes-checkbox"
+                            type="checkbox"
+                            value=""
+                            className={`${CheckboxFormStyle}`}
+                        ></input>
+                        <label
+                            id="filter-dislikes"
+                            htmlFor="filter-dislikes-checkbox"
+                            className="whitespace-nowrap mx-2 font-medium text-gray-900"
+                            onMouseEnter={showHint}
+                            onMouseLeave={hideHint}
+                        >
+                            Filter dislikes
+                        </label>
+                        <input
+                            id="save-full-playlist-checkbox"
+                            type="checkbox"
+                            value=""
+                            className={`${CheckboxFormStyle}`}
+                        ></input>
+                        <label
+                            id="save-full-playlist"
+                            htmlFor="save-full-playlist-checkbox"
+                            className="whitespace-nowrap mx-2 font-medium text-gray-900"
+                            onMouseEnter={showHint}
+                            onMouseLeave={hideHint}
+                        >
+                            Save full playlist
+                        </label>
                         <div
-                            className={`text-sm font-light text-gray-900
-                                bg-gray-500 absolute max-w-[192px] 
-                                right-[100px] rounded-md
-                                ${AutosaveHint ? "" : "hidden"}`}
+                            className={`${HintFormStyle} right-[100px]
+                                ${
+                                    AutosaveHint
+                                        ? "opacity-100"
+                                        : "opacity-0 invisible"
+                                }`}
                         >
                             <div className="p-3">
                                 Save palylist automatically at choosen time UTC.
@@ -199,11 +236,45 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                                 get playlist context
                             </div>
                         </div>
+                        <div
+                            className={`${HintFormStyle} right-[-10px] ${
+                                    FilterDislikesHint
+                                        ? "opacity-100"
+                                        : "opacity-0 invisible"
+                                }`}
+                        >
+                            <div className="p-3">
+                                <p>
+                                    Checked: Play all songs from playlist to
+                                    filter only playable ones
+                                </p>
+                                <p>
+                                    Not checked: save DW playlist as is and
+                                    don't use player
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            className={`${HintFormStyle} right-[200px] ${
+                                    SaveFullPlHint
+                                        ? "opacity-100"
+                                        : "opacity-0 invisible"
+                                }`}
+                        >
+                            <div className="p-3">
+                                <p>
+                                    Checked: Save playlist even none of 30 songs
+                                    were disliked
+                                </p>
+                                <p>
+                                    Not checked: Consider such playlist as not
+                                    listened thus don't save it'
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <input
-                        className={`w-full mb-3 appearance-none block bg-gray-200 
-                            text-gray-700 border border-red-500 rounded py-3 px-4 
-                            leading-tight focus:outline-none focus:bg-white`}
+                        className={`${TextFormStyle}`}
                         id="autosave-date-input"
                         type="datetime-local"
                     ></input>
