@@ -57,11 +57,8 @@ export const getDbData = (item, data, formDataMap) => {
 export const parseDateFromDb = (dbData, item, formDataMap) => {
     const time = dbData[formDataMap[item.id]]
     // "2022-08-21T20:11:19.981Z" from db
-    const datetime = new Date(time)
     const dayjsDate = dayjs(time)
-    dayjsDate.format().slice(0, -9)
-    // TODO localize date to user timezone
-    return dayjsDate.format().slice(0, -9)
+        return dayjsDate.format().slice(0, -9)
 }
 
 export const parseFormOutputDate = (value) => {

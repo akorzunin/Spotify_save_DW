@@ -93,6 +93,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
     // automatically pick up dw palylist id for user
     useEffect(() => {
         if (DwPlaylistId) {
+            // @ts-ignore cause this form always exist
             document.forms[0][3].value = DwPlaylistId
         }
     }, [DwPlaylistId])
