@@ -4,12 +4,11 @@ import { BaseButtonClass } from "./BaseButton"
 
 const ClickButton = ({ title, onClick, color, style }) => {
     return (
-        <a
-            onClick={onClick}
-            className={`${BaseButtonClass} ${color} ${style}`}
-        >
-            {title}
-        </a>
+        <button tabIndex="0" role="link" onClick={onClick}>
+            <div className={`${BaseButtonClass} ${color} ${style}`}>
+                {title}
+            </div>
+        </button>
     )
 }
 

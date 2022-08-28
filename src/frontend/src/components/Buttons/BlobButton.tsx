@@ -19,7 +19,7 @@ const BlobButton = ({ title, link }) => {
                     href={link}
                     className={`cursor-pointer inline-flex justify-center px-4 py-2 border border-transparent 
                     hover:opacity-80 transition-opacity
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 absolute w-full bottom-[calc(50%-23px)] inset-x-0  
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 absolute w-full bottom-[calc(50%-23px)] inset-x-0  
                     text-purple-700 font-bold text-xl text-center bg-opacity-0 shadow-none rounded-full`}
                 >
                     {title}

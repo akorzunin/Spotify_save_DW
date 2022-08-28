@@ -5,13 +5,15 @@ import Button from "../Buttons/BaseButton"
 
 const SettingsButton = ({title, onClick, className}) => {
     return (
-        <div onClick={onClick} className={className}>
-            <Button
-                style=""
-                title={ title }
-                link={undefined}
-                color="bg-white text-black"
-            />
+        <div>
+            <button onClick={onClick} className={className}>
+                <Button
+                    style=""
+                    title={ title }
+                    link={undefined}
+                    color="bg-white text-black"
+                />
+            </button>
         </div>
     )
 }

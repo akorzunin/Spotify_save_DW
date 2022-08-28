@@ -122,10 +122,10 @@ const SavePlaylist = ({ playbackSong, fullPlaylist, isDW, cookie, style }) => {
                             color={"bg-green-500"}
                             style={"text-white"}
                         />
-                            <span className={`flex rounded-full ${PingState}`}> 
-                                <span className="animate-ping absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 rounded-full bg-purple-700 opacity-75"></span>
-                                <span className="absolute right-[-6px] top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
-                            </span>
+                        <span className={`flex rounded-full ${PingState}`}> 
+                            <span className="animate-ping absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 rounded-full bg-purple-700 opacity-75"></span>
+                            <span className="absolute right-[-6px] top-[-6px] inline-flex rounded-full h-3 w-3 bg-purple-700"></span>
+                        </span>
                     </div>
                     <ClickButton
                         title="Refresh"
