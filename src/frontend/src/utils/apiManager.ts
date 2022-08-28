@@ -20,7 +20,7 @@ const checkStatusCode = (res) => {
             logErr(res)
             refreshToken()
             return false
-        } 
+        }
         if (res.status === 403) {
             console.error("Need paid user for that")
             logErr(res)
@@ -55,7 +55,7 @@ export const refreshToken = () => {
         .then((data) => {
             // save data to local storage
             console.log("refresh token")
-            if (refreshToken){
+            if (refreshToken) {
                 data.refresh_token = refreshToken
             } else {
                 throw new Error("refresh token is missing")
@@ -77,7 +77,7 @@ export const getUserData = async (cookie: SpotifyCookie) => {
     if (checkStatusCode(res)) {
         const data = await res.json()
         let isPremium = false
-        if (data.product === "premium"){
+        if (data.product === "premium") {
             isPremium = true
         }
         let userImage: string
@@ -203,16 +203,23 @@ export const getPlayBackSongs = async (
     }
     return [songs, plInfo, currentSong]
 }
-const generatePlData = () => {
-    return {
-        name: `${timeMangment.fullYear}_${timeMangment.weekNumber}`,
-        description: `Creation date: ${new Date().toString()}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`,
+const generatePlData = async (name?: string, description?: string) => {
+    const plData: { name: string; description: string } = {
+        name: "",
+        description: ""
     }
+    if (!name) {
+        plData.name = `${timeMangment.fullYear}_${timeMangment.weekNumber}`
+    }
+    if (!description) {
+        plData.description = `Creation date: ${timeMangment.currentTime}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
+    }
+    return plData
 }
 export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
     // Create new playlist
     const userData = await getUserData(cookie)
-    const PlData = generatePlData()
+    const PlData = await generatePlData()
     if (userData) {
         const res = await fetch(
             `https://api.spotify.com/v1/users/${userData.id}/playlists`,
