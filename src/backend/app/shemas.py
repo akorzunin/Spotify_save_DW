@@ -20,7 +20,7 @@ class User(BaseUser):
     user_id: str
     created_at: str
     send_mail: bool = False
-    email: Optional[EmailStr]
+    email: Optional[EmailStr | Literal[""]]
     send_time: Optional[str]
     is_premium: bool
     refresh_token: str
@@ -44,19 +44,19 @@ class CreateUser(BaseUser):
 
 class UpdateUser(BaseUser):
     send_mail: Optional[bool]
-    email: Optional[EmailStr]
-    send_time: Optional[datetime]
+    email: Optional[EmailStr | Literal[""]]
+    send_time: Optional[datetime | Literal[""]]
     is_premium: Optional[bool]
     refresh_token: Optional[str]
-    save_time: Optional[datetime]
+    save_time: Optional[datetime | Literal[""]]
     dw_playlist_id: Optional[str]
     save_dw_weekly: Optional[bool]
     save_full_playlist: Optional[bool]
     filter_dislikes: Optional[bool]
     @validator("send_time", "save_time", pre=False)
-    def parse_birthdate(cls, value):
-        # assert isinstance(value, datetime)
-        return str(value)
+    def parse_date(cls, value):
+        if value: return str(value)
+        return ""
 
 class UserEmail(BaseModel):
     email: EmailStr

@@ -67,7 +67,7 @@ export const UserApp = () => {
         let data
         // look for user palyback
         apiManager
-            .getPlayBackSongs(cookie)
+            .getPlayBackSongs(cookie, setCookie)
             .then((plData) => {
                 usePlaylistData(plData)
             })
@@ -75,7 +75,7 @@ export const UserApp = () => {
                 console.log(error)
             })
         const updateInterval = setInterval(() => {
-            apiManager.getUserPlayback(cookie).then((tempData) => {
+            apiManager.getUserPlayback(cookie, setCookie).then((tempData) => {
                 if (!tempData) {
                     setDefaults()
                 }
@@ -96,7 +96,7 @@ export const UserApp = () => {
                         if (!data) {
                             data = tempData
                             apiManager
-                                .getPlayBackSongs(cookie)
+                                .getPlayBackSongs(cookie, setCookie)
                                 .then((plData) => {
                                     usePlaylistData(plData)
                                 })
@@ -111,7 +111,7 @@ export const UserApp = () => {
                             data = tempData
                             // debugger
                             apiManager
-                                .getPlayBackSongs(cookie)
+                                .getPlayBackSongs(cookie, setCookie)
                                 .then((plData) => {
                                     usePlaylistData(plData)
                                 })

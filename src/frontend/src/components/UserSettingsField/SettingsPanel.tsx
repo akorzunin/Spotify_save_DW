@@ -69,9 +69,14 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                 return (formData[item.id] = item.checked)
             }
             if (item.type === "datetime-local") {
-                return (formData[item.id] = parseFormOutputDate(item.value))
+                if (item.value) {
+                    return (formData[item.id] = parseFormOutputDate(item.value))
+                }
             }
-            return (formData[item.id] = item.value)
+            if (item.value) {
+                return (formData[item.id] = item.value)
+            }
+            formData[item.id] = ""
         })
         console.table(formData)
         const updateData = parseFormData(formData, formDataMap)

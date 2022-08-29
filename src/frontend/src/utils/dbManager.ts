@@ -46,8 +46,6 @@ export const updateUserData = async (userId, updateData): Promise<any> => {
     })
 
     const data = await res.json()
-    console.log("User updated: ", data)
-
     return data
 }
 export const getDbData = (item, data, formDataMap) => {
@@ -69,7 +67,6 @@ export const parseFormOutputDate = (value) => {
 export const parseFormData = (formData, formDataMap) => {
     const UpdateData = {}
     Object.entries(formData).forEach(([key, value]) => {
-        console.log(key, value)
         UpdateData[formDataMap[key]] = value
     })
     return UpdateData

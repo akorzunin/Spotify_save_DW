@@ -5,20 +5,17 @@ import { emptySong, Song } from "../interfaces/Song"
 import * as timeMangment from "./timeMangment"
 import { DefaultUserImage } from "../components/UserCard"
 
-const checkStatusCode = (res) => {
+const checkStatusCode = (res, updateCookie?) => {
     const logErr = (res) => {
         res.json().then((err) => {
-            console.log(err.error.status)
-            console.log(err.error.message)
+            console.table(err.error)
         })
     }
     if (res.status > 399) {
         if (res.status === 401) {
             console.error("Token is invalid trying to refresh")
-            const location = window.location.href.split("//")[1].split("/")[0]
-            console.log(location)
             logErr(res)
-            refreshToken()
+            refreshToken(updateCookie)
             return false
         }
         if (res.status === 403) {
@@ -29,7 +26,7 @@ const checkStatusCode = (res) => {
         if (res.status === 503) {
             // somtimes happening for no reason
             // probably cause of packet loss or sth like that
-            console.log("Connection error")
+            console.warn("Connection error")
             return false
         }
     }
@@ -37,14 +34,12 @@ const checkStatusCode = (res) => {
     return true
 }
 
-export const refreshToken = () => {
-    const pref = window.location.href.split("//")[0]
-    const location = window.location.href.split("//")[1].split("/")[0]
+export const refreshToken = (updateCookie) => {
     const refreshToken = readCookies()[0].refresh_token
     if (refreshToken === "undefined" || typeof refreshToken === undefined) {
         throw new Error("Cant refresh token because no cookies available")
     }
-    fetch(`${pref}//${location}/api/refresh_token`, {
+    fetch(`/api/refresh_token`, {
         method: "POST",
         headers: {
             "Content-type": "application/json",
@@ -53,20 +48,16 @@ export const refreshToken = () => {
     })
         .then((res) => res.json())
         .then((data) => {
-            // save data to local storage
-            console.log("refresh token")
-            if (refreshToken) {
-                data.refresh_token = refreshToken
-            } else {
-                throw new Error("refresh token is missing")
-            }
+            // save data to browser cookies
             setCookies(data)
+            // update React cookie state
+            updateCookie(readCookies()[0])
         })
         .catch((err) => {
             console.error(err)
         })
 }
-export const getUserData = async (cookie: SpotifyCookie) => {
+export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
     const res = await fetch("https://api.spotify.com/v1/me/", {
         headers: {
             Accept: "application/json",
@@ -74,7 +65,7 @@ export const getUserData = async (cookie: SpotifyCookie) => {
             Authorization: `${cookie.token_type} ${cookie.access_token}`,
         },
     })
-    if (checkStatusCode(res)) {
+    if (checkStatusCode(res, updateCookie)) {
         const data = await res.json()
         let isPremium = false
         if (data.product === "premium") {
@@ -95,19 +86,20 @@ export const getUserData = async (cookie: SpotifyCookie) => {
         }
     }
 }
-export const getUserPlayback = async (cookie: SpotifyCookie) => {
+export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {
+    const localCookie: SpotifyCookie = readCookies()[0]
     const res = await fetch("https://api.spotify.com/v1/me/player", {
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `${cookie.token_type} ${cookie.access_token}`,
+            Authorization: `${localCookie.token_type} ${localCookie.access_token}`,
         },
     })
     if (res.status === 204) {
-        console.log("No content")
+        console.info("No content")
         return false
     }
-    if (checkStatusCode(res)) {
+    if (checkStatusCode(res, updateCookie)) {
         const data = await res.json()
         return data
     }
@@ -166,9 +158,10 @@ const getPlaylistSongs = async (
     return [songs, data, currentSong]
 }
 export const getPlayBackSongs = async (
-    cookie: SpotifyCookie
+    cookie: SpotifyCookie,
+    updateCookie
 ): Promise<[Song[], any, any]> => {
-    const data = await getUserPlayback(cookie)
+    const data = await getUserPlayback(cookie, updateCookie)
     if (!data) {
         // throw new Error("No user playback")
         console.warn("No user playback")
@@ -206,7 +199,7 @@ export const getPlayBackSongs = async (
 const generatePlData = async (name?: string, description?: string) => {
     const plData: { name: string; description: string } = {
         name: "",
-        description: ""
+        description: "",
     }
     if (!name) {
         plData.name = `${timeMangment.fullYear}_${timeMangment.weekNumber}`
@@ -258,7 +251,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
             )
             if (checkStatusCode(plRes)) {
                 const data = await plRes.json()
-                console.log("Saved", data)
+                console.info("Saved", data)
                 return true
             }
             return false
