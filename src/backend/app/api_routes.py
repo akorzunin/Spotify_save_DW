@@ -5,6 +5,7 @@ from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 
 from backend.app.mail_handle import send_email
+from backend.app.task_handler import manage_user_tasks
 from backend.app.utils import encode_b64
 from backend.app import crud, shemas
 from backend.app.db_connector import users
@@ -102,11 +103,20 @@ async def create_user(user: shemas.CreateUser) -> shemas.User:
 @router.put(
     "/update_user",
     response_model=shemas.User,
-    responses={status.HTTP_404_NOT_FOUND: {"model": shemas.Message}},
+    responses={
+        status.HTTP_404_NOT_FOUND: {"model": shemas.Message},
+        status.HTTP_412_PRECONDITION_FAILED: {"model": shemas.Message},
+    },
 )
 async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     """Update user"""
     if user := crud.update_user(users, user, user_id):
+        if message := manage_user_tasks(user):
+            #  return different response if sth wrong w/ task management
+            return JSONResponse(
+                status_code=status.HTTP_412_PRECONDITION_FAILED,
+                content=message,
+            )
         return user
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
