@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 
 from backend.app.mail_handle import send_email
 from backend.app.task_handler import manage_user_tasks
-from backend.app.utils import encode_b64
+from backend.app.utils import encode_b64, get_access_token
 from backend.app import crud, shemas
 from backend.app.db_connector import users
 
@@ -21,24 +21,7 @@ router = APIRouter()
 async def refresh_token(
     refresh_token: shemas.RefreshToken,
 ):
-
-    client_creds_b64 = encode_b64(
-        os.getenv("SPOTIPY_CLIENT_ID"),
-        os.getenv("SPOTIPY_CLIENT_SECRET"),
-    )
-    r = requests.post(
-        url="https://accounts.spotify.com/api/token",
-        data={
-            "grant_type": "refresh_token",
-            "refresh_token": refresh_token.refresh_token,
-        },
-        headers={
-            "Authorization": f"Basic {client_creds_b64}",
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    ).json()
-
-    return dict(r)
+    return dict(get_access_token(refresh_token))
 
 
 ### Mail routes
@@ -132,7 +115,7 @@ async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     },
 )
 async def delete_user(user_id: str):
-    """Delete user by ..."""
+    """Delete user by id"""
     if user := crud.delete_user(users, user_id):
         return JSONResponse(
             status_code=status.HTTP_200_OK,

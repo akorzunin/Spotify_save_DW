@@ -11,6 +11,7 @@ from backend.metadata import tags_metadata
 
 from backend.app.api_routes import router as api_routes
 from backend.app.front_routes import router as front_routes
+from backend.app.logger import format as log_format
 
 templates = Jinja2Templates(directory="src/frontend/templates")
 
@@ -26,8 +27,9 @@ app = FastAPI(
 async def startup_event():
     logger = logging.getLogger("uvicorn.access")
     handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    handler.setFormatter(logging.Formatter(log_format))
     # add logs to stdout
+    logger.removeHandler(logger.handlers[0])
     logger.addHandler(handler)
     # collect pending tasks from db
     revive_user_tasks()

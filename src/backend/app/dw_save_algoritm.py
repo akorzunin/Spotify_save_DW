@@ -1,5 +1,7 @@
 import asyncio
 import time
+from typing import Optional
+from backend.app.task_handler import SavePlUser
 from backend.app.types import DeviceId, Song
 
 
@@ -18,7 +20,7 @@ def all_dw_songs(
     ]
 
 
-async def filtered_dw_songs(
+async def filter_dw_songs(
     sp,
     device: DeviceId,
     dw_id: str,
@@ -44,7 +46,7 @@ async def filtered_dw_songs(
     return songs
 
 
-async def save_playlist(
+async def save_playlist_to_user(
     sp,
     songs: list[Song],
     user_id: str,
@@ -74,3 +76,43 @@ def get_pl_name(user_id):
 def get_pl_description(user_id):
     """Generate user defined description or default"""
     return "Base pl description"
+
+
+async def save_playlist_algorithm(
+    sp,
+    user: SavePlUser,
+) -> Optional[list[Song]]:
+    if user.filter_dislikes:
+        # get devices
+        devices = sp.devices()["devices"]
+        device = get_device_id(
+            # TODO use user.preferred_device to pick one
+            devices,
+        ) 
+        if not device: raise TypeError("No device found")
+        # use playback alg
+        songs = await filter_dw_songs(sp, device)
+        if len(songs) <= 30:
+            if user.save_full_playlist:
+                # save songs anyway
+                return songs
+            # don save songs, send mail probably
+            return None
+        # save songs
+        return songs
+    if user.save_full_playlist:
+        # dot use playback alg
+        songs = all_dw_songs(sp, user.dw_playlist_id)
+        return songs
+
+
+def get_device_id(
+    devices: list[dict],
+    preferred: DeviceId = None,
+) -> Optional[DeviceId]:
+    '''Return preferred device if it exists else first existing device or None'''
+    if not preferred and devices:
+        return DeviceId(devices[0]['id'])
+    if preferred in [i['id'] for i in devices]:
+        return preferred
+    return None
