@@ -7,12 +7,13 @@ export const BaseButtonClass = `cursor-pointer inline-flex justify-center py-2 p
 
 const BaseButton = ({ title, link, color, style }) => {
     return (
-        <div
+        <button
+            tabIndex="0"
             href={link}
             className={`${BaseButtonClass} ${color} ${style}`}
         >
             {title}
-        </div>
+        </button>
     )
 }
 

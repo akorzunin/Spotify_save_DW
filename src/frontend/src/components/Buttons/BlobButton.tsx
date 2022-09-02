@@ -22,7 +22,7 @@ const BlobButton = ({ title, link }) => {
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 absolute w-full bottom-[calc(50%-23px)] inset-x-0  
                     text-purple-700 font-bold text-xl text-center bg-opacity-0 shadow-none rounded-full`}
                 >
-                    {title}
+                    <button tabIndex="0">{title}</button>
                 </a>
             </div>
         </div>

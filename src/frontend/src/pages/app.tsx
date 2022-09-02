@@ -35,23 +35,23 @@ export const App = () => {
                 <header className="flex justify-between">
                     <Header title="Home" />
                     <div className="mt-4 mr-4">
-                        <Link to="/user/dev_user">
+                        <Link to="/user/dev_user" className="mr-3">
                             <Button
-                                style="mr-3 "
+                                style=""
                                 title="Dev User"
                                 link="/user/dev_user"
                                 color="bg-red-700"
                             />
                         </Link>
-                        <Link to="/help">
+                        <Link to="/help" className="mr-3">
                             <Button
-                                style="mr-3 "
+                                style=""
                                 title="Help"
                                 link="/help" //use useNavigate
                                 color="bg-white"
                             />
                         </Link>
-                        <LoginButton/>
+                        <LoginButton />
                     </div>
                 </header>
                 <main className="">
