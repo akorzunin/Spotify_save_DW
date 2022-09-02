@@ -1,7 +1,7 @@
 import asyncio
-import time
+from datetime import date, datetime, timezone
 from typing import Optional
-from backend.app.task_handler import SavePlUser
+from backend.app.shemas import SavePlUser
 from backend.app.types import DeviceId, Song
 
 
@@ -52,11 +52,13 @@ async def save_playlist_to_user(
     user_id: str,
 ) -> None:
     # save new playlist
+    name = get_pl_name(user_id)
+    description = get_pl_description(user_id)
     new_pl = sp.user_playlist_create(
         user=user_id,
-        name=get_pl_name(user_id),
+        name=name,
         public=True,
-        description=get_pl_description(user_id),
+        description=description,
     )
     await asyncio.sleep(0.5)
     # add songs from data to it
@@ -68,17 +70,26 @@ async def save_playlist_to_user(
     )
 
 
-def get_pl_name(user_id):
+def get_pl_name(user_id) -> str:
     """Generate user defined playlist name or default"""
-    return "Base pl name"
+    # TODO implement custom user pl name
+    d = datetime.now(timezone.utc)
+    week = date(d.year, d.month, d.day).strftime("%V")
+    return f"{d.year}_{week}"
 
 
 def get_pl_description(user_id):
     """Generate user defined description or default"""
-    return "Base pl description"
+    d = datetime.now(timezone.utc)
+    #  got a strange bug where any description w/ spaces of any kind is not saved
+    return str(
+        f"""Creation date: {d.strftime("%Y-%m-%d %H:%M:%S %Z")}. This playlist was created by spotifysavedw web service. Link to github repo /akorzunin/Spotify_save_DW""".replace(
+            " ", " "
+        )
+    )  # replace regular space w/ U+205F cause of this bug
 
 
-async def save_playlist_algorithm(
+async def get_dw_songs(
     sp,
     user: SavePlUser,
 ) -> Optional[list[Song]]:
@@ -88,8 +99,9 @@ async def save_playlist_algorithm(
         device = get_device_id(
             # TODO use user.preferred_device to pick one
             devices,
-        ) 
-        if not device: raise TypeError("No device found")
+        )
+        if not device:
+            raise TypeError("No device found")
         # use playback alg
         songs = await filter_dw_songs(sp, device)
         if len(songs) <= 30:
@@ -106,13 +118,22 @@ async def save_playlist_algorithm(
         return songs
 
 
+async def save_playlist_algorithm(
+    sp,
+    user: SavePlUser,
+):
+    songs = await get_dw_songs(sp, user)
+    await save_playlist_to_user(sp, songs, user.user_id)
+    # TODO move mailing logic here
+
+
 def get_device_id(
     devices: list[dict],
     preferred: DeviceId = None,
 ) -> Optional[DeviceId]:
-    '''Return preferred device if it exists else first existing device or None'''
+    """Return preferred device if it exists else first existing device or None"""
     if not preferred and devices:
-        return DeviceId(devices[0]['id'])
-    if preferred in [i['id'] for i in devices]:
+        return DeviceId(devices[0]["id"])
+    if preferred in [i["id"] for i in devices]:
         return preferred
     return None

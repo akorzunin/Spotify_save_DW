@@ -1,12 +1,10 @@
 import asyncio
-import os
-import requests
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 
 from backend.app.mail_handle import send_email
 from backend.app.task_handler import manage_user_tasks
-from backend.app.utils import encode_b64, get_access_token
+from backend.app.utils import get_access_token
 from backend.app import crud, shemas
 from backend.app.db_connector import users
 
@@ -21,7 +19,7 @@ router = APIRouter()
 async def refresh_token(
     refresh_token: shemas.RefreshToken,
 ):
-    return dict(get_access_token(refresh_token))
+    return dict(get_access_token(refresh_token.refresh_token))
 
 
 ### Mail routes

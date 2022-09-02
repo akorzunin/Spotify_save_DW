@@ -1,17 +1,14 @@
 import asyncio
 import spotipy
-from copy import deepcopy, copy
-from datetime import datetime, timedelta, timezone
-import logging
+from copy import copy
+from datetime import datetime, timezone
 from typing import Literal, Optional
-from zoneinfo import ZoneInfo
 import schedule
-from pydantic import EmailStr, BaseModel
-from tinydb import Query, where
-from backend.app import shemas
+from tinydb import where
 
+from backend.app import shemas
 from backend.app.db_connector import users
-from backend.app.dw_save_algoritm import get_device_id, save_playlist_algorithm
+from backend.app.dw_save_algoritm import save_playlist_algorithm
 from backend.app.logger import logger
 from backend.app.mail_handle import (
     render_notification_text,
@@ -27,24 +24,6 @@ async def task_tick():
         await asyncio.sleep(1)
 
 
-class NotifyUser(BaseModel):
-    user_id: str
-    email: EmailStr
-    send_time: datetime
-    dw_playlist_id: str
-
-
-class SavePlUser(BaseModel):
-    user_id: str
-    email: EmailStr
-    save_time: datetime
-    send_mail: bool
-    dw_playlist_id: str
-    refresh_token: str
-    filter_dislikes: bool
-    save_full_playlist: bool
-
-
 def parse_task_time(send_time: datetime) -> tuple[int, str]:
     # Convert given time to local
     server_send_time = send_time.astimezone(None)
@@ -54,7 +33,7 @@ def parse_task_time(send_time: datetime) -> tuple[int, str]:
     )
 
 
-def user_save_task(user: SavePlUser):
+def user_save_task(user: shemas.SavePlUser):
     weekday, shedule_time = parse_task_time(user.save_time)
     return (
         get_weekday_task(weekday)
@@ -68,27 +47,17 @@ def user_save_task(user: SavePlUser):
 
 
 def revive_user_tasks():
-    # create debug notify task
-    debug_user = users.get(where("user_id") == "sltyljtam3wzcb28yeowsxcn4")
-    debug_user["save_time"] = str(
-        datetime.now().astimezone() + timedelta(minutes=1)
-    )
-    task = user_save_task(SavePlUser(**debug_user))
-    logger.info(
-        f"[DEBUG Task created] Next run: {str(task.next_run)} "
-        f"User: {debug_user['user_id']}"
-    )
-    ###
+    """Restore tasks from db after program restart"""
     notify_users = users.search(where("send_mail") == True)
     for user in notify_users:
-        task = user_notify_task(NotifyUser(**user))
+        task = user_notify_task(shemas.NotifyUser(**user))
         logger.info(
             f"[Notify Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
         )
     save_dw_users = users.search(where("save_dw_weekly") == True)
     for user in save_dw_users:
-        task = user_save_task(SavePlUser(**user))
+        task = user_save_task(shemas.SavePlUser(**user))
         logger.info(
             f"[Save Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
@@ -165,7 +134,7 @@ def get_weekday_task(weekday: int):
     return copy(weekday_task[weekday])
 
 
-def user_notify_task(user: NotifyUser) -> schedule.Job:
+def user_notify_task(user: shemas.NotifyUser) -> schedule.Job:
     weekday, shedule_time = parse_task_time(user.send_time)
     return (
         get_weekday_task(weekday)
@@ -193,12 +162,12 @@ def send_notification(email: str, text: str):
     asyncio.gather(send_email(email, subject, text))
 
 
-def save_dw(user: SavePlUser):
+def save_dw(user: shemas.SavePlUser):
     #  get sp somehow
     user_data = get_access_token(user.refresh_token)
     token = user_data["access_token"]
     sp = spotipy.Spotify(auth=token)
-
+    sp.user_playlist_create
     asyncio.gather(save_playlist_algorithm(sp, user))
 
     if user.send_mail:

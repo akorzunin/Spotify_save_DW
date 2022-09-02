@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from tinydb import Query, where
+from tinydb import where
 
 from backend.app import shemas
 
@@ -11,7 +11,7 @@ def get_all_users(
 
 
 def get_user(db, user_id: str):
-    return db.get(where('user_id') == user_id)
+    return db.get(where("user_id") == user_id)
 
 
 def create_user(db, user: shemas.CreateUser) -> shemas.User:
@@ -22,13 +22,14 @@ def create_user(db, user: shemas.CreateUser) -> shemas.User:
         return parced_user
 
 
-def update_user(db, user: shemas.UpdateUser, user_id: str) -> shemas.User: # TODO fix docs
+def update_user(
+    db, user: shemas.UpdateUser, user_id: str
+) -> shemas.User:  # TODO fix docs
     if user_upd := {k: v for k, v in user.dict().items() if v is not None}:
         db.update(user_upd, where("user_id") == user_id)
-        return db.get(where('user_id') == user_id)
+        return db.get(where("user_id") == user_id)
 
 
 def delete_user(db, user_id: str):
     if db.get(where("user_id") == user_id):
         return db.remove(where("user_id") == user_id)
-    

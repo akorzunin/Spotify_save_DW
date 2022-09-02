@@ -1,6 +1,5 @@
 from collections import OrderedDict
 from datetime import datetime
-import json
 import os
 from urllib.parse import urlencode
 import spotipy
@@ -123,6 +122,7 @@ async def get_token(code: str) -> RedirectResponse:
 
 if DEBUG := bool(eval(os.getenv("DEBUG", "False"))):
     import contextlib
+
     with contextlib.suppress(ModuleNotFoundError):
         import arel
 

@@ -1,6 +1,5 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from jinja2 import Template
-from pydantic import BaseModel, EmailStr
 import os
 from dotenv import load_dotenv
 
@@ -21,7 +20,7 @@ smtp_conf = ConnectionConfig(
 
 
 def render_template(template_filename, context):
-    with open(template_filename, encoding='utf-8') as file_:
+    with open(template_filename, encoding="utf-8") as file_:
         template = Template(file_.read())
     return template.render(context)
 
@@ -45,7 +44,8 @@ def render_notification_text(dw_link, user_id):
             "unsubscribe": f"https://savespotifydw.duckdns.org/#/user/{user_id}",
         },
     )
-    
+
+
 def render_save_pl_text(dw_link, user_id):
     return render_template(
         "src/frontend/templates/mail_save_pl.html",

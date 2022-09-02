@@ -9,7 +9,7 @@ def encode_b64(client_id: str, client_secret: str) -> str:
     return client_creds_b64.decode()
 
 
-def get_access_token(refresh_token):
+def get_access_token(refresh_token: str) -> dict:
     client_creds_b64 = encode_b64(
         os.getenv("SPOTIPY_CLIENT_ID"),
         os.getenv("SPOTIPY_CLIENT_SECRET"),
@@ -19,7 +19,7 @@ def get_access_token(refresh_token):
         url="https://accounts.spotify.com/api/token",
         data={
             "grant_type": "refresh_token",
-            "refresh_token": refresh_token.refresh_token,
+            "refresh_token": refresh_token,
         },
         headers={
             "Authorization": f"Basic {client_creds_b64}",
