@@ -205,7 +205,11 @@ const generatePlData = async (name?: string, description?: string) => {
         plData.name = `${timeMangment.fullYear}_${timeMangment.weekNumber}`
     }
     if (!description) {
-        plData.description = `Creation date: ${timeMangment.currentTime}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
+        // replace regular space w/ U+205F cause of bug
+        plData.description =
+            `Creation date: ${timeMangment.currentTime}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
+                .split(" ")
+                .join(" ")
     }
     return plData
 }
