@@ -1,55 +1,49 @@
-import Cookies from "universal-cookie";
-import { SpotifyCookie } from "../interfaces/Cookies";
-import { SpotifyCookieKeys } from "../interfaces/Cookies";
+import Cookies from "universal-cookie"
+import { SpotifyCookie } from "../interfaces/Cookies"
+import { SpotifyCookieKeys } from "../interfaces/Cookies"
 
 export const setCookies = (cookies) => {
     const cookiesLib = new Cookies()
     SpotifyCookieKeys.forEach((key) => {
-        cookiesLib.set(key,cookies[key],{path: "/", })
-    }
-    )
+        if (cookies[key]) {
+            cookiesLib.set(key, cookies[key], { path: "/" })
+        }
+    })
 }
 export const readCookies = () => {
     const cookiesLib = new Cookies()
     const allCookies = cookiesLib.getAll()
     const spotifyCookies = {}
-    SpotifyCookieKeys.forEach(
-        (key: string) => {
-            spotifyCookies[key] = cookiesLib.get(key, )
-        }
-    )
+    SpotifyCookieKeys.forEach((key: string) => {
+        spotifyCookies[key] = cookiesLib.get(key)
+    })
     return [spotifyCookies, allCookies]
 }
-export const getUserPath = async (cookie : SpotifyCookie) => {
-    let res = await fetch('https://api.spotify.com/v1/me', {
+export const getUserPath = async (cookie: SpotifyCookie) => {
+    let res = await fetch("https://api.spotify.com/v1/me", {
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `${cookie.token_type} ${cookie.access_token}`
-        }
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `${cookie.token_type} ${cookie.access_token}`,
+        },
     })
     let data = await res.json()
     if (data.id) return "/user/" + data.id
     return "/login"
 }
-export const isValidCookies = (cookie : SpotifyCookie) => {
+export const isValidCookies = (cookie: SpotifyCookie) => {
     if (!Object.keys(cookie).length) {
-        console.log("invalid cookies");
+        console.log("invalid cookies")
         return false
-    } else  {
-        console.log("Valid cookies");
+    } else {
+        console.log("Valid cookies")
         return true
     }
 }
 export const deleteCookies = () => {
     const cookiesLib = new Cookies()
-    SpotifyCookieKeys.forEach(
-        (key: string) => {
-            cookiesLib.remove(key, { path: '/' })
-        }
-    )
-    console.info("spotify api cookies deleted");
+    SpotifyCookieKeys.forEach((key: string) => {
+        cookiesLib.remove(key, { path: "/" })
+    })
+    console.info("spotify api cookies deleted")
 }
-
-
-

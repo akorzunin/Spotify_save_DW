@@ -17,7 +17,7 @@ import UserCard from "../components/UserCard"
 
 export const UserApp = () => {
     // vars
-    const ButtonStyle = "mr-3 text-neutral-900"
+    const ButtonStyle = "text-neutral-900"
     let { user_id } = useParams()
     // States
     const [User, setUser] = useState({
@@ -67,7 +67,7 @@ export const UserApp = () => {
         let data
         // look for user palyback
         apiManager
-            .getPlayBackSongs(cookie)
+            .getPlayBackSongs(cookie, setCookie)
             .then((plData) => {
                 usePlaylistData(plData)
             })
@@ -75,7 +75,7 @@ export const UserApp = () => {
                 console.log(error)
             })
         const updateInterval = setInterval(() => {
-            apiManager.getUserPlayback(cookie).then((tempData) => {
+            apiManager.getUserPlayback(cookie, setCookie).then((tempData) => {
                 if (!tempData) {
                     setDefaults()
                 }
@@ -96,7 +96,7 @@ export const UserApp = () => {
                         if (!data) {
                             data = tempData
                             apiManager
-                                .getPlayBackSongs(cookie)
+                                .getPlayBackSongs(cookie, setCookie)
                                 .then((plData) => {
                                     usePlaylistData(plData)
                                 })
@@ -111,7 +111,7 @@ export const UserApp = () => {
                             data = tempData
                             // debugger
                             apiManager
-                                .getPlayBackSongs(cookie)
+                                .getPlayBackSongs(cookie, setCookie)
                                 .then((plData) => {
                                     usePlaylistData(plData)
                                 })
@@ -143,7 +143,7 @@ export const UserApp = () => {
                         isHidden={undefined}
                     />
                     <div className=" items-center hidden lg:flex">
-                        <Link to="/help">
+                        <Link to="/help" className="mr-3">
                             <Button
                                 style={ButtonStyle}
                                 title="Help"
@@ -151,7 +151,7 @@ export const UserApp = () => {
                                 color="bg-white text-black"
                             />
                         </Link>
-                        <Link to="/">
+                        <Link to="/" className="mr-3">
                             <Button
                                 style={ButtonStyle}
                                 title="Home"
@@ -159,7 +159,9 @@ export const UserApp = () => {
                                 color="bg-white text-black"
                             />
                         </Link>
-                        <LogoutButton ButtonStyle={"ml-12 "} />
+                        <div className="ml-12 ">
+                            <LogoutButton ButtonStyle={""} />
+                        </div>
                     </div>
                     <div className="block lg:hidden">
                         <Burger

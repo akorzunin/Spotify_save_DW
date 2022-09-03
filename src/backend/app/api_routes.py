@@ -1,11 +1,10 @@
 import asyncio
-import os
-import requests
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 
 from backend.app.mail_handle import send_email
-from backend.app.utils import encode_b64
+from backend.app.task_handler import manage_user_tasks
+from backend.app.utils import get_access_token
 from backend.app import crud, shemas
 from backend.app.db_connector import users
 
@@ -20,24 +19,7 @@ router = APIRouter()
 async def refresh_token(
     refresh_token: shemas.RefreshToken,
 ):
-
-    client_creds_b64 = encode_b64(
-        os.getenv("SPOTIPY_CLIENT_ID"),
-        os.getenv("SPOTIPY_CLIENT_SECRET"),
-    )
-    r = requests.post(
-        url="https://accounts.spotify.com/api/token",
-        data={
-            "grant_type": "refresh_token",
-            "refresh_token": refresh_token.refresh_token,
-        },
-        headers={
-            "Authorization": f"Basic {client_creds_b64}",
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    ).json()
-
-    return dict(r)
+    return dict(get_access_token(refresh_token.refresh_token))
 
 
 ### Mail routes
@@ -102,11 +84,20 @@ async def create_user(user: shemas.CreateUser) -> shemas.User:
 @router.put(
     "/update_user",
     response_model=shemas.User,
-    responses={status.HTTP_404_NOT_FOUND: {"model": shemas.Message}},
+    responses={
+        status.HTTP_404_NOT_FOUND: {"model": shemas.Message},
+        status.HTTP_412_PRECONDITION_FAILED: {"model": shemas.Message},
+    },
 )
 async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     """Update user"""
     if user := crud.update_user(users, user, user_id):
+        if message := manage_user_tasks(user):
+            #  return different response if sth wrong w/ task management
+            return JSONResponse(
+                status_code=status.HTTP_412_PRECONDITION_FAILED,
+                content=message,
+            )
         return user
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -122,7 +113,7 @@ async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     },
 )
 async def delete_user(user_id: str):
-    """Delete user by ..."""
+    """Delete user by id"""
     if user := crud.delete_user(users, user_id):
         return JSONResponse(
             status_code=status.HTTP_200_OK,

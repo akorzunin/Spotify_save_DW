@@ -16,9 +16,12 @@ import {
 import { formDataMap } from "../../interfaces/FormDataMap"
 import { BaseButtonClass } from "../Buttons/BaseButton"
 
-export const TextFormStyle = "w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-export const CheckboxFormStyle = "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-export const HintFormStyle = "text-sm font-light text-gray-900 bg-gray-500 absolute max-w-[192px] rounded-md transition-all duration-600 ease-in-out"
+export const TextFormStyle =
+    "w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+export const CheckboxFormStyle =
+    "w-4 h-4 bg-gray-100 rounded border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:bg-blue-600"
+export const HintFormStyle =
+    "text-sm font-light text-gray-900 bg-gray-500 absolute max-w-[192px] rounded-md transition-all duration-600 ease-in-out"
 
 const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
     const [AutosaveHint, setAutosaveHint] = useState(false)
@@ -66,9 +69,14 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                 return (formData[item.id] = item.checked)
             }
             if (item.type === "datetime-local") {
-                return (formData[item.id] = parseFormOutputDate(item.value))
+                if (item.value) {
+                    return (formData[item.id] = parseFormOutputDate(item.value))
+                }
             }
-            return (formData[item.id] = item.value)
+            if (item.value) {
+                return (formData[item.id] = item.value)
+            }
+            formData[item.id] = ""
         })
         console.table(formData)
         const updateData = parseFormData(formData, formDataMap)
@@ -93,6 +101,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
     // automatically pick up dw palylist id for user
     useEffect(() => {
         if (DwPlaylistId) {
+            // @ts-ignore cause this form always exist
             document.forms[0][3].value = DwPlaylistId
         }
     }, [DwPlaylistId])
@@ -130,7 +139,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                         <label
                             id="email-checkbox-label"
                             htmlFor="email-checkbox"
-                            className="whitespace-nowrap mx-2 font-medium text-gray-900"
+                            className="whitespace-nowrap mx-2 font-medium text-gray-900 "
                             onMouseEnter={showHint}
                             onMouseLeave={hideHint}
                         >
@@ -238,10 +247,10 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                         </div>
                         <div
                             className={`${HintFormStyle} right-[-10px] ${
-                                    FilterDislikesHint
-                                        ? "opacity-100"
-                                        : "opacity-0 invisible"
-                                }`}
+                                FilterDislikesHint
+                                    ? "opacity-100"
+                                    : "opacity-0 invisible"
+                            }`}
                         >
                             <div className="p-3">
                                 <p>
@@ -256,10 +265,10 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                         </div>
                         <div
                             className={`${HintFormStyle} right-[200px] ${
-                                    SaveFullPlHint
-                                        ? "opacity-100"
-                                        : "opacity-0 invisible"
-                                }`}
+                                SaveFullPlHint
+                                    ? "opacity-100"
+                                    : "opacity-0 invisible"
+                            }`}
                         >
                             <div className="p-3">
                                 <p>
@@ -281,7 +290,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                     <div className="flex justify-between">
                         <div>{SubmitMessage}</div>
                         <input
-                            className={`${BaseButtonClass} bg-white h-10`}
+                            className={`${BaseButtonClass} bg-white h-10 focus:bg-blue-600`}
                             type="submit"
                             value="Submit"
                         />
@@ -289,7 +298,7 @@ const SettingsPanel = ({ IsPremium, userId, cookie, DwPlaylistId }) => {
                 </form>
                 <SettingsButton
                     title="Collect current DW"
-                    onClick={undefined}
+                    onClick={console.log}
                     className="mb-3"
                 />
                 <SettingsButton
