@@ -91,14 +91,14 @@ async def create_user(user: shemas.CreateUser) -> shemas.User:
 )
 async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
     """Update user"""
-    if user := crud.update_user(users, user, user_id):
-        if message := manage_user_tasks(user):
+    if user_ := crud.update_user(users, user, user_id):
+        if message := manage_user_tasks(shemas.User(**user_)):
             #  return different response if sth wrong w/ task management
             return JSONResponse(
                 status_code=status.HTTP_412_PRECONDITION_FAILED,
                 content=message,
             )
-        return user
+        return user_
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={"message": "User not found"},
