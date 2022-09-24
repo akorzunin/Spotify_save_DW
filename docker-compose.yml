@@ -6,8 +6,10 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        MASHINE: ${MASHINE}
     ports:
-      - 8001:8001
+      - ${PORT}:${PORT}
     env_file:
       - .env
     volumes:

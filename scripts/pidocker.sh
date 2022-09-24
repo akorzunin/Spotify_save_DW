@@ -1,1 +1,0 @@
-sudo docker-compose -f "pi-docker-compose.yml" up -d --build
