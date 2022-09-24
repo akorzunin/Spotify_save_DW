@@ -1,7 +1,7 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.10-slim
 
-EXPOSE 8001
+EXPOSE ${PORT}
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
@@ -13,17 +13,17 @@ ENV PYTHONFAULTHANDLER=1 \
     POETRY_VERSION=1.1.13 \
     DEBUG=False
 
-# System deps:
-RUN pip install "poetry==$POETRY_VERSION"
-
-# Copy only requirements to cache them in docker layer
 WORKDIR /app
+# use MASHINE var to distinguish x86 platform from raspberry pi witch cant run poetry
+ARG MASHINE
+# Install dependencies
+RUN if [ "${MASHINE}" != "pi" ] ; then pip install "poetry==$POETRY_VERSION" ; fi
+# Copy only dependencies file to cache them in docker layer
 COPY poetry.lock pyproject.toml /app/
+COPY requirements.txt /app/
 
-# Project initialization:
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi --no-dev
-    # $(test "$YOUR_ENV" == production && echo "--no-dev")
+RUN if [ "${MASHINE}" != "pi" ] ; then poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi --no-dev; else pip install -r /app/requirements.txt; fi
 
 # Creating folders, and files for a project:
 COPY . /app

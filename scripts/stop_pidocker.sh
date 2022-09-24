@@ -1,1 +1,0 @@
-docker-compose -f "pi-docker-compose.yml" down
