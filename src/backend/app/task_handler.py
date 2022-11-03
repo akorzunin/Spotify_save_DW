@@ -24,8 +24,10 @@ async def task_tick():
         await asyncio.sleep(1)
 
 
-def parse_task_time(send_time: datetime) -> tuple[int, str]:
+def parse_task_time(send_time: str | datetime) -> tuple[int, str]:
     # Convert given time to local
+    if isinstance(send_time, str):
+        send_time = datetime.strptime(send_time, '%Y-%m-%d %H:%M:%S%z')
     server_send_time = send_time.astimezone(None)
     return (
         send_time.weekday(),

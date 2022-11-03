@@ -2,6 +2,7 @@
 **/deprecated
 **/database
 **/data_base
+**/certbot
 docker.env
 *.ipynb
 
