@@ -10,7 +10,7 @@ ENV PYTHONFAULTHANDLER=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.1.13
+    POETRY_VERSION=1.2.1
 
 WORKDIR /app
 # use MASHINE var to distinguish x86 platform from raspberry pi witch cant run poetry
