@@ -19,6 +19,10 @@ from backend.app.utils import get_access_token
 
 
 async def task_tick():
+    schedule.run_pending()
+
+
+async def async_task_tick():
     while 1:
         schedule.run_pending()
         await asyncio.sleep(1)
@@ -27,7 +31,7 @@ async def task_tick():
 def parse_task_time(send_time: str | datetime) -> tuple[int, str]:
     # Convert given time to local
     if isinstance(send_time, str):
-        send_time = datetime.strptime(send_time, '%Y-%m-%d %H:%M:%S%z')
+        send_time = datetime.strptime(send_time, "%Y-%m-%d %H:%M:%S%z")
     server_send_time = send_time.astimezone(None)
     return (
         send_time.weekday(),
@@ -180,6 +184,3 @@ def save_dw(user: shemas.SavePlUser):
             f"Sending save_dw mail to {user.email} at {datetime.now(timezone.utc)}"
         )
         asyncio.gather(send_email(user.email, subject, text))
-
-
-###

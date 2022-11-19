@@ -17,6 +17,7 @@ email-validator = "^1.2.1"
 tinydb = "^4.7.0"
 fastapi-mail = "^1.1.4"
 schedule = "^1.1.0"
+APScheduler = "^3.9.1.post1"
 
 [tool.poetry.dev-dependencies]
 arel = "^0.2.0"
