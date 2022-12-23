@@ -4,11 +4,12 @@ import asyncio
 import logging
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBasicCredentials
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from backend.app.task_handler import revive_user_tasks, task_tick
@@ -16,6 +17,7 @@ from backend.metadata import tags_metadata
 from backend.app.api_routes import router as api_routes
 from backend.app.front_routes import router as front_routes
 from backend.app.logger import format as log_format
+from backend.app.auth import security, check_credentials
 
 templates = Jinja2Templates(directory="src/frontend/templates")
 
@@ -36,17 +38,20 @@ app = FastAPI(
     openapi_url=None,
 )
 
-if DEBUG := bool(eval(os.getenv("DEBUG", "False"))):
 
-    @app.get("/docs")
-    async def get_documentation():
-        return get_swagger_ui_html(openapi_url="/openapi.json", title="docs")
+@app.get("/docs")
+async def get_documentation(
+    credentials: HTTPBasicCredentials = Depends(security),
+):
+    check_credentials(credentials)
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="docs")
 
-    @app.get("/openapi.json")
-    async def get_open_api_endpoint():
-        return JSONResponse(
-            get_openapi(title="FastAPI", version=1, routes=app.routes)
-        )
+
+@app.get("/openapi.json")
+async def get_open_api_endpoint():
+    return JSONResponse(
+        get_openapi(title="FastAPI", version=1, routes=app.routes)
+    )
 
 
 @app.on_event("startup")

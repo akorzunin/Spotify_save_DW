@@ -1,7 +1,9 @@
 import asyncio
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
+from backend.app.auth import check_credentials, security
 from backend.app.mail_handle import send_email
 from backend.app.task_handler import manage_user_tasks
 from backend.app.utils import get_access_token
@@ -47,8 +49,11 @@ async def send_mail(user_email: shemas.UserEmail):
     "/users",
     response_model=list[shemas.User],
 )
-async def get_users():
+async def get_users(
+    credentials: HTTPBasicCredentials = Depends(security),
+):
     """Get all users from database"""
+    check_credentials(credentials)
     return crud.get_all_users(users)
 
 
@@ -112,8 +117,12 @@ async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
         status.HTTP_202_ACCEPTED: {"model": shemas.Message},
     },
 )
-async def delete_user(user_id: str):
+async def delete_user(
+    user_id: str,
+    credentials: HTTPBasicCredentials = Depends(security),
+):
     """Delete user by id"""
+    check_credentials(credentials)
     if user := crud.delete_user(users, user_id):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
