@@ -12,8 +12,8 @@ smtp_conf = ConnectionConfig(
     MAIL_FROM_NAME="savespotifydw",
     MAIL_SERVER=os.getenv("MAIL_SERVER"),
     MAIL_PORT=int(os.getenv("MAIL_PORT")),
-    MAIL_TLS=True,
-    MAIL_SSL=False,
+    MAIL_STARTTLS=True,
+    MAIL_SSL_TLS=False,
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True,
 )
@@ -30,6 +30,7 @@ async def send_email(email: str, subject: str, mail_text: str):
         subject=subject,
         recipients=[email],
         html=mail_text,
+        subtype="html",
     )
     fm = FastMail(smtp_conf)
     await fm.send_message(message)
