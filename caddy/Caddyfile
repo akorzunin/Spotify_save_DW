@@ -1,0 +1,12 @@
+{$DOMAIN} {
+	handle {
+		root * /src/frontend/dist
+		try_files {path} /index.html
+		encode gzip
+		file_server
+	}
+
+	handle /api/* {
+		reverse_proxy spotifydwapi:{$API_PORT:-8888}
+	}
+}
