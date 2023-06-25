@@ -1,7 +1,5 @@
-{
-	email {$MAIL_USERNAME}
-}
 {$DOMAIN} {
+	tls {$MAIL_USERNAME}
 	handle {
 		root * /src/frontend/dist
 		try_files {path} /index.html
