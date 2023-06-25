@@ -1,3 +1,6 @@
+{
+	email = {$MAIL_USERNAME}
+}
 {$DOMAIN} {
 	handle {
 		root * /src/frontend/dist

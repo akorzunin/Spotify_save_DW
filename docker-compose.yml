@@ -12,6 +12,22 @@ services:
       - ${PORT}:${PORT}
     env_file:
       - .env
+    restart: always
     volumes:
       - ./data:/app/data:rw
       - ./certbot:/app/certbot:ro
+  caddy:
+    image: caddy:2-alpine
+    build: 
+      context: .
+      dockerfile: ./caddy/Dockerfile
+    env_file:
+      - .env
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend/public:/app/frontend/public:ro
+      - ./frontend/dist:/app/frontend/dist:ro
