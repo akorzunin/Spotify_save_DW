@@ -1,5 +1,5 @@
 {
-	email = {$MAIL_USERNAME}
+	email {$MAIL_USERNAME}
 }
 {$DOMAIN} {
 	handle {
