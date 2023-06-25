@@ -1,13 +1,7 @@
 {$DOMAIN} {
 	tls {$MAIL_USERNAME}
-	handle {
-		root * /src/frontend/dist
-		try_files {path} /index.html
-		encode gzip
-		file_server
-	}
 
-	handle /api/* {
+	handle {
 		reverse_proxy spotifydwapi:{$PORT:-8888}
 	}
 }
