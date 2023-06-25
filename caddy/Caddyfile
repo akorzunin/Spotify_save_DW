@@ -10,6 +10,6 @@
 	}
 
 	handle /api/* {
-		reverse_proxy spotifydwapi:{$API_PORT:-8888}
+		reverse_proxy spotifydwapi:{$PORT:-8888}
 	}
 }
