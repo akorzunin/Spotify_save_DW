@@ -1,11 +1,16 @@
 import asyncio
+import logging
 from fastapi import APIRouter, status, Depends
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 
 from backend.app.auth import check_credentials, security
-from backend.app.mail_handle import send_email
-from backend.app.task_handler import manage_user_tasks
+from backend.app.mail_handle import render_notification_text, send_email
+from backend.app.task_handler import (
+    manage_user_tasks,
+    send_notification,
+    user_notify_task,
+)
 from backend.app.utils import get_access_token
 from backend.app import crud, shemas
 from backend.app.db_connector import users
@@ -37,6 +42,24 @@ async def send_mail(user_email: shemas.UserEmail):
             subject=user_email.subject,
             mail_text=user_email.text,
         )
+    )
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={"message": "email has been sent"},
+    )
+
+
+@router.post("/test_save_email")
+async def test_save_email(user_email: shemas.UserEmail):
+    """Test save email"""
+    user = crud.get_user_by_email(users, user_email.email)
+    # task = user_notify_task(user)
+    send_notification(
+        user_email.email,
+        text=render_notification_text(
+            user.dw_playlist_id,
+            user.user_id,
+        ),
     )
     return JSONResponse(
         status_code=status.HTTP_200_OK,

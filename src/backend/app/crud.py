@@ -14,6 +14,10 @@ def get_user(db, user_id: str):
     return db.get(where("user_id") == user_id)
 
 
+def get_user_by_email(db, email: str):
+    return shemas.User(**db.get(where("email") == email))
+
+
 def create_user(db, user: shemas.CreateUser) -> shemas.User:
     if not db.get(where("user_id") == user.user_id):
         new_user = user.dict() | {"created_at": datetime.now(timezone.utc)}
