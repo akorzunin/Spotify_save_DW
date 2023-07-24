@@ -1,113 +1,32 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
-    "version": "2.0.0",
-    "options": {
-        "env": {
-            "POETRY_PY_PATH": "C:\\Users\\akorz\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\spotify-dw-api-utDM9VWW-py3.10\\Scripts\\"
-        }
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "detail": "export poetry dependencies to pip reqirements file",
+      "label": "poetry export",
+      "type": "shell",
+      "command": "poetry export -f requirements.txt --output requirements.txt --without-hashes"
     },
-    "tasks": [
-        {
-            "label": "echo",
-            "type": "shell",
-            "command": "echo Hello"
-        },
-        {
-            "detail": "export poetry dependencies to pip reqirements file",
-            "label": "poetry export",
-            "type": "shell",
-            "command": "poetry export -f requirements.txt --output requirements.txt --without-hashes"
-        },
-        {
-            "label": "start debug session",
-            "type": "shell",
-            "command": "echo End debug session",
-            "dependsOn": [
-                "fastapi run",
-                "tailwind run",
-                "webpack run dev"
-            ]
-        },
-        {
-            "label": "debug single time",
-            "type": "shell",
-            "command": "npm run twb",
-            "options": {
-                "cwd": "${workspaceFolder}/src/frontend/"
-            },
-            "dependsOn": [
-                "webpack run dev single time"
-            ]
-        },
-        {
-            "label": "fastapi run",
-            "type": "shell",
-            "command": "C:\\Users\\akorz\\AppData\\Local\\pypoetry\\Cache\\virtualenvs\\spotify-dw-api-utDM9VWW-py3.10\\Scripts\\python.exe ${pwd}/src/main.py",
-            "problemMatcher": []
-        },
-        {
-            "label": "tailwind run",
-            "type": "shell",
-            "command": "npm run tw",
-            "options": {
-                "cwd": "${workspaceFolder}/src/frontend/"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "tailwind run single time",
-            "type": "shell",
-            "command": "npm run twb",
-            "options": {
-                "cwd": "${workspaceFolder}/src/frontend/"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "webpack run dev",
-            "type": "shell",
-            "command": "npm run dev",
-            "options": {
-                "cwd": "${workspaceFolder}/src/frontend/"
-            }
-        },
-        {
-            "label": "webpack run dev single time",
-            "type": "shell",
-            "command": "npm run devb",
-            "options": {
-                "cwd": "${workspaceFolder}/src/frontend/"
-            }
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build",
-            "platform": "python",
-            "dockerBuild": {
-                "tag": "spotifydwapi:latest",
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build"
-            ],
-            "python": {
-                "file": "/app/src/main.py"
-            }
-        },
-        {
-            "type": "npm",
-            "script": "buld",
-            "path": "src/frontend",
-            "problemMatcher": [],
-            "label": "npm: buld - src/frontend",
-            "detail": "webpack --mode production"
-        }
-    ]
+    {
+      "type": "docker-build",
+      "label": "docker-build",
+      "platform": "python",
+      "dockerBuild": {
+        "tag": "spotifydwapi:latest",
+        "dockerfile": "${workspaceFolder}/Dockerfile",
+        "context": "${workspaceFolder}",
+        "pull": true
+      }
+    },
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dependsOn": ["docker-build"],
+      "python": {
+        "file": "/app/src/main.py"
+      }
+    }
+  ]
 }
