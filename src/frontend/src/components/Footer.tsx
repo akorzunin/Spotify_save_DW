@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { get_text_emoji, updateTextEmoji } from '../utils/utils';
 import { emailLogo, githubLogo, telegramLogo } from '../icons/Logos';
+import { EasterEgg } from './EasterEgg';
 
 interface IFooter {
     style: string;
@@ -74,12 +74,7 @@ const Footer: FC<IFooter> = ({ style }) => {
                                 @akorzunin
                             </a>
                         </p>
-                        <span
-                            className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm hover:cursor-help"
-                            onClick={updateTextEmoji}
-                        >
-                            {get_text_emoji()}
-                        </span>
+                        <EasterEgg />
                     </div>
                 </div>
             </div>
