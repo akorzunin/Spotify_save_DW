@@ -1,3 +1,0 @@
-[submodule "src/frontend"]
-	path = src/frontend
-	url = https://github.com/akorzunin/Spotify_save_DW_frontend.git
