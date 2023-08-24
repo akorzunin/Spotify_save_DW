@@ -23,11 +23,11 @@ templates = Jinja2Templates(directory="src/frontend/templates")
 
 routes = [
     Mount(
-        "/frontend/static",
+        "/assets",
         app=StaticFiles(
-            directory="src/frontend/static",
+            directory="src/frontend/dist/assets",
         ),
-        name="static",
+        name="assets",
     ),
 ]
 app = FastAPI(

@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 import spotipy
 
 from fastapi import APIRouter, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
@@ -37,16 +37,10 @@ router = APIRouter()
 @router.get(
     "/",
     response_class=HTMLResponse,
-    status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
-async def root(request: Request):
+async def root():
     """Redirect to react hash router main page"""
-    return templates.TemplateResponse(
-        "home.html",
-        {
-            "request": request,
-        },
-    )
+    return FileResponse("./src/frontend/dist/index.html")
 
 
 @router.get(

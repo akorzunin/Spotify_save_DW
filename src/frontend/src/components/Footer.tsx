@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { get_text_emoji, updateTextEmoji } from '../utils/utils';
+import { emailLogo, githubLogo, telegramLogo } from '../icons/Logos';
 
 interface IFooter {
     style: string;
@@ -23,7 +24,7 @@ const Footer: FC<IFooter> = ({ style }) => {
                         >
                             <img
                                 className="img-responsive object-cover w-6 h-6 "
-                                src="src/assets/images/email-logo-48.png"
+                                src={emailLogo.href}
                                 alt="mail"
                             />
                         </a>
@@ -34,7 +35,7 @@ const Footer: FC<IFooter> = ({ style }) => {
                         >
                             <img
                                 className="img-responsive object-cover w-6 h-6 "
-                                src="src/assets/images/telegram-logo-48.PNG"
+                                src={telegramLogo.href}
                                 alt="telegram"
                             />
                         </a>
@@ -50,7 +51,7 @@ const Footer: FC<IFooter> = ({ style }) => {
                         >
                             <img
                                 className="img-responsive object-cover w-6 h-6 "
-                                src="src/assets/images/github-48.PNG"
+                                src={githubLogo.href}
                                 alt="github"
                             />
                         </a>
