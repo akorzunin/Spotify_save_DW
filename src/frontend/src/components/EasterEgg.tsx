@@ -9,7 +9,7 @@ export const EasterEgg = () => {
     const counter = useTypedSelector((state) => state.counter);
     return (
         <span
-            className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm hover:cursor-help"
+            className="mt-2 w-full text-center text-sm text-gray-500 hover:cursor-help sm:ml-auto sm:mt-0 sm:w-auto sm:text-left"
             onClick={(e) => {
                 console.log(counter);
                 dispatch(increment());
