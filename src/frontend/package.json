@@ -31,6 +31,7 @@
         "eslint": "^8.47.0",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-react-refresh": "^0.3.5",
+        "openapi-typescript-codegen": "^0.25.0",
         "postcss": "^8.4.28",
         "prettier": "^3.0.2",
         "prettier-plugin-tailwindcss": "^0.5.3",

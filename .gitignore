@@ -6,6 +6,7 @@
 **/certbot
 docker.env
 *.ipynb
+**/.env.prod
 
 **/node_modules/
 # Byte-compiled / optimized / DLL files
