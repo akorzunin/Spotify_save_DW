@@ -8,6 +8,7 @@ import { AboutPage } from './pages/aboutPage';
 import './index.css';
 import { store } from './store/store';
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('app')!).render(
     <React.StrictMode>
         <Provider store={store}>
