@@ -1,8 +1,7 @@
 import asyncio
-import logging
 from fastapi import APIRouter, status, Depends
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBasicCredentials, HTTPBasic
+from fastapi.security import HTTPBasicCredentials
 
 from backend.app.auth import check_credentials, security
 from backend.app.mail_handle import render_notification_text, send_email

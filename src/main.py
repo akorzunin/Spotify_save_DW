@@ -1,7 +1,5 @@
 """Main app for Spotify DW saver web server"""
-import os
 import asyncio
-import logging
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 from fastapi import FastAPI, Depends
@@ -11,12 +9,14 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasicCredentials
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from backend.app.logger import setup_logging, setup_uvicorn_logging
+import sys
+import structlog
 
 from backend.app.task_handler import revive_user_tasks, task_tick
 from backend.metadata import tags_metadata
 from backend.app.api_routes import router as api_routes
 from backend.app.front_routes import router as front_routes
-from backend.app.logger import format as log_format
 from backend.app.auth import security, check_credentials
 
 templates = Jinja2Templates(directory="src/frontend/templates")
@@ -30,6 +30,14 @@ routes = [
         name="assets",
     ),
 ]
+
+setup_logging(
+    json_logs=not sys.stderr.isatty(),
+    log_level="INFO",
+)
+access_logger = structlog.stdlib.get_logger("api.access")
+# log = structlog.stdlib.get_logger(__name__)
+
 app = FastAPI(
     openapi_tags=tags_metadata,
     routes=routes,
@@ -37,6 +45,8 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+setup_uvicorn_logging(app, access_logger)
 
 
 @app.get("/docs")
@@ -52,16 +62,6 @@ async def get_open_api_endpoint():
     return JSONResponse(
         get_openapi(title="FastAPI", version=1, routes=app.routes)
     )
-
-
-@app.on_event("startup")
-async def startup_event():
-    logger = logging.getLogger("uvicorn.access")
-    handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter(log_format))
-    # add logs to stdout
-    logger.removeHandler(logger.handlers[0])
-    logger.addHandler(handler)
 
 
 app.include_router(

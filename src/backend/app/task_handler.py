@@ -4,18 +4,20 @@ from copy import copy
 from datetime import datetime, timezone
 from typing import Literal, Optional
 import schedule
+import structlog
 from tinydb import where
 
 from backend.app import shemas
 from backend.app.db_connector import users
 from backend.app.dw_save_algoritm import save_playlist_algorithm
-from backend.app.logger import logger
 from backend.app.mail_handle import (
     render_notification_text,
     render_save_pl_text,
     send_email,
 )
 from backend.app.utils import get_access_token
+
+logger = structlog.stdlib.get_logger(__name__)
 
 
 async def task_tick():

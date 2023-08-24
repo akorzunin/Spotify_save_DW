@@ -1,1 +1,1 @@
-import backend.app.load_dotenv
+import backend.app._load_dotenv
