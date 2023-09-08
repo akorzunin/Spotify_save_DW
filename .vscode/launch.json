@@ -20,7 +20,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against vite dev server",
-      "url": "http://localhost:5173",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}/src/frontend",
       "userDataDir": "Debug",
       "runtimeArgs": ["--profile-directory=debug-profile"]
