@@ -12,7 +12,7 @@ services:
       - ${PORT}:${PORT}
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./data:/app/data:rw
   caddy:
@@ -22,7 +22,7 @@ services:
       dockerfile: ./caddy/Dockerfile
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
