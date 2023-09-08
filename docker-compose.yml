@@ -15,10 +15,9 @@ services:
     restart: always
     volumes:
       - ./data:/app/data:rw
-      - ./certbot:/app/certbot:ro
   caddy:
     image: caddy:2-alpine
-    build: 
+    build:
       context: .
       dockerfile: ./caddy/Dockerfile
     env_file:

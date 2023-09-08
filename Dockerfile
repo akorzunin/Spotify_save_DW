@@ -1,3 +1,10 @@
+FROM node:20-alpine as frontend
+WORKDIR /frontend
+COPY ["src/frontend/package.json", "src/frontend/package-lock.json", "./"]
+RUN npm install
+COPY ["src/frontend", "./"]
+RUN npm run build
+
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.10-slim
 
@@ -10,7 +17,7 @@ ENV PYTHONFAULTHANDLER=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.2.1
+    POETRY_VERSION=1.5.1
 
 WORKDIR /app
 # use MASHINE var to distinguish x86 platform from raspberry pi witch cant run poetry
@@ -25,7 +32,10 @@ RUN if [ "${MASHINE}" != "pi" ] ; then poetry config virtualenvs.create false \
     && poetry install --no-interaction --no-ansi --no-dev; else pip install -r /app/requirements.txt; fi
 
 # Creating folders, and files for a project:
-COPY . /app
+COPY ["src/main.py", "./src/main.py"]
+COPY ["src/backend", "./src/backend"]
+COPY ["src/configs", "./src/configs"]
+COPY --from=frontend ["/frontend/dist", "./src/frontend/dist"]
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
