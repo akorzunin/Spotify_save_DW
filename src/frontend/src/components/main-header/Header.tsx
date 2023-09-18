@@ -4,7 +4,7 @@ interface IHeader {
     title: string;
 }
 
-const Header: FC<IHeader> = ({ title }) => {
+const MainHeader: FC<IHeader> = ({ title }) => {
     return (
         <div>
             <h1 className="text-6xl font-bold">{title}</h1>
@@ -12,4 +12,4 @@ const Header: FC<IHeader> = ({ title }) => {
     );
 };
 
-export default Header;
+export default MainHeader;

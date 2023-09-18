@@ -1,7 +1,7 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
 
-import Header from '../components/Header';
+import MainHeader from '../components/main-header/Header';
 import Footer from '../components/Footer';
 import Button from '../components/Buttons/BaseButton';
 import BlobButton from '../components/Buttons/BlobButton';
@@ -31,7 +31,7 @@ export const App = () => {
         <>
             <div className="min-h-screen">
                 <header className="flex justify-between">
-                    <Header title="Home" />
+                    <MainHeader title="Home" />
                     <div className="mt-4 mr-4 flex">
                         <div className="mr-3">
                             <Button
