@@ -13,30 +13,31 @@ import Button from '../../components/buttons/BaseButton';
 import { emptySong } from '../../interfaces/Song';
 import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
+import { ICurrentSong } from '../../types/song';
 
 export const UserPage: FC = () => {
-  // vars
   const ButtonStyle = 'text-neutral-900';
   const { user_id } = useParams();
-  // States
+
   const [User, setUser] = useState({
     name: undefined,
     img: undefined,
     followers: undefined,
     isPremium: false,
   });
-  const [PlSongs, setPlSongs] = useState([emptySong]);
+  const [PlSongs, setPlSongs] = useState<ICurrentSong[]>([emptySong]);
   const [isDW, setIsDW] = useState(false);
   const [DwPlaylistId, setDwPlaylistId] = useState();
   const [PlaylistName, setPlaylistName] = useState('No playlist name');
-  const [CurrentSong, setCurrentSong] = useState(emptySong);
+  const [CurrentSong, setCurrentSong] = useState<ICurrentSong>(emptySong);
   const [burgerClass, setburgerClass] = useState('');
   const [cookie, setCookie] = useState(cookieHandle.readCookies()[0]);
-  // functions
+
   const isDiscoverWeekly = (data): boolean => {
     return data.images[0].url.search('discover') > 0 ? true : false;
   };
-  const usePlaylistData = (info) => {
+
+  const setPlaylistData = (info) => {
     const songs = info[0];
     const data = info[1];
     const currentSong = info[2];
@@ -51,13 +52,14 @@ export const UserPage: FC = () => {
     setCurrentSong(currentSong);
     setPlSongs(songs);
   };
+
   const setDefaults = () => {
     setPlSongs(emptySong);
     setIsDW(false);
     setPlaylistName('No playlist name');
     setCurrentSong(emptySong);
   };
-  // Effects
+
   useEffect(() => {
     // get user data
     apiManager.getUserData(cookie).then((user) => {
@@ -68,7 +70,7 @@ export const UserPage: FC = () => {
     apiManager
       .getPlayBackSongs(cookie, setCookie)
       .then((plData) => {
-        usePlaylistData(plData);
+        setPlaylistData(plData);
       })
       .catch((error) => {
         console.log(error);
@@ -97,7 +99,7 @@ export const UserPage: FC = () => {
               apiManager
                 .getPlayBackSongs(cookie, setCookie)
                 .then((plData) => {
-                  usePlaylistData(plData);
+                  setPlaylistData(plData);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -112,7 +114,7 @@ export const UserPage: FC = () => {
               apiManager
                 .getPlayBackSongs(cookie, setCookie)
                 .then((plData) => {
-                  usePlaylistData(plData);
+                  setPlaylistData(plData);
                 })
                 .catch((error) => {
                   console.log(error);
@@ -127,7 +129,7 @@ export const UserPage: FC = () => {
 
   return (
     <>
-      <div className="min-h-screen">
+      <main className="min-h-screen">
         <header className="relative mb-12 flex justify-between">
           <UserCard
             userName={User.name}
@@ -176,7 +178,7 @@ export const UserPage: FC = () => {
             />
           </div>
         </header>
-        <main className="">
+        <section className="">
           <div className="xl:flex 2xl:justify-center">
             <div className="justify-center lg:flex">
               <Playlist
@@ -190,7 +192,6 @@ export const UserPage: FC = () => {
                 fullPlaylist={PlSongs}
                 isDW={isDW}
                 cookie={cookie}
-                style={'max-h-[70vh] max-w-md'}
               />
             </div>
             <div className="flex justify-center">
@@ -202,8 +203,8 @@ export const UserPage: FC = () => {
               />
             </div>
           </div>
-        </main>
-      </div>
+        </section>
+      </main>
       <Footer style={''} />
       <BurgerMenu burgerClass={burgerClass} ButtonStyle={ButtonStyle} />
     </>

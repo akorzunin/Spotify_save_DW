@@ -4,8 +4,7 @@
 /* eslint-disable */
 
 export type UserEmail = {
-    email: string;
-    subject: string;
-    text: string;
+  email: string;
+  subject: string;
+  text: string;
 };
-
