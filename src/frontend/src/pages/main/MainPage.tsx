@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React from 'react';
 import Cookies from 'universal-cookie';
 
@@ -26,6 +27,7 @@ export const MainPage = () => {
     } else {
       setUserPath(`${import.meta.env.VITE_API_URL}/login`);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const cookiesLib = new Cookies();
   const cookies = cookiesLib.getAll();

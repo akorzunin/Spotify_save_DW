@@ -268,7 +268,6 @@ export const updatePlaylistDescription = async (
   cookie: SpotifyCookie,
   plData
 ) => {
-  debugger;
   const playtlistDetails = await generatePlData();
   const res = await fetch(`https://api.spotify.com/v1/playlists/${plData.id}`, {
     method: 'POST',
