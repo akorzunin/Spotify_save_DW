@@ -6,30 +6,30 @@ export const BaseButtonClass = `max-h-9 cursor-pointer inline-flex justify-cente
     `;
 
 interface IBaseButton {
-    title: string;
-    link?: string | undefined;
-    color: string;
-    style?: string;
-    onClick?: VoidFunction;
+  title: string;
+  link?: string | undefined;
+  color: string;
+  style?: string;
+  onClick?: VoidFunction;
 }
 
 const BaseButton: FC<IBaseButton> = ({
-    title = 'Button',
-    link = '/',
-    color = 'bg-blue-700',
-    style = '',
-    onClick,
+  title = 'Button',
+  link = '/',
+  color = 'bg-blue-700',
+  style = '',
+  onClick,
 }) => {
-    return (
-        <NavLink
-            tabIndex={0}
-            to={link}
-            className={`${BaseButtonClass} ${color} ${style} btn`}
-            onClick={onClick}
-        >
-            {title}
-        </NavLink>
-    );
+  return (
+    <NavLink
+      tabIndex={0}
+      to={link}
+      className={`${BaseButtonClass} ${color} ${style} btn`}
+      onClick={onClick}
+    >
+      {title}
+    </NavLink>
+  );
 };
 
 export default BaseButton;

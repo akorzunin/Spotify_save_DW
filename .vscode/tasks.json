@@ -23,10 +23,20 @@
     {
       "type": "docker-run",
       "label": "docker-run: debug",
-      "dependsOn": ["docker-build"],
+      "dependsOn": [
+        "docker-build"
+      ],
       "python": {
         "file": "/app/src/main.py"
       }
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "path": "src/frontend",
+      "problemMatcher": [],
+      "label": "npm: dev - src/frontend",
+      "detail": "vite --host"
     }
   ]
 }
