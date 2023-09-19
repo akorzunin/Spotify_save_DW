@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import styles from "./index.module.css";
+
 interface IHeader {
     title: string;
 }

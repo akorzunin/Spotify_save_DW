@@ -11,7 +11,7 @@ import {
     parseFormOutputDate,
 } from '../../utils/dbManager';
 import { formDataMap } from '../../interfaces/FormDataMap';
-import Button from '../Buttons/BaseButton';
+import Button from '../buttons/BaseButton';
 
 export const TextFormStyle =
     'w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white';
