@@ -1,6 +1,10 @@
 // @ts-nocheck
 import React, { FC } from 'react';
-import { Blob } from '../../icons/Blob';
+
+import styles from "./BlobButton.module.css";
+
+import { Blob } from '../../../icons/Blob';
+
 interface IBlobButton {
   title: string;
   link: string;
@@ -9,8 +13,8 @@ interface IBlobButton {
 const BlobButton: FC<IBlobButton> = ({ title = 'Blob', link = '/' }) => {
   return (
     <div className="mt-[20%] grid h-[100%] grid-cols-1 place-items-center">
-      <div className="relative w-44  overflow-hidden ">
-        <Blob styles="img-responsive object-cover w-full h-full" />
+      <div className={`relative w-44  overflow-hidden ${styles.circle}`}>
+        {/* <Blob styles="img-responsive object-cover w-full h-full" /> */}
         <a
           href={link}
           className={`absolute inset-x-0 bottom-[calc(50%-23px)] inline-flex w-full cursor-pointer justify-center 

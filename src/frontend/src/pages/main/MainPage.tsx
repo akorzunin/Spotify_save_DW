@@ -1,14 +1,13 @@
 /// <reference types="vite/client" />
-import React from 'react';
+import React, { FC } from 'react';
 import Cookies from 'universal-cookie';
 
-import MainHeader from '../../components/main-header/MainHeader';
 import Footer from '../../components/Footer';
 import Button from '../../components/buttons/BaseButton';
-import BlobButton from '../../components/buttons/BlobButton';
+import BlobButton from '../../components/buttons/blob-button/BlobButton';
 import * as cookieHandle from '../../utils/cookieHandle';
 
-export const MainPage = () => {
+export const MainPage: FC = () => {
   // handle cookies
   const [userPath, setUserPath] = React.useState(
     `${import.meta.env.VITE_API_URL}/login`
@@ -27,32 +26,27 @@ export const MainPage = () => {
     } else {
       setUserPath(`${import.meta.env.VITE_API_URL}/login`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const cookiesLib = new Cookies();
   const cookies = cookiesLib.getAll();
+
   return (
     <>
-      <div className="min-h-screen">
-        <header className="flex justify-between">
-          <MainHeader title="Home" />
-          <div className="mr-4 mt-4 flex">
-            <div className="mr-3">
-              <Button
-                style=""
-                title="Layout Demo"
-                link="/user/demo_user"
-                color="bg-white"
-              />
-            </div>
-            <div className="mr-3">
-              <Button
-                style=""
-                title="Help"
-                link="/help" //use useNavigate
-                color="bg-white"
-              />
-            </div>
+      <main className="min-h-screen">
+        <header className="flex justify-between mt-5">
+          <h1 className="text-6xl font-bold">Home</h1>
+          <div className="mr-4 mt-4 flex gap-x-3">
+            <Button
+              title="Layout Demo"
+              link="/user/demo_user"
+              color="bg-white"
+            />
+            <Button
+              title="Help"
+              link="/help" //use useNavigate
+              color="bg-white"
+            />
             <Button
               title="Login"
               link={`${import.meta.env.VITE_API_URL}/login`}
@@ -60,10 +54,10 @@ export const MainPage = () => {
             />
           </div>
         </header>
-        <main className="">
+        <section>
           <BlobButton title="Save DW" link={userPath} />
-        </main>
-      </div>
+        </section>
+      </main>
       <Footer style={'fixed bottom-0'} />
     </>
   );

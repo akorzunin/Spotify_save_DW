@@ -2,13 +2,12 @@ import React, { FC } from 'react';
 
 import { Link } from 'react-router-dom';
 import Button from '../../components/buttons/BaseButton';
-import MainHeader from '../../components/main-header/MainHeader';
 
 const AboutPage: FC = () => {
   return (
     <>
-      <header className="flex justify-between">
-        <MainHeader title="Help Page" />
+      <header className="flex justify-between mt-5">
+        <h1 className="text-6xl font-bold">Help Page</h1>
         <div className="mr-4 mt-4">
           <Link to="/user/demo_user">
             <Button
@@ -30,7 +29,7 @@ const AboutPage: FC = () => {
         </div>
       </header>
       <div className="mt-5">
-        <h1 className="text-xl font-semibold">How to use</h1>
+        <h4 className="font-semibold">How to use</h4>
         <ul>
           <li>
             <span>&#8226;</span> Press Save DW button to login with you Spotify

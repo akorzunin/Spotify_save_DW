@@ -1,0 +1,72 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.circle {
+  background: radial-gradient(
+    circle,
+    rgba(3, 255, 28, 1) 0%,
+    rgba(40, 137, 238, 1) 32%,
+    rgba(195, 106, 227, 1) 52%,
+    rgba(159, 6, 213, 1) 88%,
+    rgba(237, 6, 158, 1) 100%
+  );
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  /* background-size: 100% 100%; */
+  overflow: hidden;
+  animation:
+    morph 3s linear infinite,
+    Gradient 3s ease-in-out infinite,
+    gradient-reverse 3s 3s ease-in-out infinite;
+}
+/* .circle img {
+  width: 100%;
+} */
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
+@keyframes Gradient {
+  0% {
+    background-size: 100% 100%;
+  }
+  34% {
+    background-size: 300% 300%;
+  }
+  67% {
+    background-size: 500% 500%;
+  }
+  100% {
+    background-size: 100% 100%;
+  }
+}
+
+@keyframes gradient-reverse {
+  0% {
+    background-size: 100% 100%;
+  }
+  34% {
+    background-size: 300% 300%;
+  }
+  67% {
+    background-size: 500% 500%;
+  }
+  100% {
+    background-size: 100% 100%;
+  }
+}
