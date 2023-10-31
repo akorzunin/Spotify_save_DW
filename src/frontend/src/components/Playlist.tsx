@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
+
 import SongCard from './SongCard';
 import { emptySong, Song } from '../interfaces/Song';
 import PlaylistTitle from './PlaylistTitle';
+
 interface IPlayList {
   title: string;
   songs: string;

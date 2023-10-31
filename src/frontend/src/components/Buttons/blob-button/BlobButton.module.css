@@ -84,7 +84,7 @@
   height: 0;
   width: 0;
   transform: translate(-50%, -50%);
-  animation: 5s circle__animation ease-in-out infinite;
+  animation: 10s circle__animation ease-in-out infinite;
 }
 
 .circle__0 {
@@ -94,22 +94,22 @@
 
 .circle__1 {
   background: radial-gradient(circle, transparent, rgba(40, 137, 238, 1), transparent);
-  animation-delay: 1s;
+  animation-delay: 2s;
 }
 
 .circle__2 {
   background: radial-gradient(circle, transparent, rgba(195, 106, 227, 1), transparent);
-  animation-delay: 2s;
+  animation-delay: 4s;
 }
 
 .circle__3 {
-  background: radial-gradient(circle, transparent, rgba(159, 6, 213, 1), transparent);
-  animation-delay: 3s;
+  background: radial-gradient(circle, transparent, rgb(231, 0, 0), transparent);
+  animation-delay: 6s;
 }
 
 .circle__4 {
   background: radial-gradient(circle, transparent, rgba(237, 6, 158, 1), transparent);
-  animation-delay: 4s;
+  animation-delay: 8s;
 }
 
 @keyframes circle__animation {

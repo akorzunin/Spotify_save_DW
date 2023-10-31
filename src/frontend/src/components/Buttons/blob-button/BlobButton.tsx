@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { FC } from 'react';
 
 import styles from './BlobButton.module.css';
@@ -20,48 +19,27 @@ const BlobButton: FC<IBlobButton> = ({ title = 'Blob', link = '/' }) => {
   const circles = [0, 1, 2, 3, 4];
 
   return (
-    <>
-      <div style={{ width: '150px', height: '100px', position: 'relative' }}>
-        <div
-          style={{
-            width: '100px',
-            height: '100px',
-            position: 'absolute',
-            top: '0',
-            left: '0',
-            background: 'linear-gradient(to right, blue, transparent)',
-          }}
-        ></div>
-        <div
-          style={{
-            width: '100px',
-            height: '100px',
-            position: 'absolute',
-            top: '0',
-            right: '0',
-            background: 'linear-gradient(to right, transparent, yellow)',
-          }}
-        ></div>
-      </div>
-      <div className="mt-[20%] grid h-[100%] grid-cols-1 place-items-center">
-        <div className={`relative w-44  overflow-hidden ${styles.circle}`}>
-          {/* <Blob styles="img-responsive object-cover w-full h-full" /> */}
-          {circles.map((circle) => {
-
-            return <div className={`${styles.circle__main} ${circleStyle[circle]}`}></div>;
-          })}
-          <a
-            href={link}
-            className={`absolute inset-x-0 bottom-[calc(50%-23px)] inline-flex w-full cursor-pointer justify-center 
+    <div className="mt-[20%] grid h-[100%] grid-cols-1 place-items-center">
+      <div className={`relative w-44  overflow-hidden ${styles.circle}`}>
+        {/* <Blob styles="img-responsive object-cover w-full h-full" /> */}
+        {circles.map((circle) => {
+          return (
+            <div
+              className={`${styles.circle__main} ${circleStyle[circle]}`}
+            ></div>
+          );
+        })}
+        <a
+          href={link}
+          className={`absolute inset-x-0 bottom-[calc(50%-23px)] inline-flex w-full cursor-pointer justify-center 
                     rounded-full border
                     border-transparent bg-opacity-0 px-4 py-2 text-center text-xl font-bold text-purple-700  
                     shadow-none transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2`}
-          >
-            <button tabIndex={0}>{title}</button>
-          </a>
-        </div>
+        >
+          <button tabIndex={0}>{title}</button>
+        </a>
       </div>
-    </>
+    </div>
   );
 };
 
