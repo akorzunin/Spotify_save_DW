@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import UserPage from './user/UserPage';
 import MainPage from './main/MainPage';
-import AboutPage from './about/aboutPage';
+import AboutPage from './about/AboutPage';
 
 const App: FC = () => {
   return (

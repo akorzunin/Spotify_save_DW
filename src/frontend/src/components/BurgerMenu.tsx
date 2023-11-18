@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import Button from './buttons/BaseButton';
-import { Link } from 'react-router-dom';
 import { deleteCookies } from '../utils/cookieHandle';
 
 interface IBurgerMenu {

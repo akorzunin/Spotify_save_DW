@@ -3,7 +3,7 @@ import * as apiManager from '../utils/apiManager';
 import * as timeMangment from '../utils/timeMangment';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
-import ClickButton from './buttons/ClickButton';
+import ClickButton from './buttons/button/Button';
 import { Song } from '../interfaces/Song';
 import { ICurrentSong } from '../types/song';
 

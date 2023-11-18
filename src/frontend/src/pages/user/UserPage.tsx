@@ -5,7 +5,7 @@ import SongCard from '../../components/SongCard';
 import * as cookieHandle from '../../utils/cookieHandle';
 import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
-import Burger from '../../components/Burger';
+import { Burger } from '../../components/Burger';
 import BurgerMenu from '../../components/BurgerMenu';
 import { Link, useParams } from 'react-router-dom';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';

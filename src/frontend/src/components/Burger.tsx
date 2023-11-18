@@ -5,7 +5,7 @@ interface IBurger {
   handleBM: VoidFunction;
 }
 
-const Burger: FC<IBurger> = ({ burgerClass, handleBM }) => {
+export const Burger: FC<IBurger> = ({ burgerClass, handleBM }) => {
   return (
     <div className="">
       <div className={`header__burger-menu ${burgerClass}`} onClick={handleBM}>
@@ -14,5 +14,3 @@ const Burger: FC<IBurger> = ({ burgerClass, handleBM }) => {
     </div>
   );
 };
-
-export default Burger;
