@@ -22,7 +22,7 @@ Run the development server:
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3001](http://localhost:3001) with your browser to see the result.
 
 Render templates
 
