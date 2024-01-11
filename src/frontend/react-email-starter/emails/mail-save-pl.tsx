@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading, render } from '@react-email/components';
-import Email from '../components/Email';
-import MailFooter from '../components/MailFooter';
+import Email from './components/Email';
+import MailFooter from './components/MailFooter';
 
 const MailSavePl = () => {
   return (
@@ -16,4 +16,4 @@ const MailSavePlHtml = render(<MailSavePl />, {
     pretty: true,
 });
 
-export default MailSavePlHtml;
+export default MailSavePl;
