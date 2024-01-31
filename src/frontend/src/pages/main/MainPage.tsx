@@ -34,7 +34,7 @@ export const MainPage: FC = () => {
   return (
     <>
       <main className="min-h-screen">
-        <header className="flex justify-between mt-5">
+        <header className="mt-5 flex justify-between">
           <h1 className="text-6xl font-bold">Home</h1>
           <div className="mr-4 mt-4 flex gap-x-3">
             <Button

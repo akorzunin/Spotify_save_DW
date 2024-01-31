@@ -16,4 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install prettier plugins
+        run: npm install -D prettier prettier-plugin-tailwindcss
       - uses: pre-commit/action@v3.0.0

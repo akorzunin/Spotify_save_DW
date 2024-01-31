@@ -13,7 +13,7 @@ const MailSavePl = () => {
 };
 
 const MailSavePlHtml = render(<MailSavePl />, {
-    pretty: true,
+  pretty: true,
 });
 
 export default MailSavePl;

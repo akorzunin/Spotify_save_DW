@@ -6,7 +6,7 @@ import Button from '../../components/buttons/BaseButton';
 const AboutPage: FC = () => {
   return (
     <>
-      <header className="flex justify-between mt-5">
+      <header className="mt-5 flex justify-between">
         <h1 className="text-6xl font-bold">Help Page</h1>
         <div className="mr-4 mt-4">
           <Link to="/user/demo_user">

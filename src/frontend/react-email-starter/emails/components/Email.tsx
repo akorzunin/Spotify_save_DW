@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Body,
-  Container,
-  Html,
-  Tailwind,
-} from '@react-email/components';
+import { Body, Container, Html, Tailwind } from '@react-email/components';
 
 interface IEmail {
   children: React.ReactNode;
