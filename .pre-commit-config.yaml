@@ -7,3 +7,8 @@ repos:
     rev: v0.5.4
     hooks:
       - id: action-validator
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 24.1.1
+    hooks:
+      - id: black
+        language_version: python3.10

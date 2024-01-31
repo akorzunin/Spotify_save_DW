@@ -1,4 +1,5 @@
 """Main app for Spotify DW saver web server"""
+
 import asyncio
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles

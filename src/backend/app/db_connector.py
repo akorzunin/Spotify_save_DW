@@ -1,5 +1,5 @@
 from tinydb import TinyDB
 
-db = TinyDB('./data/db.json')
+db = TinyDB("./data/db.json")
 
-users = db.table('users')
+users = db.table("users")
