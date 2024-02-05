@@ -1,5 +1,6 @@
 import base64
 import os
+
 import requests
 
 
@@ -11,8 +12,8 @@ def encode_b64(client_id: str, client_secret: str) -> str:
 
 def get_access_token(refresh_token: str) -> dict:
     client_creds_b64 = encode_b64(
-        os.getenv("SPOTIPY_CLIENT_ID"),
-        os.getenv("SPOTIPY_CLIENT_SECRET"),
+        os.environ["SPOTIPY_CLIENT_ID"],
+        os.environ["SPOTIPY_CLIENT_SECRET"],
     )
 
     return requests.post(

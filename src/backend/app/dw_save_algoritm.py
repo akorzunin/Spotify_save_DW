@@ -1,6 +1,7 @@
 import asyncio
 from datetime import date, datetime, timezone
 from typing import Optional
+
 from backend.app.shemas import SavePlUser
 from backend.app.types import DeviceId, Song
 
@@ -11,7 +12,7 @@ def all_dw_songs(
 ) -> list[Song]:
     dw_items = sp.playlist_items(dw_id)
     return [
-        dict(
+        Song(
             name=i["track"]["name"],
             uri=i["track"]["uri"],
             id=i["track"]["id"],
@@ -36,7 +37,7 @@ async def filter_dw_songs(
         # print(song)song
         if song["is_playing"]:
             songs.append(
-                dict(
+                Song(
                     id=song["item"]["id"],
                     uri=song["item"]["uri"],
                     name=song["item"]["name"],
@@ -65,7 +66,7 @@ async def save_playlist_to_user(
     sp.user_playlist_add_tracks(
         user=user_id,
         playlist_id=new_pl["id"],
-        tracks=[i["id"] for i in songs],
+        tracks=[i.id for i in songs],
         position=None,
     )
 
@@ -103,7 +104,7 @@ async def get_dw_songs(
         if not device:
             raise TypeError("No device found")
         # use playback alg
-        songs = await filter_dw_songs(sp, device)
+        songs = await filter_dw_songs(sp, device, user.dw_playlist_id)
         if len(songs) <= 30:
             if user.save_full_playlist:
                 # save songs anyway
@@ -116,6 +117,7 @@ async def get_dw_songs(
         # dot use playback alg
         songs = all_dw_songs(sp, user.dw_playlist_id)
         return songs
+    return None
 
 
 async def save_playlist_algorithm(
@@ -123,13 +125,15 @@ async def save_playlist_algorithm(
     user: SavePlUser,
 ):
     songs = await get_dw_songs(sp, user)
+    if not songs:
+        raise ValueError("No songs in playlist")
     await save_playlist_to_user(sp, songs, user.user_id)
     # TODO move mailing logic here
 
 
 def get_device_id(
     devices: list[dict],
-    preferred: DeviceId = None,
+    preferred: DeviceId | None = None,
 ) -> Optional[DeviceId]:
     """Return preferred device if it exists else first existing device or None"""
     if not preferred and devices:

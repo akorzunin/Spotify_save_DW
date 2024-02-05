@@ -1,6 +1,5 @@
 from typing import NewType
 
-
 """Types for typehints"""
 from dataclasses import dataclass
 

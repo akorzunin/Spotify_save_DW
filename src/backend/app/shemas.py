@@ -1,6 +1,7 @@
-from typing import Literal, Optional
-from pydantic import BaseModel, EmailStr, validator
 from datetime import datetime
+from typing import Literal, Optional
+
+from pydantic import BaseModel, EmailStr, validator
 
 
 class RefreshToken(BaseModel):
@@ -49,7 +50,7 @@ class CreateUser(BaseUser):
     save_time: Optional[datetime]
 
 
-class UpdateUser(BaseUser):
+class UpdateUser(BaseModel):
     send_mail: Optional[bool]
     email: Optional[EmailStr | Literal[""]]
     send_time: Optional[datetime | Literal[""]]

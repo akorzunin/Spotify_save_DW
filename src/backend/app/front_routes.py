@@ -1,17 +1,14 @@
+import os
 from collections import OrderedDict
 from datetime import datetime
-import os
 from urllib.parse import urlencode
-import spotipy
 
-from fastapi import APIRouter, status
-from fastapi.responses import FileResponse, HTMLResponse
-from fastapi.responses import RedirectResponse
-from fastapi import Request
-from fastapi.templating import Jinja2Templates
 import requests
-
+import spotipy
 from configs.scope import scope_str
+from fastapi import APIRouter, Request, status
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 
 ### pydantic
 from pydantic import BaseModel

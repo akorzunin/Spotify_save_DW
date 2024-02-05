@@ -1,9 +1,10 @@
 import asyncio
-import spotipy
 from copy import copy
 from datetime import datetime, timezone
 from typing import Literal, Optional
+
 import schedule
+import spotipy
 import structlog
 from tinydb import where
 
@@ -56,14 +57,14 @@ def user_save_task(user: shemas.SavePlUser):
 
 def revive_user_tasks():
     """Restore tasks from db after program restart"""
-    notify_users = users.search(where("send_mail") == True)
+    notify_users = users.search(where("send_mail") is True)
     for user in notify_users:
         task = user_notify_task(shemas.NotifyUser(**user))
         logger.info(
             f"[Notify Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
         )
-    save_dw_users = users.search(where("save_dw_weekly") == True)
+    save_dw_users = users.search(where("save_dw_weekly") is True)
     for user in save_dw_users:
         task = user_save_task(shemas.SavePlUser(**user))
         logger.info(
@@ -75,7 +76,7 @@ def revive_user_tasks():
 def manage_user_tasks(user: shemas.User) -> Optional[shemas.Message]:
     """Create or cancel tasks for a user on given data"""
     if not validate_user_task_data(user):
-        return {"message": "Failed to create tasks for user"}
+        return shemas.Message(message="Failed to create tasks for user")
     if not user.send_mail:
         # delete user notification task
         schedule.clear(get_tag(user.user_id, "notify"))
@@ -101,6 +102,7 @@ def manage_user_tasks(user: shemas.User) -> Optional[shemas.Message]:
             f"[New Save Task] Next run: {str(task.next_run)} "
             f"User: {user.user_id}"
         )
+    return None
 
 
 def get_tag(user_id: str, task_type: Literal["save", "notify"]):

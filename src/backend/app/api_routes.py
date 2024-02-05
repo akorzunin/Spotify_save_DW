@@ -1,18 +1,18 @@
 import asyncio
-from fastapi import APIRouter, status, Depends
+
+from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasicCredentials
 
+from backend.app import crud, shemas
 from backend.app.auth import check_credentials, security
+from backend.app.db_connector import users
 from backend.app.mail_handle import render_notification_text, send_email
 from backend.app.task_handler import (
     manage_user_tasks,
     send_notification,
-    user_notify_task,
 )
 from backend.app.utils import get_access_token
-from backend.app import crud, shemas
-from backend.app.db_connector import users
 
 router = APIRouter()
 
@@ -145,7 +145,7 @@ async def delete_user(
 ):
     """Delete user by id"""
     check_credentials(credentials)
-    if user := crud.delete_user(users, user_id):
+    if _ := crud.delete_user(users, user_id):
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={"message": "User deleted"},

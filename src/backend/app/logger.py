@@ -2,11 +2,11 @@ import logging
 import sys
 import time
 import uuid
-from fastapi import FastAPI, Request, Response
-from uvicorn.protocols.utils import get_path_with_query_string
 
 import structlog
-from structlog.types import Processor, EventDict
+from fastapi import FastAPI, Request, Response
+from structlog.types import EventDict, Processor
+from uvicorn.protocols.utils import get_path_with_query_string
 
 
 def drop_color_message_key(_, __, event_dict: EventDict) -> EventDict:

@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 from tinydb import where
 
 from backend.app import shemas
@@ -24,6 +25,7 @@ def create_user(db, user: shemas.CreateUser) -> shemas.User:
         parced_user = shemas.User(**new_user)
         db.insert(parced_user.dict())
         return parced_user
+    raise ValueError("Could not create new user")
 
 
 def update_user(
@@ -32,6 +34,7 @@ def update_user(
     if user_upd := {k: v for k, v in user.dict().items() if v is not None}:
         db.update(user_upd, where("user_id") == user_id)
         return db.get(where("user_id") == user_id)
+    raise ValueError("Could not update user")
 
 
 def delete_user(db, user_id: str):
