@@ -8,6 +8,7 @@ on:
     branches: ["master"]
 
 jobs:
+
   checks:
     name: run pre-commit hooks
     runs-on: ubuntu-latest
@@ -22,3 +23,26 @@ jobs:
       - name: Install prettier plugins
         run: npm install -D prettier prettier-plugin-tailwindcss
       - uses: pre-commit/action@v3.0.0
+
+  tests-frontend:
+    name: run playwright tests
+    needs: checks
+    defaults:
+      run:
+        working-directory: ./tests/frontend
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+    - name: Install project dependencies
+      run: npm ci
+      working-directory: ./src/frontend
+    - name: Install Playwright dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npm run test-ct
