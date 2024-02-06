@@ -96,12 +96,13 @@ async def get_user(user_id: str):
 
 @router.post(
     "/new_user",
+    response_model=shemas.User,
     responses={status.HTTP_400_BAD_REQUEST: {"model": shemas.Message}},
 )
-async def create_user(user: shemas.CreateUser) -> shemas.User:
+async def create_user(user: shemas.CreateUser):
     """Create new user"""
-    if user := crud.create_user(users, user):
-        return user
+    if created_user := crud.create_user(users, user):
+        return created_user
     return JSONResponse(
         status_code=status.HTTP_400_BAD_REQUEST,
         content={"message": "User already exists"},
@@ -116,16 +117,16 @@ async def create_user(user: shemas.CreateUser) -> shemas.User:
         status.HTTP_412_PRECONDITION_FAILED: {"model": shemas.Message},
     },
 )
-async def update_user(user: shemas.UpdateUser, user_id: str) -> shemas.User:
+async def update_user(user: shemas.UpdateUser, user_id: str):
     """Update user"""
-    if user_ := crud.update_user(users, user, user_id):
-        if message := manage_user_tasks(shemas.User(**user_)):
+    if updated_user := crud.update_user(users, user, user_id):
+        if message := manage_user_tasks(updated_user):
             #  return different response if sth wrong w/ task management
             return JSONResponse(
                 status_code=status.HTTP_412_PRECONDITION_FAILED,
                 content=message,
             )
-        return user_
+        return updated_user
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,
         content={"message": "User not found"},
