@@ -57,14 +57,14 @@ def user_save_task(user: shemas.SavePlUser):
 
 def revive_user_tasks():
     """Restore tasks from db after program restart"""
-    notify_users = users.search(where("send_mail") is True)
+    notify_users = users.search(where("send_mail") == True)
     for user in notify_users:
         task = user_notify_task(shemas.NotifyUser(**user))
         logger.info(
             f"[Notify Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
         )
-    save_dw_users = users.search(where("save_dw_weekly") is True)
+    save_dw_users = users.search(where("save_dw_weekly") == True)
     for user in save_dw_users:
         task = user_save_task(shemas.SavePlUser(**user))
         logger.info(

@@ -103,11 +103,6 @@
   background: #a0aec0;
 }
 
-.firefox-scrollBar {
-  scrollbar-width: 16px;
-  scrollbar-color: red blue;
-}
-
 .btn {
   transition: all 0.2s linear;
   /* position: absolute; */

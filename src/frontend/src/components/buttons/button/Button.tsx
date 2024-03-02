@@ -13,7 +13,6 @@ const ClickButton: FC<IClickButton> = ({
   onClick,
   color = 'bg-blue-700',
 }) => {
-  console.log('title', title);
   return (
     <button
       tabIndex={0}

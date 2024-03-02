@@ -79,7 +79,7 @@ if __name__ == "__main__":
     import uvicorn
     from configs.uvicorn import uvicorn_conf
 
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     config = uvicorn.Config(**uvicorn_conf, loop=loop)
     server = uvicorn.Server(config)
     loop.create_task(server.serve())
