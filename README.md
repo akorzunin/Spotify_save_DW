@@ -22,6 +22,36 @@ Website: https://savespotifydw.duckdns.org/
 6. That's it! Just press Save button and playlist will be automatically created
    ![enter image description here](https://user-images.githubusercontent.com/54314123/178079251-484d8a93-b0d6-4c8d-94f7-c1da0f2f57a6.png)
 
+
+# For developers
+
+## How to setup dev environment
+
+### Backend
+
+   Need python 3.10+, poetry 1.5+, caddy
+
+      git clone ...
+      poetry shell
+      poetry install
+      cp .env.example .env
+
+   - setup .env values
+   - copy/create test db
+   - start python and caddy server\
+
+      python src/main.py
+      caddy
+
+### Frontend
+
+   Need node, npm
+
+      cd src/fronend
+      npm i
+      cp .env.example .env
+      npm run dev
+
 ## License
 
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
