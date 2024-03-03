@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie';
 import { SpotifyCookie } from '../interfaces/Cookies';
 import { SpotifyCookieKeys } from '../interfaces/Cookies';
 
-export const setCookies = (cookies) => {
+export const setCookies = (cookies: SpotifyCookie) => {
   const cookiesLib = new Cookies();
   SpotifyCookieKeys.forEach((key) => {
     if (cookies[key]) {
@@ -20,15 +20,15 @@ export const readCookies = () => {
   return [spotifyCookies, allCookies];
 };
 export const getUserPath = async (cookie: SpotifyCookie) => {
-  let res = await fetch('https://api.spotify.com/v1/me', {
+  const res = await fetch('https://api.spotify.com/v1/me', {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `${cookie.token_type} ${cookie.access_token}`,
     },
   });
-  let data = await res.json();
-  if (data.id) return '/user/' + data.id;
+  const data = await res.json();
+  if (data.id) return '/app/user/' + data.id;
   return '/login';
 };
 export const isValidCookies = (cookie: SpotifyCookie) => {

@@ -23,9 +23,7 @@ class UserData(BaseModel):
 
 
 ###
-REDIRECT_URI = os.getenv(
-    "SPOTIPY_REDIRECT_URL",
-)
+REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URL")
 templates = Jinja2Templates(directory="src/frontend/templates")
 
 router = APIRouter()
@@ -89,7 +87,7 @@ async def login_redirect(
     "/get_token",
     status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
-async def get_token(code: str) -> RedirectResponse:
+async def get_token(code: str, redirect: bool = True):
     r = requests.post(
         "https://accounts.spotify.com/api/token",
         data={
@@ -101,12 +99,17 @@ async def get_token(code: str) -> RedirectResponse:
         },
     ).json()
 
-    temp_json = dict(r) | {"get_time": str(datetime.now())}
-    sp = spotipy.Spotify(auth=temp_json["access_token"])
-    res = RedirectResponse(f"/#/user/{sp.current_user()['id']}")
-    for k, v in temp_json.items():
+    token_data = dict(r) | {"get_time": str(datetime.now())}
+    sp = spotipy.Spotify(auth=token_data["access_token"])
+    user_id = sp.current_user()["id"]
+    if not redirect:
+        # NOTE request w/o redirect only user for vite dev server
+        token_data |= {"user_id": user_id}
+        return token_data
+    res = RedirectResponse(f"/app/user/{user_id}")
+    for k, v in token_data.items():
         res.set_cookie(k, v)
-    return res
+    return token_data
 
 
 ### dev

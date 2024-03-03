@@ -1,6 +1,7 @@
 """Main app for Spotify DW saver web server"""
 
 import asyncio
+import os
 import sys
 
 import structlog
@@ -12,6 +13,7 @@ from backend.app.logger import setup_logging, setup_uvicorn_logging
 from backend.app.task_handler import revive_user_tasks, task_tick
 from backend.metadata import tags_metadata
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
@@ -19,6 +21,8 @@ from fastapi.security import HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
+
+IGNORE_CORS = bool(eval(os.getenv("IGNORE_CORS", "False")))
 
 templates = Jinja2Templates(directory="src/frontend/templates")
 
@@ -74,6 +78,16 @@ app.include_router(
     prefix="/api",
     tags=["API"],
 )
+
+if IGNORE_CORS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        expose_headers=["*"],
+    )
 
 if __name__ == "__main__":
     import uvicorn

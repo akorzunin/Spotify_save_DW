@@ -1,0 +1,7 @@
+test-dwman.localhost {
+	reverse_proxy localhost:3000
+}
+
+api.test-dwman.localhost {
+	reverse_proxy localhost:8000
+}
