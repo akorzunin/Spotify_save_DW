@@ -4,7 +4,7 @@ from datetime import datetime
 from urllib.parse import urlencode
 
 import requests
-import spotipy
+import spotipy  # type: ignore
 from configs.scope import scope_str
 from fastapi import APIRouter, Request, status
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
