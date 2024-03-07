@@ -52,6 +52,11 @@ Website: https://savespotifydw.duckdns.org/
       cp .env.example .env
       npm run dev
 
+### Update npm deps
+
+      npx npm-check-updates -u
+      npm i
+
 ## License
 
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
