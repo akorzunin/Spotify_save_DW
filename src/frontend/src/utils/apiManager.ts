@@ -4,6 +4,8 @@ import { emptySong, Song } from '../interfaces/Song';
 
 import * as timeMangment from './timeMangment';
 import { DefaultUserImage } from '../components/UserCard';
+import { SpotifyApi } from '../api/SpotifyApi';
+import { QueryFunctionContext } from '@tanstack/react-query';
 
 const checkStatusCode = (res, updateCookie?) => {
   const logErr = (res) => {
@@ -36,10 +38,10 @@ const checkStatusCode = (res, updateCookie?) => {
 
 export const refreshToken = (updateCookie) => {
   const refreshToken = readCookies()[0].refresh_token;
-  if (refreshToken === 'undefined' || typeof refreshToken === undefined) {
+  if (refreshToken === 'undefined' || typeof refreshToken === 'undefined') {
     throw new Error('Cant refresh token because no cookies available');
   }
-  fetch(`/api/refresh_token`, {
+  fetch(`${import.meta.env.VITE_API_URL}/api/refresh_token`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -86,6 +88,7 @@ export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
     };
   }
 };
+
 export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {
   const localCookie: SpotifyCookie = readCookies()[0];
   const res = await fetch('https://api.spotify.com/v1/me/player', {
@@ -100,7 +103,7 @@ export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {
     return false;
   }
   if (checkStatusCode(res, updateCookie)) {
-    const data = await res.json();
+    const data = (await res.json()) as SpotifyApi.CurrentlyPlayingObject;
     return data;
   }
   return false;
@@ -159,15 +162,19 @@ const getPlaylistSongs = async (
 };
 export const getPlayBackSongs = async (
   cookie: SpotifyCookie,
-  updateCookie
-): Promise<[Song[], any, any]> => {
+  updateCookie,
+  prevData: [Song[], any, Song]
+): Promise<[Song[], any, Song]> => {
   const data = await getUserPlayback(cookie, updateCookie);
-  if (!data) {
+  if (!data || !data?.item) {
     // throw new Error("No user playback")
     console.warn('No user playback');
     const noPlInfo = false;
     const emptySongs = [emptySong];
     return [emptySongs, noPlInfo, emptySong];
+  }
+  if (data.item?.type !== 'track') {
+    throw new Error('Cant handle this type of song');
   }
   const currentSong: Song = {
     name: data.item.name,
@@ -178,18 +185,23 @@ export const getPlayBackSongs = async (
   const playlistUri = isPlaybackPlaylist(data);
   let songs: Song[] = [];
   let plInfo;
-  if (playlistUri) {
+  const prevPlaylistUri = prevData[1].uri;
+  if (playlistUri && playlistUri !== prevPlaylistUri) {
+    // fetch all songs from new playlist
     return await getPlaylistSongs(playlistUri.toString(), cookie, currentSong);
-  } else {
-    songs = [
-      {
-        name: data.item.name,
-        artists: data.item.artists[0].name,
-        uri: data.item.uri,
-        imgUrl: data.item.album.images[2].url,
-      },
-    ];
   }
+  if (playlistUri) {
+    // only update current song if same playlist is playing
+    return [prevData[0], prevData[1], currentSong]
+  }
+  songs = [
+    {
+      name: data.item.name,
+      artists: data.item.artists[0].name,
+      uri: data.item.uri,
+      imgUrl: data.item.album.images[2].url,
+    },
+  ];
   return [songs, plInfo, currentSong];
 };
 const generatePlData = async (name?: string, description?: string) => {

@@ -19,6 +19,7 @@ export const CheckboxFormStyle =
   'w-4 h-4 bg-gray-100 rounded border-transparent cursor-pointer';
 export const HintFormStyle =
   'text-sm font-light text-white bg-gray-500 absolute max-w-[192px] rounded-md transition-all duration-600 ease-in-out text-shadow-md';
+let didMount = false;
 
 interface ISettingsPanel {
   IsPremium: boolean;
@@ -123,20 +124,25 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   }, [DwPlaylistId]);
 
   useEffect(() => {
-    getUserData(userId).then((data) => {
-      if (!data) {
-        // create user
-        const userData = {
-          user_id: userId,
-          is_premium: IsPremium,
-          refresh_token: cookie.refresh_token,
-        };
-        createUser(userId, userData);
-      }
-      console.table(data);
-      // set user settings
-      setFormData(data);
-    });
+    if (!didMount) {
+      getUserData(userId).then((data) => {
+        if (!data) {
+          // create user
+          const userData = {
+            user_id: userId,
+            is_premium: IsPremium,
+            refresh_token: cookie.refresh_token,
+          };
+          createUser(userId, userData);
+        }
+        console.table(data);
+        // set user settings
+        setFormData(data);
+      });
+    }
+    return () => {
+      didMount = true;
+    };
   }, []);
   const [emailFormActive, setEmailFormActive] = useState(false);
   const handleShowEmailField = (e) => {

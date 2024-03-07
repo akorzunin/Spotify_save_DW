@@ -14,9 +14,7 @@ const GetTokenPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const handleResponse = async (response) => {
-    console.log(response);
     const data = (await response.json()) as DevSpotifyCookie;
-    console.log(data);
     setCookies(data);
     navigate(`/app/user/${data.user_id}`);
   };

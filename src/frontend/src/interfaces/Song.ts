@@ -7,7 +7,7 @@ export interface Song {
   uri?: string; // this.track.uri
 }
 
-export const emptySong = {
+export const emptySong: Song = {
   name: 'No track data',
   imgUrl: 'https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2',
   artists: 'No artist data',

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect, FC } from 'react';
 import Footer from '../../components/Footer';
 import SongCard from '../../components/SongCard';
@@ -14,6 +13,7 @@ import { emptySong } from '../../interfaces/Song';
 import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
 import { ICurrentSong } from '../../types/song';
+import { useQuery } from '@tanstack/react-query';
 
 export const UserPage: FC = () => {
   const ButtonStyle = 'text-neutral-900';
@@ -34,98 +34,36 @@ export const UserPage: FC = () => {
   const [cookie, setCookie] = useState(cookieHandle.readCookies()[0]);
 
   const isDiscoverWeekly = (data): boolean => {
-    return data.images[0].url.search('discover') > 0 ? true : false;
+    return data.images[0].url.search('discover') > 0;
   };
 
-  const setPlaylistData = (info) => {
-    const songs = info[0];
-    const data = info[1];
-    const currentSong = info[2];
-    if (data) {
-      setPlaylistName(data.name);
-      const isDiscoverWeeklyPl = isDiscoverWeekly(data);
+  const { status, data, error, refetch } = useQuery({
+    queryKey: ['player', cookie],
+    queryFn: async () => {
+      const plData = await apiManager.getPlayBackSongs(
+        cookie,
+        setCookie,
+        data.data
+      );
+      return { data: plData };
+    },
+    refetchInterval: 3000,
+    initialData: { data: [[emptySong], false, emptySong] },
+  });
+
+  useEffect(() => {
+    const [songs, playlistData, currentSong] = data.data;
+    if (playlistData) {
+      setPlaylistName(playlistData.name);
+      const isDiscoverWeeklyPl = isDiscoverWeekly(playlistData);
       setIsDW(isDiscoverWeeklyPl);
       if (isDiscoverWeeklyPl) {
-        setDwPlaylistId(data.id);
+        setDwPlaylistId(playlistData.id);
       }
     }
     setCurrentSong(currentSong);
     setPlSongs(songs);
-  };
-
-  const setDefaults = () => {
-    setPlSongs(emptySong);
-    setIsDW(false);
-    setPlaylistName('No playlist name');
-    setCurrentSong(emptySong);
-  };
-
-  useEffect(() => {
-    // get user data
-    apiManager.getUserData(cookie).then((user) => {
-      setUser(user);
-    });
-    let data;
-    // look for user palyback
-    apiManager
-      .getPlayBackSongs(cookie, setCookie)
-      .then((plData) => {
-        setPlaylistData(plData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    const updateInterval = setInterval(() => {
-      apiManager.getUserPlayback(cookie, setCookie).then((tempData) => {
-        if (!tempData) {
-          setDefaults();
-        }
-        if (typeof data === 'undefined') {
-          // init data variable w/ available content
-          data = tempData;
-        }
-        if (tempData) {
-          // debugger
-          if (data.error) {
-            if (data.error.status > 399) {
-              clearInterval(updateInterval);
-              throw new Error(data.error.message);
-            }
-          }
-          // check that playback was not empty
-          if (tempData) {
-            if (!data) {
-              data = tempData;
-              apiManager
-                .getPlayBackSongs(cookie, setCookie)
-                .then((plData) => {
-                  setPlaylistData(plData);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  clearInterval(updateInterval);
-                });
-              return;
-            }
-            //  if there is no changes in playback, dont request songs
-            if (data.item.uri != tempData.item.uri) {
-              data = tempData;
-              // debugger
-              apiManager
-                .getPlayBackSongs(cookie, setCookie)
-                .then((plData) => {
-                  setPlaylistData(plData);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  clearInterval(updateInterval);
-                });
-            }
-          }
-        }
-      });
-    }, 2000);
-  }, []);
+  }, [data]);
 
   return (
     <>

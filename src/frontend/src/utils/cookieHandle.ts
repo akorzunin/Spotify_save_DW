@@ -1,6 +1,7 @@
 import Cookies from 'universal-cookie';
 import { SpotifyCookie } from '../interfaces/Cookies';
 import { SpotifyCookieKeys } from '../interfaces/Cookies';
+import { getEndpoint } from './utils';
 
 export const setCookies = (cookies: SpotifyCookie) => {
   const cookiesLib = new Cookies();
@@ -19,15 +20,29 @@ export const readCookies = () => {
   });
   return [spotifyCookies, allCookies];
 };
-export const getUserPath = async (cookie: SpotifyCookie) => {
-  const res = await fetch('https://api.spotify.com/v1/me', {
+interface IapiSpotifyMe {
+  country: string;
+  display_name: string;
+  // explicit_content : {filter_enabled: false, filter_locked: false}
+  // external_urls : {spotify: 'https://open.spotify.com/user/sltyljtam3wzcb28yeowsxcn4'}
+  // followers : {href: null, total: 5}
+  href: string;
+  id: string;
+  // images : (2) [{…}, {…}]
+  product: string;
+  type: string;
+  uri: string;
+}
+export const getUserPath = async (cookie: SpotifyCookie, useProxy = false) => {
+  const url = getEndpoint(useProxy);
+  const res = await fetch(`${url}/me`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `${cookie.token_type} ${cookie.access_token}`,
     },
   });
-  const data = await res.json();
+  const data = (await res.json()) as IapiSpotifyMe;
   if (data.id) return '/app/user/' + data.id;
   return '/login';
 };
