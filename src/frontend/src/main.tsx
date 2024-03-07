@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './index.css';
 import { store } from './store/store';
@@ -11,6 +12,7 @@ import MainPage from './pages/main/MainPage';
 import AboutPage from './pages/about/AboutPage';
 import GetTokenPage from './pages/get_token/GetTokenPage';
 import GetLoginPage from './pages/login/GetLoginPage';
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -42,9 +44,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );
