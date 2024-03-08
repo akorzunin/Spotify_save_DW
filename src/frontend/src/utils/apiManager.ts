@@ -116,6 +116,9 @@ const isPlaybackPlaylist = (data): string | boolean => {
     } else if (data.context.type === 'collection') {
       console.warn('No playlist found, collection is playing');
       return false;
+    } else if (data.context.type === 'album') {
+      console.warn('No playlist found, album is playing');
+      return false;
     } else {
       debugger;
       throw new Error('No playlist found');
