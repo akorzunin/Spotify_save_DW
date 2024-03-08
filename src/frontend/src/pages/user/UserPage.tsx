@@ -81,23 +81,19 @@ export const UserPage: FC = () => {
             onDelete={undefined}
             isHidden={undefined}
           />
-          <div className=" hidden items-center lg:flex">
-            <Link to="/help" className="mr-3">
-              <Button
-                style={ButtonStyle}
-                title="Help"
-                link="/help"
-                color="bg-white text-black"
-              />
-            </Link>
-            <Link to="/" className="mr-3">
-              <Button
-                style={ButtonStyle}
-                title="Home"
-                link="/"
-                color="bg-white text-black"
-              />
-            </Link>
+          <div className=" hidden items-center gap-3 lg:flex">
+            <Button
+              style={ButtonStyle}
+              title="Help"
+              link="/app/help"
+              color="bg-white text-black"
+            />
+            <Button
+              style={ButtonStyle}
+              title="Home"
+              link="/"
+              color="bg-white text-black"
+            />
 
             <Button
               title="Logout"

@@ -2,7 +2,7 @@
   "configurations": [
     {
       "name": "Python: Fast API",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/src/main.py",
       "console": "integratedTerminal",
@@ -10,7 +10,7 @@
     },
     {
       "name": "Python: Current File",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
@@ -20,7 +20,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against vite dev server",
-      "url": "http://localhost:3000",
+      "url": "https://test-dwman.localhost",
       "webRoot": "${workspaceFolder}/src/frontend",
       "userDataDir": "Debug",
       "runtimeArgs": ["--profile-directory=debug-profile"]

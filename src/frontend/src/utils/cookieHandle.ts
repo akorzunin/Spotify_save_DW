@@ -48,10 +48,8 @@ export const getUserPath = async (cookie: SpotifyCookie, useProxy = false) => {
 };
 export const isValidCookies = (cookie: SpotifyCookie) => {
   if (!Object.keys(cookie).length) {
-    console.log('invalid cookies');
     return false;
   } else {
-    console.log('Valid cookies');
     return true;
   }
 };

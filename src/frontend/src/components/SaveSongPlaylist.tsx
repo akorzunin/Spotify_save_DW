@@ -13,7 +13,6 @@ const SaveSongPlaylist: FC<ISaveSongPlayList> = ({ songs, alertDeleted }) => {
     setHiddenValues({ ...hiddenValues, [index]: value });
     alertDeleted(songs[index]);
   };
-  console.log('songs', songs);
   return (
     <div className="">
       <div className={`container mt-3 max-h-[70vh] max-w-md overflow-y-scroll`}>

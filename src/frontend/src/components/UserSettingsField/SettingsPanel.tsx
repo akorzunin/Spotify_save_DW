@@ -124,9 +124,9 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   }, [DwPlaylistId]);
 
   useEffect(() => {
-    if (!didMount) {
+    if (!didMount && userId) {
       getUserData(userId).then((data) => {
-        if (!data) {
+        if (!data && userId) {
           // create user
           const userData = {
             user_id: userId,
