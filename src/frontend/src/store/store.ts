@@ -1,13 +1,3 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import counterReducer from './reducers/counterReducer';
+import { atom } from "jotai";
 
-const rootReducer = combineReducers({
-  counter: counterReducer,
-});
-
-export const store = configureStore({
-  reducer: rootReducer,
-});
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const easterEggCountAtom = atom(0);

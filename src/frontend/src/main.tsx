@@ -1,10 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './index.css';
-import { store } from './store/store';
 import { ErrorBoundary } from 'react-error-boundary';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import UserPage from './pages/user/UserPage';
@@ -45,9 +43,7 @@ ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
           <RouterProvider router={router} />
-        </Provider>
       </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>
