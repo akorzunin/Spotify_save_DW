@@ -25,6 +25,7 @@ const BlobButton: FC<IBlobButton> = ({ title = 'Blob', link = '/' }) => {
         {circles.map((circle) => {
           return (
             <div
+              key={circle}
               className={`${styles.circle__main} ${circleStyle[circle]}`}
             ></div>
           );
