@@ -6,7 +6,7 @@ import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
 import { Burger } from '../../components/Burger';
 import BurgerMenu from '../../components/BurgerMenu';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
 import Button from '../../components/buttons/BaseButton';
 import { emptySong } from '../../interfaces/Song';
@@ -14,12 +14,13 @@ import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
 import { ICurrentSong } from '../../types/song';
 import { useQuery } from '@tanstack/react-query';
+import { getUserData } from '../../utils/apiManager';
 
 export const UserPage: FC = () => {
   const ButtonStyle = 'text-neutral-900';
-  const { user_id } = useParams();
+  const { userId } = useParams();
 
-  const [User, setUser] = useState({
+  const [User] = useState({
     name: undefined,
     img: undefined,
     followers: undefined,
@@ -27,7 +28,7 @@ export const UserPage: FC = () => {
   });
   const [PlSongs, setPlSongs] = useState<ICurrentSong[]>([emptySong]);
   const [isDW, setIsDW] = useState(false);
-  const [DwPlaylistId, setDwPlaylistId] = useState();
+  const [DwPlaylistId, setDwPlaylistId] = useState('');
   const [PlaylistName, setPlaylistName] = useState('No playlist name');
   const [CurrentSong, setCurrentSong] = useState<ICurrentSong>(emptySong);
   const [burgerClass, setburgerClass] = useState('');
@@ -37,22 +38,28 @@ export const UserPage: FC = () => {
     return data.images[0].url.search('discover') > 0;
   };
 
-  const { status, data, error, refetch } = useQuery({
+  const { data: playback } = useQuery({
     queryKey: ['player', cookie],
     queryFn: async () => {
       const plData = await apiManager.getPlayBackSongs(
         cookie,
         setCookie,
-        data.data
+        playback.data
       );
       return { data: plData };
     },
     refetchInterval: 3000,
     initialData: { data: [[emptySong], false, emptySong] },
   });
-
+  const { data: user } = useQuery({
+    queryKey: ['user', cookie],
+    queryFn: async () => {
+      const userData = await getUserData(cookie);
+      return userData;
+    },
+  });
   useEffect(() => {
-    const [songs, playlistData, currentSong] = data.data;
+    const [songs, playlistData, currentSong] = playback.data;
     if (playlistData) {
       setPlaylistName(playlistData.name);
       const isDiscoverWeeklyPl = isDiscoverWeekly(playlistData);
@@ -63,7 +70,7 @@ export const UserPage: FC = () => {
     }
     setCurrentSong(currentSong);
     setPlSongs(songs);
-  }, [data]);
+  }, [playback]);
 
   return (
     <>
@@ -131,7 +138,7 @@ export const UserPage: FC = () => {
             <div className="flex justify-center">
               <SettingsPanel
                 IsPremium={User.isPremium}
-                userId={user_id}
+                userId={userId}
                 cookie={cookie}
                 DwPlaylistId={DwPlaylistId}
               />

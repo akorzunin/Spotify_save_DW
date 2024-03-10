@@ -5,7 +5,7 @@ import { emptySong, Song } from '../interfaces/Song';
 import * as timeMangment from './timeMangment';
 import { DefaultUserImage } from '../components/UserCard';
 import { SpotifyApi } from '../api/SpotifyApi';
-import { QueryFunctionContext } from '@tanstack/react-query';
+import { Playback } from '../interfaces/Playback';
 
 const checkStatusCode = (res, updateCookie?) => {
   const logErr = (res) => {
@@ -120,7 +120,6 @@ const isPlaybackPlaylist = (data): string | boolean => {
       console.warn('No playlist found, album is playing');
       return false;
     } else {
-      debugger;
       throw new Error('No playlist found');
     }
   } catch (err) {
@@ -139,7 +138,7 @@ const getPlaylistSongs = async (
   playlistUri: string,
   cookie: SpotifyCookie,
   currentSong: Song
-): Promise<[Song[], any, any]> => {
+): Promise<Playback> => {
   const playlistId = playlistUri.split(':').pop();
   const res = await fetch(
     `https://api.spotify.com/v1/playlists/${playlistId}`,
@@ -166,8 +165,8 @@ const getPlaylistSongs = async (
 export const getPlayBackSongs = async (
   cookie: SpotifyCookie,
   updateCookie,
-  prevData: [Song[], any, Song]
-): Promise<[Song[], any, Song]> => {
+  prevData: Playback
+): Promise<Playback> => {
   const data = await getUserPlayback(cookie, updateCookie);
   if (!data || !data?.item) {
     // throw new Error("No user playback")
@@ -188,7 +187,7 @@ export const getPlayBackSongs = async (
   const playlistUri = isPlaybackPlaylist(data);
   let songs: Song[] = [];
   let plInfo;
-  const prevPlaylistUri = prevData[1].uri;
+  const prevPlaylistUri = prevData[1] && prevData[1].uri;
   if (playlistUri && playlistUri !== prevPlaylistUri) {
     // fetch all songs from new playlist
     return await getPlaylistSongs(playlistUri.toString(), cookie, currentSong);

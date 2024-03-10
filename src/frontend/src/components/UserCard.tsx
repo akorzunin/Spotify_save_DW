@@ -1,23 +1,36 @@
 import React, { FC, useState } from 'react';
 import { ModalAvatar } from './ModalAvatar';
 import { WeekCounter } from './WeekCounter';
-
-interface IUserCard {
-  userName: string;
-  imgUrl: string;
-  followers: number;
-}
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 
 export const DefaultUserImage =
   'https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7';
 
-const UserCard: FC<IUserCard> = ({
-  userName = 'User Name',
-  imgUrl = DefaultUserImage,
-  followers = 0,
-}) => {
+const UserCard: FC = () => {
   const [modalActive, setModalActive] = useState(false);
+  // const [user, setfirst] = useAtom(spotifyUserAtom)
+  const userName = '123';
+  const imgUrl = DefaultUserImage;
+  const followers = 123;
+  const { userId } = useParams();
 
+  const {
+    status,
+    data: user,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: async () => {
+      const userData = await getUserData(cookie);
+      return userData;
+    },
+    initialData: {
+      a: 1,
+    },
+  });
+  console.log(user);
   return (
     <div className="flex p-5">
       <img
@@ -30,10 +43,10 @@ const UserCard: FC<IUserCard> = ({
       />
       <div>
         <div className="flex p-0.5 ">
-          <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-white">
+          <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black ">
             {userName}
           </div>
-          <div className="text-shadow-md mt-[2px] hidden text-base leading-6 text-white opacity-80 xl:block">
+          <div className="text-shadow-md mt-[2px] hidden text-base leading-6 text-black      opacity-80 xl:block">
             {followers > 999 ? followers / 1000 + 'k' : followers} followers
           </div>
         </div>
