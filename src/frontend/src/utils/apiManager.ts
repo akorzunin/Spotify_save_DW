@@ -195,7 +195,7 @@ export const getPlayBackSongs = async (
   }
   if (playlistUri) {
     // only update current song if same playlist is playing
-    return [prevData[0], prevData[1], currentSong]
+    return [prevData[0], prevData[1], currentSong];
   }
   songs = [
     {

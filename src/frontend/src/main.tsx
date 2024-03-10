@@ -43,7 +43,7 @@ ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
       <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </ErrorBoundary>
   </React.StrictMode>
