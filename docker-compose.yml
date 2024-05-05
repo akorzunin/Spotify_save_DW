@@ -1,15 +1,12 @@
-version: "3.4"
-
 services:
-  spotifydwapi:
-    image: spotifydwapi
+  dwman:
+    image: dwman
+    container_name: dwman
     build:
       context: .
       dockerfile: ./Dockerfile
-      args:
-        MASHINE: ${MASHINE}
     ports:
-      - ${PORT}:${PORT}
+      - ${PORT:-8000}:${PORT:-8000}
     env_file:
       - .env
     restart: unless-stopped
@@ -17,9 +14,6 @@ services:
       - ./data:/app/data:rw
   caddy:
     image: caddy:2-alpine
-    build:
-      context: .
-      dockerfile: ./caddy/Dockerfile
     env_file:
       - .env
     restart: unless-stopped
@@ -27,6 +21,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./frontend/public:/app/frontend/public:ro
-      - ./frontend/dist:/app/frontend/dist:ro
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy_data:/data:rw
+      - ./caddy_config:/config:rw
