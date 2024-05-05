@@ -1,0 +1,25 @@
+- name: Deploy dwman to test
+  hosts: local_workstation, vps_sw_1
+  become: false
+
+  tasks:
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: "https://github.com/akorzunin/Spotify_save_DW.git"
+        dest: ~/Documents/dwman-test
+        single_branch: true
+        version: test
+
+    - name: Copy .env file
+      ansible.builtin.copy:
+        src: .env
+        dest: ~/Documents/dwman-test/
+        mode: "0644"
+        backup: true
+
+    - name: Deploy dwman-test
+      ansible.builtin.command:
+        cmd: docker-compose up -d --build dwman
+        chdir: ~/Documents/dwman-test
+      register: out
+      changed_when: out.rc != 0
