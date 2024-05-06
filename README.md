@@ -29,40 +29,45 @@ Website: https://savespotifydw.duckdns.org/
 
 ### Backend
 
-   Need python 3.10+, poetry 1.5+, caddy
+Need python 3.10+, poetry 1.5+, caddy
 
-      git clone ...
-      poetry shell
-      poetry install
-      cp .env.example .env
+   git clone ...
+   poetry shell
+   poetry install
+   cp .env.example .env
 
-   - setup .env values
-   - copy/create test db
-   - start python and caddy server\
+- setup .env values
+- copy/create test db
+- start python and caddy server\
 
-      python src/main.py
-      caddy
+   python src/main.py
+   sudo caddy run --config .\caddy\dev\Caddyfile
+
+Export depenencies
+
+   poetry export -f requirements.txt --output requirements.txt --without-hashes --without-urls
 
 ### Frontend
 
-   Need node, npm
+Need node, npm, caddy to be installed
 
-      cd src/fronend
-      npm i
-      cp .env.example .env
-      npm run dev
+   cd src/fronend
+   npm i
+   # create env file w/ url to dev backend
+   echo "VITE_API_URL=https://test-dwman.duckdns.org" > .env
+   npm run dev
+   # run caddy in different treminal
+   # use sudo cuz caddy need accsess to port 443
+   sudo caddy run --config .\caddy\dev\Caddyfile.frontend
+   # optionally u neeb to run caddy trust in another trminal w/o closing this one
+
+go to test-dwman.localhost
 
 ### Update npm deps
 
-      npx npm-check-updates -u
-      npm i
+   npx npm-check-updates -u
+   npm i
 
 ## License
 
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU5MjQxMTAyMywxNDI5OTUyMzgyLDEwNj
-g5ODA1MjAsLTg5OTExMDAzMyw5NTAzNDg3MTYsLTEzMzI5Nzkx
-ODJdfQ==
--->

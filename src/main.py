@@ -6,10 +6,11 @@ import sys
 
 import structlog
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from backend.app.api_routes import router as api_routes
 from backend.app.auth import check_credentials, security
-from backend.app.front_routes import router as front_routes
 from backend.app.logger import setup_logging, setup_uvicorn_logging
+from backend.app.routes.api_routes import router as api_routes
+from backend.app.routes.front_routes import router as front_routes
+from backend.app.routes.proxy_routes import router as proxy_routes
 from backend.app.task_handler import revive_user_tasks, task_tick
 from backend.metadata import tags_metadata
 from fastapi import Depends, FastAPI
@@ -54,7 +55,7 @@ app = FastAPI(
 setup_uvicorn_logging(app, access_logger)
 
 
-@app.get("/docs")
+@app.get("/docs", tags=["Docs"])
 async def get_documentation(
     credentials: HTTPBasicCredentials = Depends(security),
 ):
@@ -62,7 +63,7 @@ async def get_documentation(
     return get_swagger_ui_html(openapi_url="/openapi.json", title="docs")
 
 
-@app.get("/openapi.json")
+@app.get("/openapi.json", tags=["Docs"])
 async def get_open_api_endpoint():
     return JSONResponse(
         get_openapi(title="FastAPI", version=1, routes=app.routes)
@@ -77,6 +78,10 @@ app.include_router(
     router=api_routes,
     prefix="/api",
     tags=["API"],
+)
+app.include_router(
+    router=proxy_routes,
+    tags=["proxy API"],
 )
 
 if IGNORE_CORS:
