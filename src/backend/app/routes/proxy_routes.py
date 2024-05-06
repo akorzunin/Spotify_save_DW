@@ -4,7 +4,7 @@ from httpx import AsyncClient
 from starlette.background import BackgroundTask
 
 spotify_client = AsyncClient(base_url=f"https://api.spotify.com/")
-router = APIRouter()
+router = APIRouter(tags=["proxy API"])
 
 
 @router.api_route("/api/spotify/{path:path}", methods=["GET", "POST"])

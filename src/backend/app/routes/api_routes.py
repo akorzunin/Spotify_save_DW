@@ -13,7 +13,10 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasicCredentials
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api",
+    tags=["API"],
+)
 
 
 @router.post(

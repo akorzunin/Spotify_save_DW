@@ -12,7 +12,6 @@ from backend.app.routes.api_routes import router as api_routes
 from backend.app.routes.front_routes import router as front_routes
 from backend.app.routes.proxy_routes import router as proxy_routes
 from backend.app.task_handler import revive_user_tasks, task_tick
-from backend.metadata import tags_metadata
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -27,15 +26,6 @@ IGNORE_CORS = bool(eval(os.getenv("IGNORE_CORS", "False")))
 
 templates = Jinja2Templates(directory="src/frontend/templates")
 
-routes = [
-    Mount(
-        "/assets",
-        app=StaticFiles(
-            directory="src/frontend/dist/assets",
-        ),
-        name="assets",
-    ),
-]
 
 setup_logging(
     json_logs=not sys.stderr.isatty(),
@@ -45,8 +35,6 @@ access_logger = structlog.stdlib.get_logger("api.access")
 # log = structlog.stdlib.get_logger(__name__)
 
 app = FastAPI(
-    openapi_tags=tags_metadata,
-    routes=routes,
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
@@ -70,19 +58,17 @@ async def get_open_api_endpoint():
     )
 
 
-app.include_router(
-    router=front_routes,
-    tags=["Frontend"],
+app.mount(
+    "/assets",
+    app=StaticFiles(
+        directory="src/frontend/dist/assets",
+    ),
+    name="assets",
 )
-app.include_router(
-    router=api_routes,
-    prefix="/api",
-    tags=["API"],
-)
-app.include_router(
-    router=proxy_routes,
-    tags=["proxy API"],
-)
+
+app.include_router(front_routes)
+app.include_router(api_routes)
+app.include_router(proxy_routes)
 
 if IGNORE_CORS:
     app.add_middleware(

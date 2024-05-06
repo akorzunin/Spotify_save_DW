@@ -26,7 +26,7 @@ class UserData(BaseModel):
 REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URL")
 templates = Jinja2Templates(directory="src/frontend/templates")
 
-router = APIRouter()
+router = APIRouter(tags=["Frontend"])
 
 
 @router.get(
