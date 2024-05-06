@@ -48,7 +48,7 @@ export const UserPage: FC = () => {
       );
       return { data: plData };
     },
-    refetchInterval: 3000,
+    refetchInterval: 30000,
     initialData: { data: [[emptySong], false, emptySong] },
   });
   const { data: user } = useQuery({

@@ -6,6 +6,7 @@ import * as timeMangment from './timeMangment';
 import { DefaultUserImage } from '../components/UserCard';
 import { SpotifyApi } from '../api/SpotifyApi';
 import { Playback } from '../interfaces/Playback';
+import { getSpotifyUrl } from './utils';
 
 const checkStatusCode = (res, updateCookie?) => {
   const logErr = (res) => {
@@ -60,7 +61,7 @@ export const refreshToken = (updateCookie) => {
     });
 };
 export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
-  const res = await fetch('https://api.spotify.com/v1/me/', {
+  const res = await fetch(getSpotifyUrl('/v1/me/', false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
 
 export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {
   const localCookie: SpotifyCookie = readCookies()[0];
-  const res = await fetch('https://api.spotify.com/v1/me/player', {
+  const res = await fetch(getSpotifyUrl('/v1/me/player', false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -140,16 +141,13 @@ const getPlaylistSongs = async (
   currentSong: Song
 ): Promise<Playback> => {
   const playlistId = playlistUri.split(':').pop();
-  const res = await fetch(
-    `https://api.spotify.com/v1/playlists/${playlistId}`,
-    {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `${cookie.token_type} ${cookie.access_token}`,
-      },
-    }
-  );
+  const res = await fetch(getSpotifyUrl(`/v1/playlists/${playlistId}`, false), {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `${cookie.token_type} ${cookie.access_token}`,
+    },
+  });
   const data = await res.json();
   const songs: Song[] = [];
   data.tracks.items.forEach((song) => {
@@ -229,7 +227,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
   const PlData = await generatePlData();
   if (userData) {
     const res = await fetch(
-      `https://api.spotify.com/v1/users/${userData.id}/playlists`,
+      getSpotifyUrl(`v1/users/${userData.id}/playlists`, false),
       {
         method: 'POST',
         headers: {
@@ -250,7 +248,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
       await new Promise((resolve) => setTimeout(resolve, 500));
       // add songs to playlist
       const plRes = await fetch(
-        `https://api.spotify.com/v1/playlists/${resData.id}/tracks`,
+        getSpotifyUrl(`/v1/playlists/${resData.id}/tracks`, false),
         {
           method: 'POST',
           headers: {
@@ -283,7 +281,7 @@ export const updatePlaylistDescription = async (
   plData
 ) => {
   const playtlistDetails = await generatePlData();
-  const res = await fetch(`https://api.spotify.com/v1/playlists/${plData.id}`, {
+  const res = await fetch(getSpotifyUrl(`/v1/playlists/${plData.id}`, false), {
     method: 'POST',
     headers: {
       Accept: 'application/json',

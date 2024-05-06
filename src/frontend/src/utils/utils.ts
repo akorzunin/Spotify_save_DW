@@ -25,9 +25,9 @@ export const updateTextEmoji = (event) => {
   event.target.textContent = get_text_emoji();
 };
 
-export const getEndpoint = (useProxy: boolean = false): string => {
-  if (useProxy) {
-    return import.meta.env.VITE_API_URL;
+export const getSpotifyUrl = (path: string, isDirect: boolean): string => {
+  if (isDirect) {
+    return 'https://api.spotify.com' + path;
   }
-  return 'https://api.spotify.com/v1';
+  return import.meta.env.VITE_API_URL + '/api/spotify' + path;
 };

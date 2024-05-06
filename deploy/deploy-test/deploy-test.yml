@@ -19,7 +19,7 @@
 
     - name: Deploy dwman-test
       ansible.builtin.command:
-        cmd: docker-compose up -d --build dwman
+        cmd: docker compose up -d --build dwman
         chdir: ~/Documents/dwman-test
       register: out
       changed_when: out.rc != 0

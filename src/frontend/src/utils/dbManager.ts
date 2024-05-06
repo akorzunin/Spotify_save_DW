@@ -7,7 +7,7 @@ export const getLocation = () => {
 };
 
 export const getUserData = async (userId: string): Promise<any> => {
-  return fetch(`/api/user?user_id=${userId}`, {
+  return fetch(`${import.meta.env.VITE_API_URL}/api/user?user_id=${userId}`, {
     headers: {
       accept: 'application/json',
     },
@@ -22,7 +22,7 @@ export const getUserData = async (userId: string): Promise<any> => {
 };
 
 export const createUser = async (userId: string, userData): Promise<any> => {
-  const res = await fetch(`/api/new_user`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/new_user`, {
     method: 'POST',
     headers: {
       accept: 'application/json',
@@ -36,14 +36,17 @@ export const createUser = async (userId: string, userData): Promise<any> => {
   return data;
 };
 export const updateUserData = async (userId, updateData): Promise<any> => {
-  const res = await fetch(`/api/update_user?user_id=${userId}`, {
-    method: 'PUT',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(updateData),
-  });
+  const res = await fetch(
+    `${import.meta.env.VITE_API_URL}/api/update_user?user_id=${userId}`,
+    {
+      method: 'PUT',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData),
+    }
+  );
 
   const data = await res.json();
   return data;

@@ -27,7 +27,7 @@ const UserCard: FC = () => {
       return userData;
     },
     initialData: {
-      a: 1,
+      noUser: true,
     },
   });
   console.log(user);
