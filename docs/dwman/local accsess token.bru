@@ -1,0 +1,17 @@
+meta {
+  name: local accsess token
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8000/api/spotify/v1/me
+  body: none
+  auth: none
+}
+
+headers {
+  X-Aboba: amogus
+  Authorization: Bearer {{ACCESS_TOKEN}}
+  Content-Type: application/json
+}
