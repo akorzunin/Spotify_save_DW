@@ -1,6 +1,8 @@
 import os
 from collections import OrderedDict
 from datetime import datetime
+from random import randint
+from typing import Literal
 from urllib.parse import urlencode
 
 import requests
@@ -48,25 +50,32 @@ async def user_page(request: Request, user_id: str):
     return RedirectResponse(f"/#/user/{user_id}")
 
 
+def new_state() -> str:
+    """Generate state for auth code flow"""
+    return "".join(chr(randint(33, 126)) for i in range(16))
+
+
 @router.get(
     "/login",
     response_class=HTMLResponse,
     status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
-async def login_url():
+async def login_url(
+    state: str = new_state(),
+    show_dialog: Literal["true", "false"] = "false",
+):
     """Redirect to Spotify login page"""
-    # scope = 'user-read-private user-read-email'
     r = requests.Request(
         "GET",
         "https://accounts.spotify.com/en/authorize?"
         + urlencode(
-            OrderedDict(
+            dict(
                 response_type="code",
                 client_id=os.getenv("SPOTIPY_CLIENT_ID"),
                 scope=scope_str,
                 redirect_uri=REDIRECT_URI,
-                # state='HMBibZ2hl8VIH7AI',
-                # show_dialog='true',
+                state=state,
+                show_dialog=show_dialog,
             )
         ),
     )

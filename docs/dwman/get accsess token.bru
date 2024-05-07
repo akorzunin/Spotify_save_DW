@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: https://api.spotify.com/v1/me
+  url: {{SPOTIFY_API}}/v1/me
   body: none
   auth: none
 }
 
 headers {
-  Authorization: Bearer BQC7S0SA_SryHG8ens2vjwkFqRENKbYazHEuYgigcC-xT7tNdDVn7Kf4ptbuXYjyHyC3CtgqBKhgzwBzOjOUfUq-lRdAraz4QZSiaafcf2vslIQz4ZUSF2raFyQiehYCKM7rI1GZHXocC5CNJDlVSbLOztBdHWvwzqYcBRoOQ9aNfXXHeHKv5dFOxFHWQE2A0K87ud4iNO6NePkAknPXV2QaZKBOBRdqv0S3-6jgsXMvtVnmvTsYBdnVAhIzDNjiAJt3Y2K3oSqczWGJq2g
+  Authorization: Bearer {{ACCESS_TOKEN}}
   Content-Type: application/json
 }
