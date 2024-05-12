@@ -68,6 +68,10 @@ go to test-dwman.localhost
    npx npm-check-updates -u
    npm i
 
+## Deploy
+
+   ansible-playbook ./deploy/deploy-test/deploy-test.yml
+
 ## License
 
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
