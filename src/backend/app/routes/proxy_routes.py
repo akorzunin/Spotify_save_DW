@@ -1,23 +1,33 @@
 from fastapi import APIRouter, Request, Response
-from fastapi.responses import StreamingResponse
 from httpx import AsyncClient
-from starlette.background import BackgroundTask
 
 spotify_client = AsyncClient(base_url=f"https://api.spotify.com")
+allowed_headers = (
+    "accept",
+    "content-type",
+    "authorization",
+    "user-agent",
+    "accept-encoding",
+)
 
 router = APIRouter(tags=["proxy API"])
 
 
 @router.api_route("/api/spotify/{path:path}", methods=["GET", "POST"])
 async def spotify_request(path: str, request: Request, response: Response):
-    req = spotify_client.build_request(
+    headers = {
+        x: request.headers[x]
+        for x in request.headers.keys()
+        if x in allowed_headers
+    }
+    spotify_req = spotify_client.build_request(
         request.method,
         path,
-        headers=request.headers,
+        headers=headers,
     )
-    res = await spotify_client.send(req)
+    spotify_res = await spotify_client.send(spotify_req)
 
-    response.body = res.content
-    response.status_code = res.status_code
+    response.body = spotify_res.content
+    response.status_code = spotify_res.status_code
 
     return response
