@@ -7,6 +7,7 @@ import { DefaultUserImage } from '../components/UserCard';
 import { SpotifyApi } from '../api/SpotifyApi';
 import { Playback } from '../interfaces/Playback';
 import { getSpotifyUrl } from './utils';
+import { getAccessToken } from './auth';
 
 const checkStatusCode = (res, updateCookie?) => {
   const logErr = (res) => {
@@ -53,8 +54,7 @@ export const refreshToken = (updateCookie) => {
     .then((data) => {
       // save data to browser cookies
       setCookies(data);
-      // update React cookie state
-      updateCookie(readCookies()[0]);
+      localStorage.setItem('refresh_token', data.refresh_token);
     })
     .catch((err) => {
       console.error(err);
@@ -67,38 +67,33 @@ export interface UserData {
   id: string;
   isPremium: boolean;
 }
-export const getUserData = async (
-  cookie: SpotifyCookie,
-  updateCookie?: () => void
-): Promise<UserData> => {
+export const getUserData = async (cookie: SpotifyCookie): Promise<UserData> => {
+  const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me/', false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookie.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
-  if (checkStatusCode(res, updateCookie)) {
-    const data = (await res.json()) as SpotifyApi.CurrentUsersProfileResponse;
-    let isPremium = false;
-    if (data.product === 'premium') {
-      isPremium = true;
-    }
-    let userImage: string;
-    if (!data.images) {
-      userImage = DefaultUserImage;
-    } else {
-      userImage = data.images[0].url;
-    }
-    return {
-      name: data.display_name || 'No User',
-      img: userImage,
-      followers: data?.followers?.total || 0,
-      id: data.id,
-      isPremium: isPremium,
-    };
+  const data = (await res.json()) as SpotifyApi.CurrentUsersProfileResponse;
+  let isPremium = false;
+  if (data.product === 'premium') {
+    isPremium = true;
   }
-  throw new Error('Failed to get user data');
+  let userImage: string;
+  if (!data.images) {
+    userImage = DefaultUserImage;
+  } else {
+    userImage = data.images[0].url;
+  }
+  return {
+    name: data.display_name || 'No User',
+    img: userImage,
+    followers: data?.followers?.total || 0,
+    id: data.id,
+    isPremium: isPremium,
+  };
 };
 
 export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {

@@ -59,7 +59,9 @@ Need node, npm, caddy to be installed
    # run caddy in different treminal
    # use sudo cuz caddy need accsess to port 443
    sudo caddy run --config .\caddy\dev\Caddyfile.frontend
-   # optionally u neeb to run caddy trust in another trminal w/o closing this one
+   # or just run it w/o caddyfile
+   caddy reverse-proxy --from test-dwman.localhost --to localhost:3000
+   # optionally u need to run `caddy trust` in another trminal w/o closing this one
 
 go to test-dwman.localhost
 
