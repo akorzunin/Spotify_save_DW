@@ -66,8 +66,8 @@ export const UserPage: FC = () => {
 
   return (
     <>
-      <main className="min-h-screen">
-        <header className="relative mb-12 flex justify-between">
+      <main className="container mx-auto min-h-screen">
+        <header className="relative mb-12 flex flex-col justify-between md:flex-row">
           <UserCard />
           <SongCard
             song={CurrentSong}

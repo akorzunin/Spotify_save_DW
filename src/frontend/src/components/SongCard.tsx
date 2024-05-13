@@ -24,7 +24,7 @@ const SongCard: FC<ISongCard> = ({
   };
   return (
     <div
-      className={`m-3 flex rounded-md border-2 border-solid ${
+      className={`m-3 flex max-w-sm rounded-md border-2 border-solid ${
         isHidden && 'hidden'
       }`}
     >

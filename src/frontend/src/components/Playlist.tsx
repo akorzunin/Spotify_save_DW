@@ -13,11 +13,13 @@ interface IPlayList {
 
 const Playlist: FC<IPlayList> = ({ title, songs, isDW, style }) => {
   return (
-    <div className={'mb-3 flex max-w-md flex-col gap-y-12'}>
+    <div
+      className={
+        'container flex max-h-[70vh] max-w-md flex-col gap-y-12 overflow-y-scroll'
+      }
+    >
       <PlaylistTitle title={'Playlist: ' + title} isDW={isDW} />
-      <div
-        className={`firefox-scrollBar container overflow-y-scroll ${style} mt-3`}
-      >
+      <div className={`container overflow-y-scroll ${style} flex flex-col`}>
         {Array.isArray(songs) && songs.length ? (
           songs.map((song: Song, index: number) => (
             <SongCard
