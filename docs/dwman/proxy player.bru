@@ -1,0 +1,16 @@
+meta {
+  name: proxy player
+  type: http
+  seq: 7
+}
+
+get {
+  url: https://test-dwman.duckdns.org/api/spotify/v1/me/player
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{ACCESS_TOKEN}}
+  Content-Type: application/json
+}

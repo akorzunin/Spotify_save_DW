@@ -1,17 +1,16 @@
 meta {
-  name: local accsess token
+  name: get me
   type: http
-  seq: 4
+  seq: 2
 }
 
 get {
-  url: {{LOCAL_8000}}/api/spotify/v1/me
+  url: {{SPOTIFY_API}}/v1/me
   body: none
   auth: none
 }
 
 headers {
-  X-Aboba: amogus
   Authorization: Bearer {{ACCESS_TOKEN}}
   Content-Type: application/json
 }
