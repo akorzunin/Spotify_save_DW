@@ -88,10 +88,10 @@ export class ApiService {
    * Get User
    * Get user by user_id
    * @param userId
-   * @returns any Successful Response
+   * @returns User Successful Response
    * @throws ApiError
    */
-  public static getUserApiUserGet(userId: string): CancelablePromise<any> {
+  public static getUserApiUserGet(userId: string): CancelablePromise<User> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/api/user',

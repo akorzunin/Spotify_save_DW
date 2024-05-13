@@ -10,6 +10,10 @@ import MainPage from './pages/main/MainPage';
 import AboutPage from './pages/about/AboutPage';
 import GetTokenPage from './pages/get_token/GetTokenPage';
 import GetLoginPage from './pages/login/GetLoginPage';
+
+// Setup OpenApi config
+import './api/config';
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([

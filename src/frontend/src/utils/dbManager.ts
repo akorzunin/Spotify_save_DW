@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { ApiService, User } from '../api/client';
 
 export const getLocation = () => {
   const pref = window.location.href.split('//')[0];
@@ -6,19 +7,9 @@ export const getLocation = () => {
   return [pref, location];
 };
 
-export const getUserData = async (userId: string): Promise<any> => {
-  return fetch(`${import.meta.env.VITE_API_URL}/api/user?user_id=${userId}`, {
-    headers: {
-      accept: 'application/json',
-    },
-  })
-    .then((res: Response) => {
-      if (res.status === 404) {
-        return false;
-      }
-      return res.json();
-    })
-    .then((data: any) => data);
+export const getUserDataApi = async (userId: string): Promise<User> => {
+  const res = await ApiService.getUserApiUserGet(userId);
+  return res;
 };
 
 export const createUser = async (userId: string, userData): Promise<any> => {

@@ -84,7 +84,10 @@ async def get_users(
 @router.get(
     "/user",
     status_code=status.HTTP_200_OK,
-    responses={status.HTTP_404_NOT_FOUND: {"model": shemas.Message}},
+    responses={
+        status.HTTP_200_OK: {"model": shemas.User},
+        status.HTTP_404_NOT_FOUND: {"model": shemas.Message},
+    },
 )
 async def get_user(user_id: str):
     """Get user by user_id"""

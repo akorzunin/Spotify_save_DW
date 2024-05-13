@@ -12,7 +12,7 @@ def get_all_users(
 
 
 def get_user(db, user_id: str):
-    return db.get(where("user_id") == user_id)
+    return shemas.User(**db.get(where("user_id") == user_id))
 
 
 def get_user_by_email(db, email: str):

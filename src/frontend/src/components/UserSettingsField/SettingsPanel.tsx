@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from 'react';
 import AccountStatus from './AccountStatus';
 import SettingsTitle from './SettingsTitle';
 import {
-  getUserData,
+  getUserDataApi,
   createUser,
   getDbData,
   parseDateFromDb,
@@ -115,8 +115,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   // automatically pick up dw palylist id for user
   useEffect(() => {
     if (DwPlaylistId) {
-      // @ts-ignore cant use `as HTMLInputElement` bc of webpack error
-      const DWLinkForm: HTMLInputElement = document.querySelector('#dw-link');
+      const DWLinkForm = document.querySelector('#dw-link') as HTMLInputElement;
       if (DWLinkForm.value != DwPlaylistId) {
         DWLinkForm.value = DwPlaylistId;
       }
@@ -125,16 +124,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
 
   useEffect(() => {
     if (!didMount && userId) {
-      getUserData(userId).then((data) => {
-        if (!data && userId) {
-          // create user
-          const userData = {
-            user_id: userId,
-            is_premium: IsPremium,
-            refresh_token: cookie.refresh_token,
-          };
-          createUser(userId, userData);
-        }
+      getUserDataApi(userId).then((data) => {
         console.table(data);
         // set user settings
         setFormData(data);

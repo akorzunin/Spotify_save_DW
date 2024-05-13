@@ -60,16 +60,26 @@ export const refreshToken = (updateCookie) => {
       console.error(err);
     });
 };
-export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
+export interface UserData {
+  name: string;
+  img: string;
+  followers: number;
+  id: string;
+  isPremium: boolean;
+}
+export const getUserData = async (
+  cookie: SpotifyCookie,
+  updateCookie?: () => void
+): Promise<UserData> => {
   const res = await fetch(getSpotifyUrl('/v1/me/', false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `${cookie.token_type} ${cookie.access_token}`,
+      Authorization: `Bearer ${cookie.access_token}`,
     },
   });
   if (checkStatusCode(res, updateCookie)) {
-    const data = await res.json();
+    const data = (await res.json()) as SpotifyApi.CurrentUsersProfileResponse;
     let isPremium = false;
     if (data.product === 'premium') {
       isPremium = true;
@@ -81,13 +91,14 @@ export const getUserData = async (cookie: SpotifyCookie, updateCookie?) => {
       userImage = data.images[0].url;
     }
     return {
-      name: data.display_name,
+      name: data.display_name || 'No User',
       img: userImage,
-      followers: data.followers.total,
+      followers: data?.followers?.total || 0,
       id: data.id,
       isPremium: isPremium,
     };
   }
+  throw new Error('Failed to get user data');
 };
 
 export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {

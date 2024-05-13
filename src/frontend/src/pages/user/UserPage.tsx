@@ -14,7 +14,6 @@ import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
 import { ICurrentSong } from '../../types/song';
 import { useQuery } from '@tanstack/react-query';
-import { getUserData } from '../../utils/apiManager';
 
 export const UserPage: FC = () => {
   const ButtonStyle = 'text-neutral-900';
@@ -51,13 +50,6 @@ export const UserPage: FC = () => {
     refetchInterval: 30000,
     initialData: { data: [[emptySong], false, emptySong] },
   });
-  const { data: user } = useQuery({
-    queryKey: ['user', cookie],
-    queryFn: async () => {
-      const userData = await getUserData(cookie);
-      return userData;
-    },
-  });
   useEffect(() => {
     const [songs, playlistData, currentSong] = playback.data;
     if (playlistData) {
@@ -76,14 +68,10 @@ export const UserPage: FC = () => {
     <>
       <main className="min-h-screen">
         <header className="relative mb-12 flex justify-between">
-          <UserCard
-            userName={User.name}
-            imgUrl={User.img}
-            followers={User.followers}
-          />
+          <UserCard />
           <SongCard
             song={CurrentSong}
-            index={''}
+            index={NaN}
             isDeletable={false}
             onDelete={undefined}
             isHidden={undefined}

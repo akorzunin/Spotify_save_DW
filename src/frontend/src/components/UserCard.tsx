@@ -3,6 +3,8 @@ import { ModalAvatar } from './ModalAvatar';
 import { WeekCounter } from './WeekCounter';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import * as cookieHandle from '../utils/cookieHandle';
+import { getUserData } from '../utils/apiManager';
 
 export const DefaultUserImage =
   'https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7';
@@ -10,31 +12,28 @@ export const DefaultUserImage =
 const UserCard: FC = () => {
   const [modalActive, setModalActive] = useState(false);
   // const [user, setfirst] = useAtom(spotifyUserAtom)
-  const userName = '123';
-  const imgUrl = DefaultUserImage;
-  const followers = 123;
-  const { userId } = useParams();
 
-  const {
-    status,
-    data: user,
-    error,
-    refetch,
-  } = useQuery({
+  const { userId } = useParams();
+  const [cookie] = useState(cookieHandle.readCookies()[0]);
+
+  const { data: user } = useQuery({
     queryKey: ['user', userId],
     queryFn: async () => {
       const userData = await getUserData(cookie);
       return userData;
     },
     initialData: {
-      noUser: true,
+      name: 'No user',
+      img: DefaultUserImage,
+      followers: 0,
+      id: null,
+      isPremium: false,
     },
   });
-  console.log(user);
   return (
     <div className="flex p-5">
       <img
-        src={imgUrl}
+        src={user?.img}
         alt="User icon"
         className="mr-9 h-16 cursor-pointer rounded-full"
         onClick={() => {
@@ -44,17 +43,20 @@ const UserCard: FC = () => {
       <div>
         <div className="flex p-0.5 ">
           <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black ">
-            {userName}
+            {user?.name}
           </div>
           <div className="text-shadow-md mt-[2px] hidden text-base leading-6 text-black      opacity-80 xl:block">
-            {followers > 999 ? followers / 1000 + 'k' : followers} followers
+            {user?.followers > 999
+              ? user?.followers / 1000 + 'k'
+              : user?.followers}{' '}
+            followers
           </div>
         </div>
         <WeekCounter />
       </div>
       {modalActive && (
         <ModalAvatar
-          img={imgUrl}
+          img={user?.img || DefaultUserImage}
           isOpen={modalActive}
           handleCloseModal={setModalActive}
         />

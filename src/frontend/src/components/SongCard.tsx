@@ -33,7 +33,7 @@ const SongCard: FC<ISongCard> = ({
           index < 10 && 'ml-2'
         }`}
       >
-        {index}
+        {Number.isNaN(index) ? '' : index}
       </div>
       <img
         src={song.imgUrl}
