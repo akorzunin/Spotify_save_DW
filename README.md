@@ -72,6 +72,10 @@ go to test-dwman.localhost
 
    ansible-playbook ./deploy/deploy-test/deploy-test.yml
 
+## Generate ts client
+
+   npx openapi-typescript-codegen --input http://localhost:8000/openapi.json --output ./src/frontend/src/api/client --client fetch && pre-commit run --all-files
+
 ## License
 
 Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).

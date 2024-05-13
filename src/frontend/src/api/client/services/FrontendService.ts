@@ -1,11 +1,10 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class FrontendService {
   /**
    * Root
@@ -19,7 +18,6 @@ export class FrontendService {
       url: '/',
     });
   }
-
   /**
    * User Page
    * Redirect to react hash router user page
@@ -40,23 +38,31 @@ export class FrontendService {
       },
     });
   }
-
   /**
    * Login Url
    * Redirect to Spotify login page
+   * @param state
+   * @param showDialog
    * @returns void
    * @throws ApiError
    */
-  public static loginUrlLoginGet(): CancelablePromise<void> {
+  public static loginUrlLoginGet(
+    state: string = 'HKb,T+[F6E,hl`>@',
+    showDialog: 'true' | 'false' = 'false'
+  ): CancelablePromise<void> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/login',
+      query: {
+        state: state,
+        show_dialog: showDialog,
+      },
       errors: {
         300: `Successful Response`,
+        422: `Validation Error`,
       },
     });
   }
-
   /**
    * Login Redirect
    * @param region
@@ -78,19 +84,23 @@ export class FrontendService {
       },
     });
   }
-
   /**
    * Get Token
    * @param code
+   * @param redirect
    * @returns void
    * @throws ApiError
    */
-  public static getTokenGetTokenGet(code: string): CancelablePromise<void> {
+  public static getTokenGetTokenGet(
+    code: string,
+    redirect: boolean = true
+  ): CancelablePromise<void> {
     return __request(OpenAPI, {
       method: 'GET',
       url: '/get_token',
       query: {
         code: code,
+        redirect: redirect,
       },
       errors: {
         300: `Successful Response`,

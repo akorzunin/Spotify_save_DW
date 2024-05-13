@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -18,5 +18,6 @@ export type { UserEmail } from './models/UserEmail';
 export type { ValidationError } from './models/ValidationError';
 
 export { ApiService } from './services/ApiService';
-export { DefaultService } from './services/DefaultService';
+export { DocsService } from './services/DocsService';
 export { FrontendService } from './services/FrontendService';
+export { ProxyApiService } from './services/ProxyApiService';

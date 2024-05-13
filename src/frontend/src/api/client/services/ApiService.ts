@@ -1,4 +1,4 @@
-/* generated using openapi-typescript-codegen -- do no edit */
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
@@ -9,11 +9,9 @@ import type { SpotifyToken } from '../models/SpotifyToken';
 import type { UpdateUser } from '../models/UpdateUser';
 import type { User } from '../models/User';
 import type { UserEmail } from '../models/UserEmail';
-
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-
 export class ApiService {
   /**
    * Refresh Token
@@ -34,7 +32,6 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Send Mail
    * Send mail to user
@@ -55,7 +52,6 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Test Save Email
    * Test save email
@@ -76,7 +72,6 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Get Users
    * Get all users from database
@@ -89,7 +84,6 @@ export class ApiService {
       url: '/api/users',
     });
   }
-
   /**
    * Get User
    * Get user by user_id
@@ -110,17 +104,16 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Create User
    * Create new user
    * @param requestBody
-   * @returns any Successful Response
+   * @returns User Successful Response
    * @throws ApiError
    */
   public static createUserApiNewUserPost(
     requestBody: CreateUser
-  ): CancelablePromise<any> {
+  ): CancelablePromise<User> {
     return __request(OpenAPI, {
       method: 'POST',
       url: '/api/new_user',
@@ -132,7 +125,6 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Update User
    * Update user
@@ -160,7 +152,6 @@ export class ApiService {
       },
     });
   }
-
   /**
    * Delete User
    * Delete user by id
