@@ -8,6 +8,7 @@ docker.env
 *.ipynb
 **/.env.prod
 bun.lockb
+**/package-lock.json
 
 **/node_modules/
 # Byte-compiled / optimized / DLL files
