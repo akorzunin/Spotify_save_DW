@@ -9,6 +9,7 @@ docker.env
 **/.env.prod
 bun.lockb
 **/package-lock.json
+!src/frontend/.env.prod
 
 **/node_modules/
 # Byte-compiled / optimized / DLL files

@@ -6,7 +6,8 @@ from typing import Literal
 from urllib.parse import urlencode
 
 import requests
-import spotipy  # type: ignore
+import spotipy
+import structlog  # type: ignore
 from configs.scope import scope_str
 from fastapi import APIRouter, Request, status
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
@@ -14,6 +15,8 @@ from fastapi.templating import Jinja2Templates
 
 ### pydantic
 from pydantic import BaseModel
+
+logger = structlog.stdlib.get_logger(__name__)
 
 
 class UserData(BaseModel):
@@ -68,9 +71,11 @@ async def login_url(
     """Redirect to Spotify login page"""
     redirect_domain = req.headers.get("Referer")
     redirect_uri = (
-        f"{redirect_domain}/get_token" if redirect_domain else REDIRECT_URI
+        f"{redirect_domain.removesuffix('/')}/get_token"
+        if redirect_domain
+        else REDIRECT_URI
     )
-
+    logger.info(f"Redirecting to login page from {redirect_uri}")
     r = requests.Request(
         "GET",
         "https://accounts.spotify.com/en/authorize?"
