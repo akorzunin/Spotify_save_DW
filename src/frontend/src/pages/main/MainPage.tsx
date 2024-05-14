@@ -8,6 +8,7 @@ import Button from '../../components/buttons/BaseButton';
 import BlobButton from '../../components/buttons/blob-button/BlobButton';
 import * as cookieHandle from '../../utils/cookieHandle';
 import { useQuery } from '@tanstack/react-query';
+import { OpenAPI } from '../../api/client';
 
 export const MainPage: FC = () => {
   const cookiesLib = new Cookies();
@@ -22,7 +23,7 @@ export const MainPage: FC = () => {
         return { userPath: res };
       }
       console.warn('Cant get user info ');
-      return { userPath: `${import.meta.env.VITE_API_URL}/login` };
+      return { userPath: `${OpenAPI.BASE}/login` };
     },
   });
 
@@ -44,7 +45,7 @@ export const MainPage: FC = () => {
             />
             <Button
               title="Login"
-              link={`${import.meta.env.VITE_API_URL}/login`}
+              link={`${OpenAPI.BASE}/login`}
               color="bg-white"
             />
           </div>
@@ -52,7 +53,7 @@ export const MainPage: FC = () => {
         <section>
           <BlobButton
             title="Save DW"
-            link={data?.userPath || `${import.meta.env.VITE_API_URL}/login`}
+            link={data?.userPath || `${OpenAPI.BASE}/login`}
           />
         </section>
       </main>

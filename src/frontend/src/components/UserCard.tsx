@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import * as cookieHandle from '../utils/cookieHandle';
 import { getUserData } from '../utils/apiManager';
-import { Avatar, AvatarFallback, AvatarImage } from '../shadcn/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './shadcn/ui/avatar';
 
 export const DefaultUserImage =
   'https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7';

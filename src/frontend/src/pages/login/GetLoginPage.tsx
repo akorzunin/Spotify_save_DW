@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { OpenAPI } from '../../api/client';
 
 const GetLoginPage: FC = () => {
-  window.location.href = `${import.meta.env.VITE_API_URL}/login`;
+  window.location.href = `${OpenAPI.BASE}/login`;
   return null;
 };
 

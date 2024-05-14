@@ -8,6 +8,7 @@ import { SpotifyApi } from '../api/SpotifyApi';
 import { Playback } from '../interfaces/Playback';
 import { getSpotifyUrl } from './utils';
 import { getAccessToken } from './auth';
+import { OpenAPI } from '../api/client';
 
 const checkStatusCode = (res) => {
   const logErr = (res) => {
@@ -43,7 +44,7 @@ export const refreshToken = () => {
   if (refreshToken === 'undefined' || typeof refreshToken === 'undefined') {
     throw new Error('Cant refresh token because no cookies available');
   }
-  fetch(`${import.meta.env.VITE_API_URL}/api/refresh_token`, {
+  fetch(`${OpenAPI.BASE}/api/refresh_token`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',

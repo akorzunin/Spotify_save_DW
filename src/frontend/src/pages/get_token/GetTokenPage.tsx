@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../../components/buttons/BaseButton';
 import { SpotifyCookie } from '../../interfaces/Cookies';
 import { setCookies } from '../../utils/cookieHandle';
+import { OpenAPI } from '../../api/client';
 
 interface DevSpotifyCookie extends SpotifyCookie {
   user_id: string;
@@ -31,7 +32,7 @@ const GetTokenPage: FC = () => {
     };
 
     fetch(
-      `${import.meta.env.VITE_API_URL}/get_token?` +
+      `${OpenAPI.BASE}/get_token?` +
         new URLSearchParams({
           code: codeParam,
           redirect: 'false',

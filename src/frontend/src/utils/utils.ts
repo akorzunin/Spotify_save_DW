@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+import { OpenAPI } from '../api/client';
+
 const text_emojis = [
   '┬─┬ ノ(゜ - ゜ノ)',
   '(╯°□°）╯︵ ┻━┻',
@@ -29,5 +31,5 @@ export const getSpotifyUrl = (path: string, isDirect: boolean): string => {
   if (isDirect) {
     return 'https://api.spotify.com' + path;
   }
-  return import.meta.env.VITE_API_URL + '/api/spotify' + path;
+  return OpenAPI.BASE + '/api/spotify' + path;
 };

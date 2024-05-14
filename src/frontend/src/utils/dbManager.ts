@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { ApiService, User } from '../api/client';
+import { ApiService, OpenAPI, User } from '../api/client';
 
 export const getLocation = () => {
   const pref = window.location.href.split('//')[0];
@@ -13,7 +13,7 @@ export const getUserDataApi = async (userId: string): Promise<User> => {
 };
 
 export const createUser = async (userId: string, userData): Promise<any> => {
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/new_user`, {
+  const res = await fetch(`${OpenAPI.BASE}/api/new_user`, {
     method: 'POST',
     headers: {
       accept: 'application/json',
@@ -27,17 +27,14 @@ export const createUser = async (userId: string, userData): Promise<any> => {
   return data;
 };
 export const updateUserData = async (userId, updateData): Promise<any> => {
-  const res = await fetch(
-    `${import.meta.env.VITE_API_URL}/api/update_user?user_id=${userId}`,
-    {
-      method: 'PUT',
-      headers: {
-        accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateData),
-    }
-  );
+  const res = await fetch(`${OpenAPI.BASE}/api/update_user?user_id=${userId}`, {
+    method: 'PUT',
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updateData),
+  });
 
   const data = await res.json();
   return data;

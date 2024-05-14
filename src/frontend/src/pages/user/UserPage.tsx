@@ -6,9 +6,10 @@ import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
 import { Burger } from '../../components/Burger';
 import BurgerMenu from '../../components/BurgerMenu';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
 import Button from '../../components/buttons/BaseButton';
+// import { Button as Buttonv2 } from '../../components/shadcn/ui/button';
 import { emptySong } from '../../interfaces/Song';
 import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
@@ -76,6 +77,9 @@ export const UserPage: FC = () => {
             onDelete={undefined}
             isHidden={undefined}
           />
+          {/* <Buttonv2 asChild>
+            <Link to="/login">Login</Link>
+          </Buttonv2> */}
           <div className=" hidden items-center gap-3 lg:flex">
             <Button
               style={ButtonStyle}
