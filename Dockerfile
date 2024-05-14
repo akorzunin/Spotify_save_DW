@@ -1,6 +1,6 @@
 FROM node:20-alpine as frontend
 WORKDIR /frontend
-COPY ["src/frontend/package.json", "src/frontend/package-lock.json", "./"]
+COPY ["src/frontend/package.json", "./"]
 RUN npm install
 COPY ["src/frontend", "./"]
 RUN npm run build

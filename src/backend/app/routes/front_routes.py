@@ -61,10 +61,16 @@ def new_state() -> str:
     status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
 async def login_url(
+    req: Request,
     state: str = new_state(),
     show_dialog: Literal["true", "false"] = "false",
 ):
     """Redirect to Spotify login page"""
+    redirect_domain = req.headers.get("Referer")
+    redirect_uri = (
+        f"{redirect_domain}/get_token" if redirect_domain else REDIRECT_URI
+    )
+
     r = requests.Request(
         "GET",
         "https://accounts.spotify.com/en/authorize?"
@@ -73,7 +79,7 @@ async def login_url(
                 response_type="code",
                 client_id=os.getenv("SPOTIPY_CLIENT_ID"),
                 scope=scope_str,
-                redirect_uri=REDIRECT_URI,
+                redirect_uri=redirect_uri,
                 state=state,
                 show_dialog=show_dialog,
             )
