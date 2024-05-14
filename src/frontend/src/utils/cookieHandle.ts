@@ -2,6 +2,7 @@ import Cookies from 'universal-cookie';
 import { SpotifyCookie } from '../interfaces/Cookies';
 import { SpotifyCookieKeys } from '../interfaces/Cookies';
 import { getSpotifyUrl } from './utils';
+import { getAccessToken } from './auth';
 
 export const setCookies = (cookies: SpotifyCookie) => {
   const cookiesLib = new Cookies();
@@ -34,11 +35,12 @@ interface IapiSpotifyMe {
   uri: string;
 }
 export const getUserPath = async (cookie: SpotifyCookie, isDirect = false) => {
+  const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me', isDirect), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `${cookie.token_type} ${cookie.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   const data = (await res.json()) as IapiSpotifyMe;

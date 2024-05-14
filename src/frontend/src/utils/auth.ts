@@ -20,6 +20,9 @@ export const getAccessToken = async (): Promise<string> => {
     'expired_at',
     setTokenExpirationDate(tokenObj.expires_in)
   );
+  if (!localStorage.getItem('refresh_token')) {
+    localStorage.setItem('refresh_token', refreshToken);
+  }
   return tokenObj.access_token;
 };
 

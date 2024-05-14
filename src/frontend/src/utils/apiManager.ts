@@ -9,7 +9,7 @@ import { Playback } from '../interfaces/Playback';
 import { getSpotifyUrl } from './utils';
 import { getAccessToken } from './auth';
 
-const checkStatusCode = (res, updateCookie?) => {
+const checkStatusCode = (res) => {
   const logErr = (res) => {
     res.json().then((err) => {
       console.table(err.error);
@@ -19,7 +19,7 @@ const checkStatusCode = (res, updateCookie?) => {
     if (res.status === 401) {
       console.error('Token is invalid trying to refresh');
       logErr(res);
-      refreshToken(updateCookie);
+      refreshToken();
       return false;
     }
     if (res.status === 403) {
@@ -38,7 +38,7 @@ const checkStatusCode = (res, updateCookie?) => {
   return true;
 };
 
-export const refreshToken = (updateCookie) => {
+export const refreshToken = () => {
   const refreshToken = readCookies()[0].refresh_token;
   if (refreshToken === 'undefined' || typeof refreshToken === 'undefined') {
     throw new Error('Cant refresh token because no cookies available');
@@ -67,7 +67,7 @@ export interface UserData {
   id: string;
   isPremium: boolean;
 }
-export const getUserData = async (cookie: SpotifyCookie): Promise<UserData> => {
+export const getUserData = async (): Promise<UserData> => {
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me/', false), {
     headers: {
@@ -96,20 +96,20 @@ export const getUserData = async (cookie: SpotifyCookie): Promise<UserData> => {
   };
 };
 
-export const getUserPlayback = async (cookie: SpotifyCookie, updateCookie?) => {
-  const localCookie: SpotifyCookie = readCookies()[0];
+export const getUserPlayback = async () => {
+  const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me/player', false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `${localCookie.token_type} ${localCookie.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   if (res.status === 204) {
     console.info('No content');
     return false;
   }
-  if (checkStatusCode(res, updateCookie)) {
+  if (checkStatusCode(res)) {
     const data = (await res.json()) as SpotifyApi.CurrentlyPlayingObject;
     return data;
   }
@@ -147,11 +147,12 @@ const getPlaylistSongs = async (
   currentSong: Song
 ): Promise<Playback> => {
   const playlistId = playlistUri.split(':').pop();
+  const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl(`/v1/playlists/${playlistId}`, false), {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `${cookie.token_type} ${cookie.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   const data = await res.json();
@@ -171,7 +172,7 @@ export const getPlayBackSongs = async (
   updateCookie,
   prevData: Playback
 ): Promise<Playback> => {
-  const data = await getUserPlayback(cookie, updateCookie);
+  const data = await getUserPlayback();
   if (!data || !data?.item) {
     // throw new Error("No user playback")
     console.warn('No user playback');
@@ -229,9 +230,10 @@ const generatePlData = async (name?: string, description?: string) => {
 };
 export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
   // Create new playlist
-  const userData = await getUserData(cookie);
+  const userData = await getUserData();
   const PlData = await generatePlData();
   if (userData) {
+    const token = await getAccessToken();
     const res = await fetch(
       getSpotifyUrl(`v1/users/${userData.id}/playlists`, false),
       {
@@ -239,7 +241,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `${cookie.token_type} ${cookie.access_token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: PlData.name,
@@ -253,6 +255,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
       // wait some time before spotify create playlist
       await new Promise((resolve) => setTimeout(resolve, 500));
       // add songs to playlist
+      const token = await getAccessToken();
       const plRes = await fetch(
         getSpotifyUrl(`/v1/playlists/${resData.id}/tracks`, false),
         {
@@ -260,7 +263,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `${cookie.token_type} ${cookie.access_token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             uris: songs.map((x) => x.id),
@@ -287,12 +290,13 @@ export const updatePlaylistDescription = async (
   plData
 ) => {
   const playtlistDetails = await generatePlData();
+  const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl(`/v1/playlists/${plData.id}`, false), {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `${cookie.token_type} ${cookie.access_token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       description: playtlistDetails.description,
