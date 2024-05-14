@@ -63,6 +63,10 @@ Need node, npm, caddy to be installed
    caddy reverse-proxy --from test-dwman.localhost --to localhost:3000
    # optionally u need to run `caddy trust` in another trminal w/o closing this one
 
+Run caddy w/o sudo on :443
+
+   sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/caddy
+
 go to test-dwman.localhost
 
 ### Update npm deps
