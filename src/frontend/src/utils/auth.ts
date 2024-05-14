@@ -2,6 +2,8 @@ import { ApiService } from '../api/client';
 import dayjs from 'dayjs';
 import { readCookies } from './cookieHandle';
 
+export const ISO_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
+
 export const getAccessToken = async (): Promise<string> => {
   const accessToken = localStorage.getItem('access_token');
   if (isSpotifyTokenValid() && accessToken) {
@@ -33,19 +35,18 @@ export const getNewAccessToken = async (refreshToken: string) => {
   console.info('refreshing access_token');
   return res;
 };
-export const ISO_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 
-function isSpotifyTokenValid(): boolean {
+export function isSpotifyTokenValid(): boolean {
   const expiredAt = localStorage.getItem('expired_at');
   if (!expiredAt) {
     return false;
   }
-  const expirationTime = dayjs(expiredAt).format(ISO_FORMAT);
+  const expirationTime = dayjs(expiredAt);
   const currentTime = dayjs();
 
-  return currentTime.isAfter(expirationTime);
+  return expirationTime.isAfter(currentTime);
 }
-function setTokenExpirationDate(expires_in: number): string {
+export function setTokenExpirationDate(expires_in: number): string {
   const currentTime = dayjs();
   const expiredAt = currentTime.add(expires_in, 'second').format(ISO_FORMAT);
   localStorage.setItem('expired_at', expiredAt);
