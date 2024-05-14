@@ -13,6 +13,12 @@ import GetLoginPage from './pages/login/GetLoginPage';
 
 // Setup OpenApi config
 import './api/config';
+import { getBrowserName } from './utils/compat';
+
+if (getBrowserName() === 'Firefox') {
+  const root = document.getElementsByTagName('html')[0];
+  root.setAttribute('class', 'ff-scrollbar');
+}
 
 const queryClient = new QueryClient();
 

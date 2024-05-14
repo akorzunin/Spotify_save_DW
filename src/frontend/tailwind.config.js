@@ -29,4 +29,5 @@ export default {
     },
   },
   plugins: [require('tailwindcss-animate')],
+  safelist: ['ff-scrollbar'],
 };

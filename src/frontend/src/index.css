@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .ff-scrollbar {
+    scrollbar-color: rgb(75 85 99) rgba(255, 255, 255, 0);
+  }
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: linear-gradient(225deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99);
+    border-radius: 100vh;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+  }
+}
 
 .btn {
   transition: all 0.2s linear;
@@ -25,13 +51,13 @@
   opacity: 0;
 }
 
-.check+label {
+.check + label {
   display: inline-flex;
   align-items: center;
   user-select: none;
 }
 
-.check+label::before {
+.check + label::before {
   content: '';
   display: inline-block;
   box-sizing: border-box;
@@ -48,27 +74,16 @@
   transition: border 0.1s linear;
 }
 
-.check:hover+label::before {
+.check:hover + label::before {
   border: 2px solid rgb(28, 100, 242);
 }
 
-.check:checked+label::before {
+.check:checked + label::before {
   border: none;
 }
 
-.check:checked+label::before {
+.check:checked + label::before {
   border-color: rgb(28, 100, 242);
   background-color: rgb(28, 100, 242);
   background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/></svg>");
-}
-
-.modal {
-  position: absolute;
-  opacity: 1;
-  transform: scale(0.5);
-  transition: all 0.2s linear;
-}
-
-.modal_active {
-  transform: scale(1);
 }
