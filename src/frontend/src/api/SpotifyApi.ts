@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 // Grabbed from @types/spotify-api
 
 // Release comments:
@@ -142,7 +143,7 @@ export declare namespace SpotifyApi {
     context_uri?: string | undefined;
     position_ms?: number | undefined;
     uris?: string[] | undefined;
-    offset?: Object | undefined;
+    offset?: object | undefined;
   }
 
   interface PlayParameterObject {

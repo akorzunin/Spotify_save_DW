@@ -143,7 +143,6 @@ const isPlaybackPlaylist = (data): string | boolean => {
 };
 const getPlaylistSongs = async (
   playlistUri: string,
-  cookie: SpotifyCookie,
   currentSong: Song
 ): Promise<Playback> => {
   const playlistId = playlistUri.split(':').pop();
@@ -155,26 +154,24 @@ const getPlaylistSongs = async (
       Authorization: `Bearer ${token}`,
     },
   });
-  const data = await res.json();
+  const data = (await res.json()) as SpotifyApi.PlaylistObjectFull;
   const songs: Song[] = [];
   data.tracks.items.forEach((song) => {
     songs.push({
-      name: song.track.name,
-      artists: song.track.artists[0].name,
-      uri: song.track.uri,
-      imgUrl: song.track.album.images[2].url,
+      name: song?.track?.name || '',
+      artists: song?.track?.artists.map((i) => i.name) || [],
+      uri: song?.track?.uri,
+      imgUrl: song?.track?.album.images[2].url || '',
     });
   });
   return [songs, data, currentSong];
 };
 export const getPlayBackSongs = async (
   cookie: SpotifyCookie,
-  updateCookie,
   prevData: Playback
 ): Promise<Playback> => {
   const data = await getUserPlayback();
   if (!data || !data?.item) {
-    // throw new Error("No user playback")
     console.warn('No user playback');
     const noPlInfo = false;
     const emptySongs = [emptySong];
@@ -195,7 +192,7 @@ export const getPlayBackSongs = async (
   const prevPlaylistUri = prevData[1] && prevData[1].uri;
   if (playlistUri && playlistUri !== prevPlaylistUri) {
     // fetch all songs from new playlist
-    return await getPlaylistSongs(playlistUri.toString(), cookie, currentSong);
+    return await getPlaylistSongs(playlistUri.toString(), currentSong);
   }
   if (playlistUri) {
     // only update current song if same playlist is playing
@@ -251,7 +248,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
       }
     );
     if (checkStatusCode(res)) {
-      const resData = await res.json();
+      const resData = (await res.json()) as SpotifyApi.CreatePlaylistResponse;
       // wait some time before spotify create playlist
       await new Promise((resolve) => setTimeout(resolve, 500));
       // add songs to playlist
@@ -270,25 +267,20 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
           }),
         }
       );
-      if (checkStatusCode(plRes)) {
-        const data = await plRes.json();
-        if (!data.error) {
-          console.info('Created', data);
-          const updatedRes = await updatePlaylistDescription(cookie, resData);
-          return updatedRes;
-        }
+      if (!checkStatusCode(plRes)) {
         return false;
       }
-      return false;
+      const data =
+        (await plRes.json()) as SpotifyApi.AddTracksToPlaylistResponse;
+      console.info('Created', data);
+      const updatedRes = await updatePlaylistDescription(resData);
+      return updatedRes;
     }
   }
   return false;
 };
 
-export const updatePlaylistDescription = async (
-  cookie: SpotifyCookie,
-  plData
-) => {
+export const updatePlaylistDescription = async (plData) => {
   const playtlistDetails = await generatePlData();
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl(`/v1/playlists/${plData.id}`, false), {
@@ -302,8 +294,8 @@ export const updatePlaylistDescription = async (
       description: playtlistDetails.description,
     }),
   });
-  if (checkStatusCode(res)) {
-    return res;
+  if (!checkStatusCode(res)) {
+    return false;
   }
-  return false;
+  return res;
 };
