@@ -1,7 +1,5 @@
-from typing import NewType
-
-"""Types for typehints"""
 from dataclasses import dataclass
+from typing import NewType
 
 DeviceId = NewType("DeviceId", str)
 

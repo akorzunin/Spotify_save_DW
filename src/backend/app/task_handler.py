@@ -177,7 +177,8 @@ def save_dw(user: shemas.SavePlUser):
     user_data = get_access_token(user.refresh_token)
     token = user_data["access_token"]
     sp = spotipy.Spotify(auth=token)
-    sp.user_playlist_create
+    # TODO: figure out why i didnt call this function
+    # sp.user_playlist_create
     asyncio.gather(save_playlist_algorithm(sp, user))
 
     if user.send_mail:

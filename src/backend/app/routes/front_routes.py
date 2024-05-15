@@ -1,5 +1,4 @@
 import os
-from collections import OrderedDict
 from datetime import datetime
 from random import randint
 from typing import Literal
@@ -107,13 +106,19 @@ async def login_redirect(
     "/get_token",
     status_code=status.HTTP_300_MULTIPLE_CHOICES,
 )
-async def get_token(code: str, redirect: bool = True):
+async def get_token(req: Request, code: str, redirect: bool = True):
+    redirect_domain = req.headers.get("Referer")
+    redirect_uri = (
+        f"{redirect_domain.removesuffix('/')}/get_token"
+        if redirect_domain
+        else REDIRECT_URI
+    )
     r = requests.post(
         "https://accounts.spotify.com/api/token",
         data={
             "grant_type": "authorization_code",
             "code": code,
-            "redirect_uri": REDIRECT_URI,
+            "redirect_uri": redirect_uri,
             "client_id": os.getenv("SPOTIPY_CLIENT_ID"),
             "client_secret": os.getenv("SPOTIPY_CLIENT_SECRET"),
         },

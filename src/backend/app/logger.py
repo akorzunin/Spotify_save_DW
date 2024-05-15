@@ -157,7 +157,7 @@ def setup_uvicorn_logging(
                 duration=process_time,
             )
             response.headers["X-Process-Time"] = str(process_time / 10**9)
-            return response
+            return response  # noqa: B012
 
 
 logger = logging.getLogger(__name__)

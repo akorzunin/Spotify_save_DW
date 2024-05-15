@@ -19,7 +19,6 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
-from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 
 IGNORE_CORS = bool(eval(os.getenv("IGNORE_CORS", "False")))
@@ -54,7 +53,7 @@ async def get_documentation(
 @app.get("/openapi.json", tags=["Docs"])
 async def get_open_api_endpoint():
     return JSONResponse(
-        get_openapi(title="FastAPI", version=1, routes=app.routes)
+        get_openapi(title="FastAPI", version="1", routes=app.routes)
     )
 
 

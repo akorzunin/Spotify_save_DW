@@ -38,7 +38,19 @@ line-length = 80
 
 [tool.ruff.lint]
 select = [
-    "I", # isort
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "C408",  # unnecessary-collection-call
+    "E712",  # true-false-comparison (only for TinyDB queries)
 ]
 
 [tool.isort]

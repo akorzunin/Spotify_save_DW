@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Response
 from httpx import AsyncClient
 
-spotify_client = AsyncClient(base_url=f"https://api.spotify.com")
+spotify_client = AsyncClient(base_url="https://api.spotify.com")
 allowed_headers = (
     "accept",
     "content-type",
