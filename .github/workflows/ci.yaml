@@ -25,7 +25,7 @@ jobs:
           node-version: 20
       - name: Install prettier plugins
         run: npm install -D prettier prettier-plugin-tailwindcss
-      - uses: pre-commit/action@v3.0.0
+      - uses: pre-commit/action@v3.0.1
 
   tests-frontend:
     name: run playwright tests
@@ -66,11 +66,14 @@ jobs:
       - name: Run pytest tests
         run: pytest tests/backend --color=yes
 
-  push_to_registry:
+  buid_and_push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    needs:
+      - tests-backend
+      - tests-frontend
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -97,3 +100,39 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy-test:
+    name: Deploy Docker image
+    runs-on: ubuntu-latest
+    environment: test
+    defaults:
+      run:
+        working-directory: deploy/deploy-test
+    needs: buid_and_push_to_registry
+    if: ${{ github.ref_name == 'test' }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Get env file
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy-test.yml
+          directory: deploy/deploy-test
+          configuration: |
+            [defaults]
+            callbacks_enabled = ansible.posix.profile_tasks, ansible.posix.timer
+            stdout_callback = yaml
+            nocows = false
+          vault_password: ${{ secrets.ANSIBLE_PASS }}
+          inventory: ${{ vars.ANSIBLE_HOSTS }}
+          options: |
+            --inventory .hosts
+            --limit ${{ vars.TEST_SERVER_GROUP }}
+            --verbose
+
+      - name: Remove files w/ secrets
+        run: rm -f .env .hosts
