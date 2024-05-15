@@ -1,25 +1,26 @@
 name: ci-workflow
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: ["master"]
+    branches:
+      - main
+      - test
   pull_request:
-    branches: ["master"]
+    branches:
+      - main
+      - test
+  workflow_dispatch:
 
 jobs:
-
   checks:
     name: run pre-commit hooks
     runs-on: ubuntu-latest
-    env:
-      SKIP: action-validator
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-      - uses: actions/setup-node@v3
+          python-version: "3.10"
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Install prettier plugins
@@ -35,32 +36,32 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - name: Install project dependencies
-      run: npm ci
-      working-directory: ./src/frontend
-    - name: Install Playwright dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npm run test-ct
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install project dependencies
+        run: npm i
+        working-directory: ./src/frontend
+      - name: Install Playwright dependencies
+        run: npm i
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm run test-ct
 
   tests-backend:
     name: run pytest tests
     needs: checks
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-    - name: Install python dependencies
-      run: pip install -r requirements.txt
-    - name: Install pytest
-      run: pip install pytest
-    - name: Run pytest tests
-      run: pytest tests/backend --color=yes
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+      - name: Install pytest
+        run: pip install pytest
+      - name: Run pytest tests
+        run: pytest tests/backend --color=yes
