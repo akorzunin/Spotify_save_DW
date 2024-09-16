@@ -7,13 +7,11 @@ interface IPlaylistTitle {
 
 const PlaylistTitle: FC<IPlaylistTitle> = ({ title, isDW }) => {
   return (
-    <div className="pl-3 pr-3 ">
+    <div className="pl-3 pr-3">
       <a
-        className={`inline-flex rounded-md border border-transparent px-4 py-2
-                font-medium text-white shadow-sm ${
-                  isDW ? 'bg-emerald-600' : 'bg-yellow-600'
-                } w-[100%] transition-opacity
-                hover:opacity-80 `}
+        className={`inline-flex rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm ${
+          isDW ? 'bg-emerald-600' : 'bg-yellow-600'
+        } w-[100%] transition-opacity hover:opacity-80`}
       >
         {title}
       </a>

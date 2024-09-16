@@ -38,8 +38,8 @@ const UserCard: FC = () => {
         <AvatarFallback>NA</AvatarFallback>
       </Avatar>
       <div>
-        <div className="p-0.5 ">
-          <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black ">
+        <div className="p-0.5">
+          <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black">
             {user?.name}
           </div>
           <div className="text-shadow-md mt-[2px] hidden text-base leading-6 text-black opacity-80 xl:block">

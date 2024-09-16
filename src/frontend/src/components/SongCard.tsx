@@ -44,19 +44,12 @@ const SongCard: FC<ISongCard> = ({
         <div className="mr-4 mt-1 flex max-w-[180px] truncate text-black">
           {song.name}
         </div>
-        <div
-          className="mr-4 mt-1 flex max-w-[180px] truncate text-black
-                    opacity-80"
-        >
+        <div className="mr-4 mt-1 flex max-w-[180px] truncate text-black opacity-80">
           {song.artists}
         </div>
       </div>
       <button
-        className={`my-auto mr-5 text-white ${!isDeletable && 'hidden'}
-            hover:pointer m-3 cursor-pointer rounded-md border-2
-            border-solid px-5 transition hover:border-transparent
-            hover:bg-red-400
-            `}
+        className={`my-auto mr-5 text-white ${!isDeletable && 'hidden'} hover:pointer m-3 cursor-pointer rounded-md border-2 border-solid px-5 transition hover:border-transparent hover:bg-red-400`}
         onClick={handleChange}
       >
         X

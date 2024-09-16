@@ -80,7 +80,7 @@ export const UserPage: FC = () => {
           {/* <Buttonv2 asChild>
             <Link to="/login">Login</Link>
           </Buttonv2> */}
-          <div className=" hidden items-center gap-3 lg:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             <Button
               style={ButtonStyle}
               title="Help"

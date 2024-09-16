@@ -9,21 +9,21 @@ interface IFooter {
 const Footer: FC<IFooter> = ({ style }) => {
   return (
     <footer
-      className={` mb-0 ${style}  w-[100%] sm:w-[600px] md:w-[728px] lg:w-[974px] xl:w-[1220px] 2xl:w-[1456px]`}
+      className={`mb-0 ${style} w-[100%] sm:w-[600px] md:w-[728px] lg:w-[974px] xl:w-[1220px] 2xl:w-[1456px]`}
     >
-      <div className="border-t border-gray-200 ">
+      <div className="border-t border-gray-200">
         <div className="container mx-auto flex flex-wrap items-center justify-end px-5 py-8">
-          <span className=" ml-0 mr-2 inline-flex  w-full justify-center md:w-auto md:justify-start lg:mt-0">
+          <span className="ml-0 mr-2 inline-flex w-full justify-center md:w-auto md:justify-start lg:mt-0">
             Contact me
           </span>
-          <span className=" ml-0 inline-flex  w-full  justify-center md:w-auto md:justify-start lg:mt-0">
+          <span className="ml-0 inline-flex w-full justify-center md:w-auto md:justify-start lg:mt-0">
             <a
               className="text-gray-500"
               href="mailto:akorzunin123@gmail.com"
               target="_blank"
             >
               <img
-                className="img-responsive h-6 w-6 object-cover "
+                className="img-responsive h-6 w-6 object-cover"
                 src={emailLogo.href}
                 alt="mail"
               />
@@ -34,23 +34,23 @@ const Footer: FC<IFooter> = ({ style }) => {
               target="_blank"
             >
               <img
-                className="img-responsive h-6 w-6 object-cover "
+                className="img-responsive h-6 w-6 object-cover"
                 src={telegramLogo.href}
                 alt="telegram"
               />
             </a>
           </span>
-          <span className=" ml-2 inline-flex  w-full justify-center md:w-auto md:justify-start lg:mt-0">
+          <span className="ml-2 inline-flex w-full justify-center md:w-auto md:justify-start lg:mt-0">
             Source code
           </span>
-          <span className="ml-0 inline-flex  w-full  justify-center md:w-auto md:justify-start lg:mt-0">
+          <span className="ml-0 inline-flex w-full justify-center md:w-auto md:justify-start lg:mt-0">
             <a
               className="ml-3 text-gray-500"
               href="https://github.com/akorzunin/Spotify_save_DW"
               target="_blank"
             >
               <img
-                className="img-responsive h-6 w-6 object-cover "
+                className="img-responsive h-6 w-6 object-cover"
                 src={githubLogo.href}
                 alt="github"
               />
