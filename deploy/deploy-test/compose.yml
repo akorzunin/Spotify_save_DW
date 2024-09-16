@@ -9,3 +9,5 @@ services:
     restart: unless-stopped
     volumes:
       - ./data:/app/data:rw
+    labels:
+      org.label-schema.group: "logging"
