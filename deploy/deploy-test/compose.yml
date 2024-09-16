@@ -10,4 +10,7 @@ services:
     volumes:
       - ./data:/app/data:rw
     labels:
+      org.akorzunin.group: "logging"
       org.label-schema.group: "logging"
+      org.opencontainers.group: "logging"
+      org.opencontainers.image.group: "logging"
