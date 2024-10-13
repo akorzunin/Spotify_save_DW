@@ -21,7 +21,7 @@ def drop_color_message_key(_, __, event_dict: EventDict) -> EventDict:
 def setup_logging(
     json_logs: bool = True,
     log_level: str = "INFO",
-    ugly_exceptions: bool = False,
+    ugly_exceptions: bool = True,
 ):
     shared_processors: list[Processor] = [
         structlog.processors.TimeStamper(fmt="iso"),
@@ -77,6 +77,7 @@ def setup_logging(
     # Use OUR `ProcessorFormatter` to format all `logging` entries.
     handler.setFormatter(formatter)
     root_logger = logging.getLogger()
+    root_logger.handlers.clear()
     root_logger.addHandler(handler)
     root_logger.setLevel(log_level)
 

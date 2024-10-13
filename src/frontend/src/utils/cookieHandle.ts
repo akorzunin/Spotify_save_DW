@@ -54,10 +54,14 @@ export const isValidCookies = (cookie: SpotifyCookie) => {
     return true;
   }
 };
-export const deleteCookies = () => {
+export const deleteCookiesAndLocalStorage = () => {
   const cookiesLib = new Cookies();
   SpotifyCookieKeys.forEach((key: string) => {
     cookiesLib.remove(key, { path: '/' });
+  });
+  const local_storage_items = ['refresh_token', 'expired_at', 'access_token'];
+  local_storage_items.forEach((item) => {
+    localStorage.removeItem(item);
   });
   console.info('spotify api cookies deleted');
 };

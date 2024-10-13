@@ -24,6 +24,7 @@ async def spotify_request(path: str, request: Request, response: Response):
         request.method,
         path,
         headers=headers,
+        content=await request.body(),
     )
     spotify_res = await spotify_client.send(spotify_req)
 

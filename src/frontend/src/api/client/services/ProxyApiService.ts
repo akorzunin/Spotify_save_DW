@@ -12,7 +12,7 @@ export class ProxyApiService {
    * @returns any Successful Response
    * @throws ApiError
    */
-  public static spotifyRequestApiSpotifyPathPost(
+  public static spotifyRequestApiSpotifyPathGet(
     path: string
   ): CancelablePromise<any> {
     return __request(OpenAPI, {
@@ -32,7 +32,7 @@ export class ProxyApiService {
    * @returns any Successful Response
    * @throws ApiError
    */
-  public static spotifyRequestApiSpotifyPathPost1(
+  public static spotifyRequestApiSpotifyPathGet1(
     path: string
   ): CancelablePromise<any> {
     return __request(OpenAPI, {

@@ -47,7 +47,7 @@ export class FrontendService {
    * @throws ApiError
    */
   public static loginUrlLoginGet(
-    state: string = '.lNl!#E5@Ws6dM?Q',
+    state: string = 'Pk`BEB885nj_*&>',
     showDialog: 'true' | 'false' = 'false'
   ): CancelablePromise<void> {
     return __request(OpenAPI, {

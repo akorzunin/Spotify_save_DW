@@ -233,7 +233,7 @@ export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
   if (userData) {
     const token = await getAccessToken();
     const res = await fetch(
-      getSpotifyUrl(`v1/users/${userData.id}/playlists`, false),
+      getSpotifyUrl(`/v1/users/${userData.id}/playlists`, false),
       {
         method: 'POST',
         headers: {

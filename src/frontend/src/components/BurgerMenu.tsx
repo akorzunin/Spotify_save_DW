@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import Button from './buttons/BaseButton';
-import { deleteCookies } from '../utils/cookieHandle';
+import { deleteCookiesAndLocalStorage } from '../utils/cookieHandle';
 import { cn } from '../lib/utils';
 
 interface IBurgerMenu {
@@ -32,7 +32,7 @@ const BurgerMenu: FC<IBurgerMenu> = ({ burgerClass }) => {
           title="Logout"
           link="/"
           color="bg-red-500"
-          onClick={deleteCookies}
+          onClick={deleteCookiesAndLocalStorage}
         />
       </div>
     </div>

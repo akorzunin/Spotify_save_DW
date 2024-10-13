@@ -15,6 +15,7 @@ import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
 import { ICurrentSong } from '../../types/song';
 import { useQuery } from '@tanstack/react-query';
+import { deleteCookiesAndLocalStorage } from '../../utils/cookieHandle';
 
 export const UserPage: FC = () => {
   const ButtonStyle = 'text-neutral-900';
@@ -48,7 +49,7 @@ export const UserPage: FC = () => {
       );
       return { data: plData };
     },
-    refetchInterval: 30000,
+    refetchInterval: 3000,
     initialData: { data: [[emptySong], false, emptySong] },
   });
   useEffect(() => {
@@ -98,7 +99,7 @@ export const UserPage: FC = () => {
               title="Logout"
               link="/"
               color="bg-red-500 ml-12"
-              onClick={cookieHandle.deleteCookies}
+              onClick={deleteCookiesAndLocalStorage}
               style=" text-white"
             />
           </div>

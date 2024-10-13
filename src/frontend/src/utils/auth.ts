@@ -10,7 +10,7 @@ export const getAccessToken = async (): Promise<string> => {
     return accessToken;
   }
   let refreshToken = localStorage.getItem('refresh_token');
-  if (!refreshToken) {
+  if (!refreshToken || refreshToken === 'undefined') {
     refreshToken = readCookies()[0].refresh_token;
     if (!refreshToken) {
       throw new Error('No refresh_token found');
