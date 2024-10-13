@@ -1,0 +1,59 @@
+version: "3"
+
+output: "prefixed"
+
+tasks:
+  caddy-dev:
+    desc: Run Caddy server with dev configuration
+    cmds:
+      - caddy run --config ./caddy/dev/Caddyfile --adapter caddyfile
+
+  caddy-frontend-dev:
+    desc: Run Caddy server with fromtend dev configuration
+    cmds:
+      - caddy run --config ./caddy/dev/Caddyfile.frontend  --adapter caddyfile
+
+  frontend-dev-internal:
+    desc: Start frontend development server
+    internal: true
+    env:
+      VITE_API_URL: "{{ .VITE_API_URL }}"
+    dir: src/frontend
+    preconditions:
+      - sh: pnpm i
+    interactive: true
+    cmds:
+      - pnpm run dev
+
+  frontend-dev:
+    cmds:
+      - task: frontend-dev-internal
+        vars:
+          VITE_API_URL: "https://test-dwman.akorz-sw1.duckdns.org"
+
+  frontend-api-dev:
+    cmds:
+      - task: frontend-dev-internal
+        vars:
+          VITE_API_URL: "https://api.test-dwman.localhost"
+
+  debug-web:
+    desc: Run vite dev server and local reverse proxy from web
+    deps:
+      - caddy-frontend-dev
+      - frontend-dev
+    cmds:
+      - echo "Debug session ended"
+
+  backend-dev:
+    desc: Start Python backend application
+    cmds:
+      # - poetry run ./src/main.py
+      - echo "Run pyton app in debugger"
+
+  debug-full:
+    desc: Run fromtend and backend w/ reverse proxy locally
+    deps:
+      - caddy-dev
+      - frontend-api-dev
+      - backend-dev
