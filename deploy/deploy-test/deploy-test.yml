@@ -2,18 +2,21 @@
   hosts: all
   become: false
   vars:
-    project_dir: ~/Documents/dwman-test/
+    project_dir: ~/deploy/dwman-test/
 
   tasks:
     - name: Copy files for deploy
       ansible.builtin.copy:
-        src: "{{ item }}"
+        src: compose.yml
         dest: "{{ project_dir }}"
         mode: "0644"
-        backup: true
-      loop:
-        - .env
-        - compose.yml
+
+    - name: Render config templates
+      ansible.builtin.template:
+        src: .env.j2
+        mode: "0644"
+        dest: "{{ project_dir }}/.env"
+        remote_src: false
 
     - name: Pull new version of image
       ansible.builtin.command:
