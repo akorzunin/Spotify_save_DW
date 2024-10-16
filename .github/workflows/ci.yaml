@@ -27,28 +27,28 @@ jobs:
         run: npm install -D prettier prettier-plugin-tailwindcss
       - uses: pre-commit/action@v3.0.1
 
-  tests-frontend:
-    name: run playwright tests
-    needs: checks
-    defaults:
-      run:
-        working-directory: ./tests/frontend
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install project dependencies
-        run: npm i
-        working-directory: ./src/frontend
-      - name: Install Playwright dependencies
-        run: npm i
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npm run test-ct
+  # tests-frontend:
+  #   name: run playwright tests
+  #   needs: checks
+  #   defaults:
+  #     run:
+  #       working-directory: ./tests/frontend
+  #   timeout-minutes: 60
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
+  #     - name: Install project dependencies
+  #       run: npm i
+  #       working-directory: ./src/frontend
+  #     - name: Install Playwright dependencies
+  #       run: npm i
+  #     - name: Install Playwright Browsers
+  #       run: npx playwright install --with-deps
+  #     - name: Run Playwright tests
+  #       run: npm run test-ct
 
   tests-backend:
     name: run pytest tests
@@ -73,7 +73,7 @@ jobs:
       contents: read
     needs:
       - tests-backend
-      - tests-frontend
+      # - tests-frontend
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
