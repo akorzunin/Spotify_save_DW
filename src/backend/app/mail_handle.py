@@ -3,14 +3,13 @@ import os
 from dotenv import load_dotenv
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema
 from jinja2 import Template
-from pydantic import EmailStr
 
 load_dotenv()
 
 smtp_conf = ConnectionConfig(
     MAIL_USERNAME=os.environ["MAIL_USERNAME"],
     MAIL_PASSWORD=os.environ["MAIL_PASSWORD"],
-    MAIL_FROM=EmailStr(os.environ["MAIL_FROM"]),
+    MAIL_FROM=os.environ["MAIL_FROM"],
     MAIL_FROM_NAME="savespotifydw",
     MAIL_SERVER=os.environ["MAIL_SERVER"],
     MAIL_PORT=int(os.environ["MAIL_PORT"]),

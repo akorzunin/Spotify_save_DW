@@ -14,6 +14,11 @@ class SpotifyToken(BaseModel):
     expires_in: int
 
 
+class SpotifyError(BaseModel):
+    error: str
+    error_description: str
+
+
 class BaseUser(BaseModel):
     dw_playlist_id: Optional[str]
     save_dw_weekly: bool = False

@@ -21,13 +21,15 @@ router = APIRouter(
 
 @router.post(
     "/refresh_token",
-    response_model=shemas.SpotifyToken,
+    response_model=shemas.SpotifyToken | shemas.SpotifyError,
     status_code=status.HTTP_202_ACCEPTED,
 )
 async def refresh_token(
     refresh_token: shemas.RefreshToken,
 ):
-    return dict(get_access_token(refresh_token.refresh_token))
+    res = dict(get_access_token(refresh_token.refresh_token))
+    # TODO return error if model is SpotifyError
+    return res
 
 
 ### Mail routes
