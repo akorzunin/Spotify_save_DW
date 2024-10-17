@@ -57,3 +57,11 @@ tasks:
       - caddy-dev
       - frontend-api-dev
       - backend-dev
+
+  build-web:
+    desc: Build frontend application
+    dir: src/frontend
+    preconditions:
+      - sh: pnpm i
+    cmds:
+      - pnpm run build
