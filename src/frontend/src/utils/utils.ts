@@ -33,3 +33,11 @@ export const getSpotifyUrl = (path: string, isDirect: boolean): string => {
   }
   return OpenAPI.BASE + '/api/spotify' + path;
 };
+
+export const formatFollowerNumber = (followers: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 1,
+  }).format(followers);
+};
