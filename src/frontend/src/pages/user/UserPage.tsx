@@ -42,11 +42,7 @@ export const UserPage: FC = () => {
   const { data: playback } = useQuery({
     queryKey: ['player', cookie],
     queryFn: async () => {
-      const plData = await apiManager.getPlayBackSongs(
-        cookie,
-        setCookie,
-        playback.data
-      );
+      const plData = await apiManager.getPlayBackSongs(playback.data);
       return { data: plData };
     },
     refetchInterval: 3000,
@@ -125,14 +121,12 @@ export const UserPage: FC = () => {
                 playbackSong={CurrentSong}
                 fullPlaylist={PlSongs}
                 isDW={isDW}
-                cookie={cookie}
               />
             </div>
             <div className="flex justify-center">
               <SettingsPanel
                 IsPremium={User.isPremium}
                 userId={userId}
-                cookie={cookie}
                 DwPlaylistId={DwPlaylistId}
               />
             </div>

@@ -168,7 +168,6 @@ const getPlaylistSongs = async (
   return [songs, data, currentSong];
 };
 export const getPlayBackSongs = async (
-  cookie: SpotifyCookie,
   prevData: Playback
 ): Promise<Playback> => {
   const data = await getUserPlayback();
@@ -226,7 +225,7 @@ const generatePlData = async (name?: string, description?: string) => {
   }
   return plData;
 };
-export const saveUserPl = async (cookie: SpotifyCookie, songs) => {
+export const saveUserPl = async (songs) => {
   // Create new playlist
   const userData = await getUserData();
   const PlData = await generatePlData();

@@ -11,14 +11,12 @@ interface ISavePlaylist {
   playbackSong: ICurrentSong;
   fullPlaylist: ICurrentSong[];
   isDW: boolean;
-  cookie: any;
 }
 
 const SavePlaylist: FC<ISavePlaylist> = ({
   playbackSong,
   fullPlaylist,
   isDW,
-  cookie,
 }) => {
   const [IsSpinning, setIsSpinning] = useState(false);
   const [savePlState, setSavePlState] = useState('Save');
@@ -90,19 +88,21 @@ const SavePlaylist: FC<ISavePlaylist> = ({
     return result.filter((x) => toSave.has(x.hash));
   };
 
-  const saveUserPlaylist = () => {
+  const saveUserPlaylist = async () => {
+    const songs = filterSongsBySet();
     setSavePlState('Saving...');
-    apiManager
-      .saveUserPl(cookie, filterSongsBySet())
-      .then((res) => {
-        setPingState('hidden');
-        setIsPlSaved(true);
-        setSavePlState('Saved');
-        setTimeout(() => {
-          setSavePlState('Save');
-        }, 5000);
-      })
-      .catch((err) => console.log(err));
+    const res = await apiManager.saveUserPl(songs);
+    if (!res || res.ok) {
+      setPingState('hidden');
+      setIsPlSaved(true);
+      setSavePlState('Saved');
+    } else {
+      setSavePlState('Error');
+      console.log(res);
+    }
+    setTimeout(() => {
+      setSavePlState('Save');
+    }, 5000);
   };
 
   useEffect(() => {
@@ -135,7 +135,7 @@ const SavePlaylist: FC<ISavePlaylist> = ({
             </span>
           </div>
           <ClickButton
-            title="Refresh"
+            title="Clear"
             onClick={onRefresh}
             color={'bg-yellow-600'}
           />

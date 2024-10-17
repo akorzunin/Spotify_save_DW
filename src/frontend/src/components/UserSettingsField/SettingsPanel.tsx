@@ -23,17 +23,13 @@ let didMount = false;
 
 interface ISettingsPanel {
   IsPremium: boolean;
-  userId: string;
-  cookie: {
-    refresh_token: VoidFunction;
-  };
+  userId: string | undefined;
   DwPlaylistId: string;
 }
 
 const SettingsPanel: FC<ISettingsPanel> = ({
   IsPremium,
   userId,
-  cookie,
   DwPlaylistId,
 }) => {
   const [AutosaveHint, setAutosaveHint] = useState(false);
