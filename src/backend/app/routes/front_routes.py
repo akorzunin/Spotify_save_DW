@@ -33,12 +33,18 @@ templates = Jinja2Templates(directory="src/frontend/templates")
 router = APIRouter(tags=["Frontend"])
 
 
-@router.get(
-    "/",
-    response_class=HTMLResponse,
-)
+@router.get("/")
 async def root():
-    """Redirect to react hash router main page"""
+    return RedirectResponse("/app")
+
+
+@router.get("/favicon.ico")
+async def favicon():
+    return FileResponse("./src/frontend/dist/assets/play-arrow-BOYszNJp.png")
+
+
+@router.get("/app/{_:path}")
+async def react_path():
     return FileResponse("./src/frontend/dist/index.html")
 
 
