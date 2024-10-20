@@ -1,7 +1,7 @@
 services:
   dwman:
     image: akorzunin/dwman:test
-    container_name: dwman
+    container_name: dwman-test
     ports:
       - ${PORT:-8000}:${PORT:-8000}
     env_file:
@@ -10,7 +10,4 @@ services:
     volumes:
       - ./data:/app/data:rw
     labels:
-      org.akorzunin.group: "logging"
-      org.label-schema.group: "logging"
       org.opencontainers.group: "logging"
-      org.opencontainers.image.group: "logging"
