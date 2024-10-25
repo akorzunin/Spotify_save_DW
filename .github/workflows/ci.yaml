@@ -3,11 +3,11 @@ name: ci-workflow
 on:
   push:
     branches:
-      - main
+      - master
       - test
   pull_request:
     branches:
-      - main
+      - master
       - test
   workflow_dispatch:
 
@@ -102,14 +102,14 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy-test:
-    name: Deploy Docker image
     runs-on: ubuntu-latest
+    if: ${{ github.ref_name == 'test' }}
+    needs:
+      - buid_and_push_to_registry
     environment: test
     defaults:
       run:
-        working-directory: deploy/deploy-test
-    needs: buid_and_push_to_registry
-    if: ${{ github.ref_name == 'test' }}
+        working-directory: deploy/test
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -117,8 +117,8 @@ jobs:
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: deploy-test.yml
-          directory: deploy/deploy-test
+          playbook: deploy.yml
+          directory: deploy/test
           configuration: |
             [defaults]
             callbacks_enabled = ansible.posix.profile_tasks, ansible.posix.timer
@@ -131,7 +131,7 @@ jobs:
           inventory: ${{ vars.ANSIBLE_HOSTS }}
           options: |
             --inventory .hosts
-            --limit ${{ vars.TEST_SERVER_GROUP }}
+            --limit ${{ vars.SERVER_GROUP }}
             --verbose
             --extra-vars "
             SPOTIPY_CLIENT_ID=${{ secrets.SPOTIPY_CLIENT_ID }}
