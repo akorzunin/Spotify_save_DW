@@ -119,15 +119,9 @@ def setup_uvicorn_logging(
     @app.middleware("http")
     async def logging_middleware(request: Request, call_next) -> Response:
         structlog.contextvars.clear_contextvars()
-        # These context vars will be added to all log entries emitted during
-        #  the request
-        request_id = str(uuid.uuid4())
-        structlog.contextvars.bind_contextvars(request_id=request_id)
+        structlog.contextvars.bind_contextvars(request_id=str(uuid.uuid4()))
 
         start_time = time.perf_counter_ns()
-        # If the call_next raises an error, we still want to return
-        # our own 500 response,
-        # so we can add headers to it (process time, request ID...)
         response = Response(status_code=500)
         try:
             response = await call_next(request)
@@ -137,28 +131,25 @@ def setup_uvicorn_logging(
             )
             raise Exception from e
         finally:
-            process_time = time.perf_counter_ns() - start_time
-            status_code = response.status_code
+            process_time = str((time.perf_counter_ns() - start_time) / 10**9)
             url = get_path_with_query_string(request.scope)
-            client_host = request.client.host  # type: ignore
-            client_port = request.client.port  # type: ignore
-            http_method = request.method
-            http_version = request.scope["http_version"]
-            # Recreate the Uvicorn access log format,
-            # but add all parameters as structured information
             access_logger.info(
-                f"""{http_method} {url} HTTP/{http_version}" {status_code}""",
+                f"{request.method} {url} HTTP/{request.scope['http_version']} {response.status_code}",
                 http={
                     "url": url,
-                    "status_code": status_code,
-                    "method": http_method,
-                    "version": http_version,
+                    "status_code": response.status_code,
+                    "method": request.method,
                 },
-                network={"client": {"ip": client_host, "port": client_port}},
-                duration=process_time,
+                headers={"X-Process-Time": process_time},
+                network={
+                    "client": {
+                        "ip": request.client.host,
+                        "port": request.client.port,
+                    }
+                },
             )
-            response.headers["X-Process-Time"] = str(process_time / 10**9)
-            return response  # noqa: B012
+            response.headers["X-Process-Time"] = process_time
+        return response
 
 
 logger = logging.getLogger(__name__)

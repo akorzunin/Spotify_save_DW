@@ -141,21 +141,3 @@ async def get_token(req: Request, code: str, redirect: bool = True):
         res.set_cookie(k, v)
     logger.info("SENDING redirect response")
     return res
-
-
-### dev
-
-if DEBUG := bool(eval(os.getenv("DEBUG", "False"))):
-    import contextlib
-
-    with contextlib.suppress(ModuleNotFoundError):
-        import arel
-
-        hot_reload = arel.HotReload(paths=[arel.Path(".")])
-        router.add_websocket_route(
-            path="/hot-reload", endpoint=hot_reload, name="hot-reload"
-        )
-        router.add_event_handler("startup", hot_reload.startup)
-        router.add_event_handler("shutdown", hot_reload.shutdown)
-        templates.env.globals["DEBUG"] = True
-        templates.env.globals["hot_reload"] = hot_reload

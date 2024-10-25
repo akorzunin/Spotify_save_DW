@@ -81,12 +81,15 @@ if IGNORE_CORS:
 
 if __name__ == "__main__":
     import uvicorn
-    from configs.uvicorn import uvicorn_conf
 
     loop = asyncio.new_event_loop()
-    config = uvicorn.Config(**uvicorn_conf, loop=loop)
-    server = uvicorn.Server(config)
-    loop.create_task(server.serve())
+    config = uvicorn.Config(
+        app="main:app",
+        host="0.0.0.0",
+        port=int(os.getenv("UVICORN_PORT", "8000")),
+        loop=loop,
+    )
+    loop.create_task(uvicorn.Server(config).serve())
 
     # Launch tasks
     scheduler = AsyncIOScheduler(event_loop=loop)
