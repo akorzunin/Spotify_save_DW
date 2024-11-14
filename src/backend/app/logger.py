@@ -127,16 +127,15 @@ def setup_uvicorn_logging(
             response = await call_next(request)
         except Exception as e:
             structlog.stdlib.get_logger("api.error").exception(
-                "Uncaught exception"
+                f"Uncaught exception {e}"
             )
-            raise Exception from e
         finally:
             process_time = str((time.perf_counter_ns() - start_time) / 10**9)
             url = get_path_with_query_string(request.scope)
             access_logger.info(
                 f"{request.method} {url} HTTP/{request.scope['http_version']} {response.status_code}",
                 http={
-                    "url": url,
+                    "url": request.scope.get("path"),
                     "status_code": response.status_code,
                     "method": request.method,
                 },
