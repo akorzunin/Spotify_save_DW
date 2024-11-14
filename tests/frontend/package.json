@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test-ct": "playwright test -c playwright-ct.config.ts",
-    "test-unit": "vitest unit",
+    "test-unit": "vitest run unit",
+    "test-unit-watch": "vitest unit",
     "tests-codegen": "npx playwright codegen localhost:3000"
   },
   "keywords": [],

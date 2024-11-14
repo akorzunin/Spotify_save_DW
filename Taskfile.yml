@@ -65,3 +65,25 @@ tasks:
       - sh: pnpm i
     cmds:
       - pnpm run build
+
+  test-backend:
+    interactive: true
+    cmd: pytest . -vv
+
+  test-frontend:
+    interactive: true
+    dir: tests/frontend
+    cmd: pnpm run test-unit
+
+  test-all:
+    deps:
+      - test-backend
+      - test-frontend
+    cmd: echo Finished runnig tests
+
+  # test-react-frontend:
+  #   preconditions:
+  #     - sh: pnpm i
+  #   interactive: true
+  #   dir: tests/frontend
+  #   cmd: pnpm run test-ct
