@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { WeekCounter } from './WeekCounter';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router';

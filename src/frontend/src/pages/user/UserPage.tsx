@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import Footer from '../../components/Footer';
 import SongCard from '../../components/SongCard';
 import * as cookieHandle from '../../utils/cookieHandle';

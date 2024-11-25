@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import { Link, useNavigate, useSearchParams } from 'react-router';
-import Button from '../../components/buttons/BaseButton';
+import { useNavigate, useSearchParams } from 'react-router';
 import { SpotifyCookie } from '../../interfaces/Cookies';
 import { setCookies } from '../../utils/cookieHandle';
 import { OpenAPI } from '../../api/client';
@@ -15,7 +14,7 @@ const GetTokenPage: FC = () => {
   const [code, setCode] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const handleResponse = async (response) => {
+  const handleResponse = async (response: Response) => {
     const data = (await response.json()) as DevSpotifyCookie;
     setCookies(data);
     navigate(`/app/user/${data.user_id}`);

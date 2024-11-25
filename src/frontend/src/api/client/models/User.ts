@@ -1,7 +1,7 @@
 /* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
-/* eslint-disable */
+
 export type User = {
   dw_playlist_id?: string;
   save_dw_weekly?: boolean;

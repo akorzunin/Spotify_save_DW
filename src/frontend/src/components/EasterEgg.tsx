@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { get_text_emoji, updateTextEmoji } from '../utils/utils';
 import { useAtom } from 'jotai';
 import { easterEggCountAtom } from '../store/store';

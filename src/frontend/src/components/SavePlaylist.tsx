@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import * as apiManager from '../utils/apiManager';
 import * as timeMangment from '../utils/timeMangment';
 import SaveSongPlaylist from './SaveSongPlaylist';
@@ -47,7 +47,8 @@ const SavePlaylist: FC<ISavePlaylist> = ({
       0
     );
 
-  const hashSong = (song): number => hash(song.name + song.artists);
+  const hashSong = (song: Song | ICurrentSong): number =>
+    hash(song.name + song.artists);
 
   const updateSavedSongs = () => {
     if (listenPlayback && playbackSong.name !== 'No track data') {

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, FC } from 'react';
+import { useState, useEffect, FC } from 'react';
 import AccountStatus from './AccountStatus';
 import SettingsTitle from './SettingsTitle';
 import {
   getUserDataApi,
-  createUser,
   getDbData,
   parseDateFromDb,
   updateUserData,
@@ -72,7 +71,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
     }
   };
   const handleSubmit = (event) => {
-    let formData = {};
+    const formData = {};
     Array.from(event.currentTarget.elements).map((item: any) => {
       if (!item.id) return null;
       if (item.type === 'checkbox') {

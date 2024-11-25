@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Button from './buttons/BaseButton';
 import { deleteCookiesAndLocalStorage } from '../utils/cookieHandle';
 import { cn } from '../lib/utils';

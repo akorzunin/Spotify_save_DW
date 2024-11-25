@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { Outlet, redirect, useNavigate } from 'react-router';
+import { Outlet } from 'react-router';
 import Footer from '../../components/Footer';
 import Button from '../../components/buttons/BaseButton';
 import { OpenAPI } from '../../api/client';

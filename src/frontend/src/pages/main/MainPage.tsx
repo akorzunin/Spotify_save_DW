@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import React, { FC } from 'react';
+import { FC } from 'react';
 import Cookies from 'universal-cookie';
 
 import BlobButton from '../../components/buttons/blob-button/BlobButton';

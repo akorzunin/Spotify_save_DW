@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import SongCard from './SongCard';
 import { emptySong, Song } from '../interfaces/Song';

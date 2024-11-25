@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import SongCard from './SongCard';
 import { emptySong, Song } from '../interfaces/Song';
 
@@ -9,7 +9,7 @@ interface ISaveSongPlayList {
 
 const SaveSongPlaylist: FC<ISaveSongPlayList> = ({ songs, alertDeleted }) => {
   const [hiddenValues, setHiddenValues] = useState({});
-  const handleDelete = (index, value) => {
+  const handleDelete = (index: number, value: any) => {
     setHiddenValues({ ...hiddenValues, [index]: value });
     alertDeleted(songs[index]);
   };

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { emailLogo, githubLogo, telegramLogo } from '../icons/Logos';
 import { EasterEgg } from './EasterEgg';
 import { cn } from '../lib/utils';
