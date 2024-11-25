@@ -64,8 +64,8 @@ export const UserPage: FC = () => {
 
   return (
     <>
-      <main className="container mx-auto min-h-screen">
-        <header className="relative mb-12 flex flex-col justify-between md:flex-row">
+      {/* <main className="container mx-auto min-h-screen"> */}
+      {/* <header className="relative mb-12 flex flex-col justify-between md:flex-row">
           <UserCard />
           <SongCard
             song={CurrentSong}
@@ -74,9 +74,6 @@ export const UserPage: FC = () => {
             onDelete={undefined}
             isHidden={undefined}
           />
-          {/* <Buttonv2 asChild>
-            <Link to="/login">Login</Link>
-          </Buttonv2> */}
           <div className="hidden items-center gap-3 lg:flex">
             <Button
               style={ButtonStyle}
@@ -107,34 +104,30 @@ export const UserPage: FC = () => {
               }}
             />
           </div>
-        </header>
-        <section className="">
-          <div className="xl:flex 2xl:justify-center">
-            <div className="justify-center lg:flex">
-              <Playlist
-                title={PlaylistName}
-                songs={PlSongs}
-                isDW={isDW}
-                style={'max-h-[70vh] max-w-md'}
-              />
-              <SavePlaylist
-                playbackSong={CurrentSong}
-                fullPlaylist={PlSongs}
-                isDW={isDW}
-              />
-            </div>
-            <div className="flex justify-center">
-              <SettingsPanel
-                IsPremium={User.isPremium}
-                userId={userId}
-                DwPlaylistId={DwPlaylistId}
-              />
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer style={''} />
-      <BurgerMenu burgerClass={burgerClass} ButtonStyle={ButtonStyle} />
+        </header> */}
+      <div className="xl:flex 2xl:justify-center pb-64">
+        <div className="lg:flex justify-center">
+          <Playlist
+            title={PlaylistName}
+            songs={PlSongs}
+            isDW={isDW}
+            style={'max-h-[70vh] max-w-md'}
+          />
+          <SavePlaylist
+            playbackSong={CurrentSong}
+            fullPlaylist={PlSongs}
+            isDW={isDW}
+          />
+        </div>
+        <div className="flex justify-center">
+          <SettingsPanel
+            IsPremium={User.isPremium}
+            userId={userId}
+            DwPlaylistId={DwPlaylistId}
+          />
+        </div>
+      </div>
+      {/* <BurgerMenu burgerClass={burgerClass} ButtonStyle={ButtonStyle} /> */}
     </>
   );
 };

@@ -11,6 +11,7 @@ interface DevSpotifyCookie extends SpotifyCookie {
 }
 
 const GetTokenPage: FC = () => {
+  // only for dev server
   const [code, setCode] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();

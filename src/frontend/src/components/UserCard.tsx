@@ -3,7 +3,7 @@ import { WeekCounter } from './WeekCounter';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getUserData } from '../utils/apiManager';
-import { Avatar, AvatarFallback, AvatarImage } from './shadcn/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../shadcn/ui/avatar';
 import { formatFollowerNumber } from '../utils/utils';
 
 export const DefaultUserImage =
@@ -31,7 +31,7 @@ const UserCard: FC = () => {
           <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black">
             {user?.name}
           </div>
-          <div className="text-shadow-md mt-[2px] hidden text-base leading-6 text-black opacity-80 xl:block">
+          <div className="text-shadow-md xl:block mt-[2px] hidden text-base leading-6 text-black opacity-80">
             {formatFollowerNumber(user?.followers || 0)} followers
           </div>
         </div>

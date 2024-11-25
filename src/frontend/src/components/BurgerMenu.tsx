@@ -16,7 +16,7 @@ const BurgerMenu: FC<IBurgerMenu> = ({ burgerClass }) => {
   return (
     <div
       className={cn(
-        `ml-[calc((100vw - 320px) / 2);] fixed right-0 top-0 hidden h-80 w-48 bg-cyan-400 [clip-path:circle(70%_at_100%_30%)] lg:hidden`,
+        `ml-[calc((100vw - 320px) / 2);] lg:hidden fixed right-0 top-0 hidden h-80 w-48 bg-cyan-400 [clip-path:circle(70%_at_100%_30%)]`,
         burgerOpen && 'flex'
       )}
     >
