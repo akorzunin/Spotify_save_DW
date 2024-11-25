@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router';
 import Button from '../../components/buttons/BaseButton';
 import { SpotifyCookie } from '../../interfaces/Cookies';
 import { setCookies } from '../../utils/cookieHandle';

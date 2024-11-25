@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { WeekCounter } from './WeekCounter';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { getUserData } from '../utils/apiManager';
 import { Avatar, AvatarFallback, AvatarImage } from '../shadcn/ui/avatar';
 import { formatFollowerNumber } from '../utils/utils';

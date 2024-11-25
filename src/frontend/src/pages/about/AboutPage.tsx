@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Button from '../../components/buttons/BaseButton';
 
 const AboutPage: FC = () => {

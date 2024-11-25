@@ -6,7 +6,7 @@ import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
 import { Burger } from '../../components/Burger';
 import BurgerMenu from '../../components/BurgerMenu';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
 import Button from '../../components/buttons/BaseButton';
 // import { Button as Buttonv2 } from '../../components/shadcn/ui/button';

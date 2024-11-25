@@ -4,24 +4,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './index.css';
 import { ErrorBoundary } from 'react-error-boundary';
-import {
-  createBrowserRouter,
-  Outlet,
-  redirect,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 import UserPage from './pages/user/UserPage';
 import MainPage from './pages/main/MainPage';
 import AboutPage from './pages/about/AboutPage';
 import GetTokenPage from './pages/get_token/GetTokenPage';
-import GetLoginPage from './pages/login/GetLoginPage';
 
 // Setup OpenApi config
 import './api/config';
 import { getBrowserName } from './utils/compat';
 import { ThemeProvider } from './shadcn/ui/theme-provider';
-import { Button } from './shadcn/ui/button';
-import { ModeToggle } from './shadcn/ui/theme-toggle';
 import { RootLayout } from './pages/layout/RootLayout';
 import { DummyPage } from './pages/dummy/DummyPage';
 
@@ -43,13 +35,6 @@ const router = createBrowserRouter([
   },
   {
     path: '/app/*',
-    // element: <MainPage />,
-    // loader: async () => {
-    //   if (window.location.pathname === '' || window.location.pathname === '/') {
-    //     return redirect('app');
-    //   }
-    //   return null;
-    // },
     element: <RootLayout />,
     children: [
       {

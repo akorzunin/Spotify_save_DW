@@ -24,7 +24,7 @@ const BurgerMenu: FC<IBurgerMenu> = ({ burgerClass }) => {
         <Button
           style="text-white"
           title="Help"
-          link="/help"
+          link="/app/help"
           color="text-white"
         />
         <Button style="" title="Home" link="/" color="text-black" />
