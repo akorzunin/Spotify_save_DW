@@ -49,41 +49,10 @@ const router = createBrowserRouter([
         path: 'help',
         element: <AboutPage />,
       },
-      // {
-      //   path: 'login',
-      //   element: <GetLoginPage />,
-      // },
     ],
   },
 ]);
-//   }
-//   {
-//     path: '/',
-//     element: <MainPage />,
-//   },
-//   {
-//     path: '/app',
-//     element: <MainPage />,
-//   },
-//   {
-//     path: '/app/user/:userId',
-//     element: <UserPage />,
-//   },
-//   {
-//     path: '/app/help',
-//     element: <AboutPage />,
-//   },
-//   {
-//     path: '/get_token',
-//     element: <GetTokenPage />,
-//   },
-//   {
-//     path: '/login',
-//     element: <GetLoginPage />,
-//   },
-// ]);
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('app')!).render(
   <React.StrictMode>
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
