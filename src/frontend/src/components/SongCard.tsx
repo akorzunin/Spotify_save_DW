@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Song } from '../interfaces/Song';
+import { cn } from '../lib/utils';
 
 interface ISongCard {
   song: Song;
@@ -24,32 +25,27 @@ const SongCard: FC<ISongCard> = ({
   };
   return (
     <div
-      className={`m-3 flex max-w-sm rounded-md border-2 border-solid ${
+      className={cn(
+        'flex max-w-sm rounded-md border-2 border-solid text-primary-foreground',
         isHidden && 'hidden'
-      }`}
+      )}
     >
-      <div
-        className={`mb-auto mt-auto inline p-2 text-black ${
-          index < 10 && 'ml-2'
-        }`}
-      >
-        {Number.isNaN(index) ? '' : index}
-      </div>
+      <div className="inline">{Number.isNaN(index) ? '' : index}</div>
       <img
         src={song.imgUrl}
-        alt="User icon"
-        className="h-[100%] max-h-[calc(64+8)px] p-2"
+        alt="Song cover"
+        width="64"
+        height="64"
+        className=""
       />
-      <div className="w-72 items-center p-2">
-        <div className="mr-4 mt-1 flex max-w-[180px] truncate text-black">
-          {song.name}
-        </div>
-        <div className="mr-4 mt-1 flex max-w-[180px] truncate text-black opacity-80">
-          {song.artists}
+      <div className="items-center">
+        <div className="truncate">{song.name}</div>
+        <div className="truncate opacity-80">
+          {song.artists.map((artist) => artist).join(', ')}
         </div>
       </div>
       <button
-        className={`my-auto mr-5 text-white ${!isDeletable && 'hidden'} hover:pointer m-3 cursor-pointer rounded-md border-2 border-solid px-5 transition hover:border-transparent hover:bg-red-400`}
+        className={`${!isDeletable && 'hidden'} hover:pointer m-3 cursor-pointer rounded-md border-2 border-solid transition hover:border-transparent hover:bg-red-400`}
         onClick={handleChange}
       >
         X

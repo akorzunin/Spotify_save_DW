@@ -131,9 +131,12 @@
     --main-background: var(--primary);
 
     /* blue-950 */
-    --primary: #172554;
+    /* --primary: #172554; */
+    /* slate-900 */
+    --primary: #0f172a;
 
-    --primary-foreground: hsl(222.2 47.4% 11.2%);
+    /* slate-100 */
+    --primary-foreground: #f1f5f9;
 
     --background: hsl(222.2 84% 4.9%);
     --foreground: 210 40% 98%;
