@@ -180,10 +180,11 @@ export const getPlayBackSongs = async (
   if (data.item?.type !== 'track') {
     throw new Error('Cant handle this type of song');
   }
+
   const currentSong: Song = {
     name: data.item.name,
     imgUrl: data.item.album.images[2].url,
-    artists: data.item.artists[0].name,
+    artists: data.item.artists.map((artist) => artist.name),
     id: data.item.uri,
   };
   const playlistUri = isPlaybackPlaylist(data);
@@ -201,7 +202,7 @@ export const getPlayBackSongs = async (
   songs = [
     {
       name: data.item.name,
-      artists: data.item.artists[0].name,
+      artists: data.item.artists.map((artist) => artist.name),
       uri: data.item.uri,
       imgUrl: data.item.album.images[2].url,
     },
