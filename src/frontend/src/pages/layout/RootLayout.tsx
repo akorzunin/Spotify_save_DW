@@ -8,7 +8,9 @@ export function RootLayout() {
   return (
     <>
       <header className="flex justify-between">
-        <h1 className="text-6xl font-bold text-primary-foreground">DWMan</h1>
+        <h1 className="text-6xl font-bold text-primary-foreground">
+          <a href="/app/">DWMan</a>
+        </h1>
         <div className="mr-4 mt-4 flex gap-x-3">
           <Button
             title="Layout Demo"
