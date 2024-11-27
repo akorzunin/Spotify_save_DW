@@ -14,7 +14,7 @@ const SaveSongPlaylist: FC<ISaveSongPlayList> = ({ songs, alertDeleted }) => {
     alertDeleted(songs[index]);
   };
   return (
-    <div className={`container max-h-[70vh] overflow-y-scroll`}>
+    <div className="container max-h-[70vh] overflow-y-scroll">
       {Array.isArray(songs) && songs.length ? (
         songs.map((song: Song, index: number) => (
           <SongCard

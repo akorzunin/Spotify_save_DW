@@ -27,21 +27,11 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgb(107 114 128);
   }
-}
 
-.btn {
-  transition: all 0.2s linear;
-  /* position: absolute; */
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn:active {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  /* TODO: temporay fix until all old buttons removed and only ShadCn buttons left*/
+  .btn {
+    @apply transition-transform duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0.5;
+  }
 }
 
 /* styles for checkbox */
@@ -93,6 +83,12 @@
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
   :root {
     --main-background: linear-gradient(
       45deg,
@@ -121,25 +117,27 @@
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
+    --border: hsl(214.3 31.8% 91.4%);
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 1rem;
   }
 
   .dark {
-    --main-background: var(--primary);
+    --main-background: var(--background);
 
     /* blue-950 */
     /* --primary: #172554; */
-    /* slate-900 */
-    --primary: #0f172a;
-
     /* slate-100 */
-    --primary-foreground: #f1f5f9;
+    --primary: #f1f5f9;
 
-    --background: hsl(222.2 84% 4.9%);
-    --foreground: 210 40% 98%;
+    /* slate-900 */
+    --primary-foreground: #0f172a;
+    /* slate-900 */
+    --background: #0f172a;
+    /* slate-100 */
+    --foreground: #f1f5f9;
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
@@ -155,14 +153,5 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

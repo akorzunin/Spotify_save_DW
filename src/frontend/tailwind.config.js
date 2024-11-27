@@ -41,20 +41,17 @@ export default {
         amogus: 'hsl(var(--primary))',
       },
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: (params) => getColor('--background', params),
+        foreground: (params) => getColor('--foreground', params),
         primary: {
-          // DEFAULT: 'hsl(from var(--primary) h s l)',
-          // DEFAULT: 'hsl(from var(--primary) h s l)',
-          // DEFAULT: 'hsl(var(--primary))',
-          // DEFAULT: 'hsl(from var(--primary) h s l / 0)',
-          // DEFAULT: 'hsl(from var(--primary) h s calc(l + 20))',
           DEFAULT: (params) => getColor('--primary', params),
           foreground: (params) => getColor('--primary-foreground', params),
         },
+
+        // WARN: in order to use vars below, need to wrap in getColor
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
