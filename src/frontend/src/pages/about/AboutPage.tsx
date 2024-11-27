@@ -1,34 +1,10 @@
 import { FC } from 'react';
 
-import { Link } from 'react-router';
-import Button from '../../components/buttons/BaseButton';
-
 const AboutPage: FC = () => {
   return (
     <>
-      <header className="flex justify-between">
-        <h1 className="text-6xl font-bold">Help Page</h1>
-        <div className="mr-4 mt-4">
-          <Link to="/user/demo_user">
-            <Button
-              style="mr-3 "
-              title="Layout Demo"
-              link="/user/demo_user"
-              color="bg-white"
-            />
-          </Link>
-          <Link to="/">
-            <Button
-              style="mr-3"
-              title="Home"
-              link="/"
-              color="bg-white text-black"
-            />
-          </Link>
-          <Button style="mr-3 " title="Login" link="/login" color="bg-white" />
-        </div>
-      </header>
-      <div className="mt-5">
+      <div className="text-4xl font-bold">Help Page</div>
+      <div className="pt-4">
         <h4 className="font-semibold">How to use</h4>
         <ul>
           <li>
