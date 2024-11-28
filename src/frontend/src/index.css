@@ -103,13 +103,13 @@
 
     /* text color on top level elements */
     /* slate-900 */
-    --foreground: #290f2a;
+    --foreground: #0f172a;
 
     /* buttons color, ui elements fill */
     /* slate-900 */
-    --primary: #f1f5f9;
+    --primary: var(--background);
     /* slate-100 */
-    --primary-foreground: #290f2a;
+    --primary-foreground: var(--foreground);
 
     /* buttons for user actions */
     /* emerald-600 */
@@ -122,8 +122,8 @@
     --third: #ca8a04;
     --third-foreground: #000;
 
-    --accent: hsl(210 40% 96.1%);
-    --accent-foreground: hsl(222.2 47.4% 11.2%);
+    --accent: hsl(from var(--background) h s calc(l - 20));
+    --accent-foreground: hsl(from var(--foreground) h s calc(l + 20));
 
     /* red-500 */
     --destructive: #ef4444;
@@ -145,46 +145,30 @@
     /* ring color around focused elements */
     /* slate-600 */
     --ring: #64748b;
-    --border: hsl(214.3 31.8% 91.4%);
+    --border: var(--background);
 
-    /* unused */
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
     --radius: 1rem;
   }
 
   .dark {
-    --main-background: var(--background);
-
-    /* buttons color, ui elements fill */
-    /* slate-100 */
-    --primary: #f1f5f9;
-
-    /* text color, ... */
-    /* slate-900 */
-    --primary-foreground: #0f172a;
-    /* slate-900 */
+    --main-background: linear-gradient(
+      45deg,
+      /* fuchsia-400 */ #86198f 0%,
+      /* cyan-400 */ #155e75 52%,
+      /* green-400 */ #166534 90%
+    );
     --background: #0f172a;
-    /* slate-100 */
     --foreground: #f1f5f9;
+    --secondary: #166534;
+    --secondary-foreground: var(--foreground);
+    --third: #854d0e;
+    --secondary-foreground: var(--foreground);
+    --destructive: #b91c1c;
+    --destructive-foreground: var(--foreground);
 
-    --muted: hsl(217.2 32.6% 17.5%);
-    /* muted text color */
-    /* slate-500 */
-    --muted-foreground: #64748b;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --accent: hsl(from var(--background) h s calc(l + 20));
+    --accent-foreground: hsl(from var(--foreground) h s calc(l - 20));
   }
 }

@@ -17,7 +17,7 @@ export function ModeToggle({ className }: { className?: string }) {
     <div className={cn('contents', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button size="icon">
             <Palette className="absolute h-[1.2rem] w-[1.2rem] " />
             <span className="sr-only">Toggle theme</span>
           </Button>

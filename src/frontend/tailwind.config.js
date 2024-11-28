@@ -64,11 +64,9 @@ export default {
         input: (params) => getColor('--input', params),
         ring: (params) => getColor('--ring', params),
         border: (params) => getColor('--border', params),
-
-        // WARN: in order to use vars below, need to wrap in getColor
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
+          DEFAULT: (params) => getColor('--popover', params),
+          foreground: (params) => getColor('--popover-foreground', params),
         },
       },
       keyframes: {
