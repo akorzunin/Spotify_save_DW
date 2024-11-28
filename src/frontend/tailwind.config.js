@@ -16,15 +16,9 @@ export default {
   theme: {
     screens: {
       tablet: '640px',
-      // => @media (min-width: 640px) { ... }
-
       laptop: '1024px',
-      // => @media (min-width: 1024px) { ... }
-
       desktop: '1280px',
-      // => @media (min-width: 1280px) { ... }
     },
-    // TODO: container breaks som old styles
     container: {
       center: true,
       padding: {
@@ -36,12 +30,6 @@ export default {
       },
     },
     extend: {
-      background: {
-        aboba: 'var(--main-background)',
-      },
-      backgroundColor: {
-        amogus: 'hsl(var(--primary))',
-      },
       colors: {
         background: (params) => getColor('--background', params),
         foreground: (params) => getColor('--foreground', params),
@@ -49,34 +37,38 @@ export default {
           DEFAULT: (params) => getColor('--primary', params),
           foreground: (params) => getColor('--primary-foreground', params),
         },
+        secondary: {
+          DEFAULT: (params) => getColor('--secondary', params),
+          foreground: (params) => getColor('--secondary-foreground', params),
+        },
+        third: {
+          DEFAULT: (params) => getColor('--third', params),
+          foreground: (params) => getColor('--third-foreground', params),
+        },
+        accent: {
+          DEFAULT: (params) => getColor('--accent', params),
+          foreground: (params) => getColor('--accent-foreground', params),
+        },
+        destructive: {
+          DEFAULT: (params) => getColor('--destructive', params),
+          foreground: (params) => getColor('--destructive-foreground', params),
+        },
         muted: {
           DEFAULT: (params) => getColor('--muted', params),
           foreground: (params) => getColor('--muted-foreground', params),
         },
+        card: {
+          DEFAULT: (params) => getColor('--card', params),
+          foreground: (params) => getColor('--card-foreground', params),
+        },
+        input: (params) => getColor('--input', params),
+        ring: (params) => getColor('--ring', params),
+        border: (params) => getColor('--border', params),
 
         // WARN: in order to use vars below, need to wrap in getColor
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
         },
       },
       keyframes: {
