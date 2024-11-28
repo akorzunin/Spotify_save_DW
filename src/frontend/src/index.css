@@ -171,4 +171,11 @@
     --accent: hsl(from var(--background) h s calc(l + 20));
     --accent-foreground: hsl(from var(--foreground) h s calc(l - 20));
   }
+  .office-light {
+    --main-background: #f1f5f9;
+    --background: #e2e8f0;
+    --foreground: #1e293b;
+    --secondary: #64748b;
+    --third: #475569;
+  }
 }
