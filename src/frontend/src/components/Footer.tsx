@@ -9,53 +9,46 @@ interface IFooter {
 
 const Footer: FC<IFooter> = ({ className }) => {
   return (
-    <footer
-      className={cn(
-        `fixed inset-x-0 bottom-0 mx-auto tablet:px-8 desktop:max-w-screen-desktop`,
-        className
-      )}
-    >
-      <div className="border-t border-gray-200">
-        <div className="container mx-auto flex flex-wrap items-center justify-end px-5 py-8">
-          <span className="md:w-auto md:justify-start lg:mt-0 ml-0 mr-2 inline-flex w-full justify-center">
-            Contact me
-          </span>
-          <span className="md:w-auto md:justify-start lg:mt-0 ml-0 inline-flex w-full justify-center">
-            <a
-              className="text-gray-500"
-              href="mailto:akorzunin123@gmail.com"
-              target="_blank"
-            >
+    <footer className={cn('', className)}>
+      <div className="border-b border-primary p-0.5" />
+      <div className="flex justify-end gap-4 px-5 py-8">
+        <div className="flex gap-3">
+          Contact me
+          <span>
+            <a href="mailto:akorzunin123@gmail.com" target="_blank">
               <img
                 className="img-responsive h-6 w-6 object-cover"
                 src={emailLogo.href}
+                height={24}
+                width={24}
                 alt="mail"
               />
             </a>
-            <a
-              className="ml-3 text-gray-500"
-              href="https://t.me/akorzunin"
-              target="_blank"
-            >
+          </span>
+          <span>
+            <a href="https://t.me/akorzunin" target="_blank">
               <img
                 className="img-responsive h-6 w-6 object-cover"
                 src={telegramLogo.href}
+                height={24}
+                width={24}
                 alt="telegram"
               />
             </a>
           </span>
-          <span className="md:w-auto md:justify-start lg:mt-0 ml-2 inline-flex w-full justify-center">
-            Source code
-          </span>
-          <span className="md:w-auto md:justify-start lg:mt-0 ml-0 inline-flex w-full justify-center">
+        </div>
+        <div className="flex gap-3">
+          Source code
+          <span>
             <a
-              className="ml-3 text-gray-500"
               href="https://github.com/akorzunin/Spotify_save_DW"
               target="_blank"
             >
               <img
                 className="img-responsive h-6 w-6 object-cover"
                 src={githubLogo.href}
+                height={24}
+                width={24}
                 alt="github"
               />
             </a>
@@ -63,11 +56,10 @@ const Footer: FC<IFooter> = ({ className }) => {
         </div>
       </div>
 
-      <div className="bottom-0 bg-gray-100 text-gray-600">
-        <div className="flex items-center justify-between px-5 py-4">
-          <p className="text-sm ">
-            {' '}
-            2022 Save Spotify Discover Weekly playlist —
+      <div className="bg-primary">
+        <div className="flex items-center justify-between truncate px-5 py-4">
+          <p className="text-sm text-muted-foreground ">
+            2022 —{' '}
             <a
               href="https://github.com/akorzunin"
               target="_blank"

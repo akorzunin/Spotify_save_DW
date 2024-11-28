@@ -10,7 +10,7 @@ export const EasterEgg = () => {
   return (
     <span
       className={cn(
-        'select-none text-sm text-gray-500 hover:cursor-help',
+        'select-none text-sm text-muted-foreground hover:cursor-help',
         rotate && 'animate-spin'
       )}
       onClick={(e) => {

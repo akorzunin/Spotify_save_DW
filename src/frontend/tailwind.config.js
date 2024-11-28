@@ -49,6 +49,10 @@ export default {
           DEFAULT: (params) => getColor('--primary', params),
           foreground: (params) => getColor('--primary-foreground', params),
         },
+        muted: {
+          DEFAULT: (params) => getColor('--muted', params),
+          foreground: (params) => getColor('--muted-foreground', params),
+        },
 
         // WARN: in order to use vars below, need to wrap in getColor
         border: 'hsl(var(--border))',
@@ -61,10 +65,6 @@ export default {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
