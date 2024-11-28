@@ -26,7 +26,7 @@ export const MainPage: FC = () => {
   });
 
   return (
-    <div className="min-h-full">
+    <div className="flex h-[73vh] items-center justify-center">
       <BlobButton
         title="Save DW"
         link={data?.userPath || `${OpenAPI.BASE}/login`}

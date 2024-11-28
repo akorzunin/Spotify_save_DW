@@ -6,12 +6,12 @@ import { OpenAPI } from '../../api/client';
 
 export function RootLayout() {
   return (
-    <>
-      <header className="flex justify-between">
+    <div className="container relative">
+      <header className="flex items-center justify-between py-4">
         <div className="text-6xl font-bold text-primary">
           <Link to="/app/">DWMan</Link>
         </div>
-        <div className="mr-4 mt-4 flex gap-x-3">
+        <div className="flex gap-x-3">
           <Button asChild>
             <Link to="/app/user/demo_user">Layout Demo</Link>
           </Button>
@@ -28,6 +28,6 @@ export function RootLayout() {
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

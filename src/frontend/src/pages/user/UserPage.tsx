@@ -105,7 +105,7 @@ export const UserPage: FC = () => {
             />
           </div>
         </header> */}
-      <div className="xl:flex 2xl:justify-center pb-64">
+      <div className="xl:flex 2xl:justify-center">
         <div className="lg:flex justify-center">
           <Playlist
             title={PlaylistName}
