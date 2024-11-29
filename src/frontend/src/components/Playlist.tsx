@@ -3,23 +3,20 @@ import { FC } from 'react';
 import SongCard from './SongCard';
 import { emptySong, Song } from '../interfaces/Song';
 import PlaylistTitle from './PlaylistTitle';
+import { cn } from '../lib/utils';
 
 interface IPlayList {
   title: string;
   songs: string;
   isDW: boolean;
-  style: string;
+  className?: string;
 }
 
-const Playlist: FC<IPlayList> = ({ title, songs, isDW, style }) => {
+const Playlist: FC<IPlayList> = ({ title, songs, isDW, className }) => {
   return (
-    <div
-      className={
-        'container flex max-h-[70vh] max-w-md flex-col gap-y-12 overflow-y-scroll'
-      }
-    >
+    <div className={'flex-col'}>
       <PlaylistTitle title={'Playlist: ' + title} isDW={isDW} />
-      <div className={`container overflow-y-scroll ${style} flex flex-col`}>
+      <div className={cn(``, className)}>
         {Array.isArray(songs) && songs.length ? (
           songs.map((song: Song, index: number) => (
             <SongCard

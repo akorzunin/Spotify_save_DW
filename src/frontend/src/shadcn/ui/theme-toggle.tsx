@@ -18,7 +18,7 @@ export function ModeToggle({ className }: { className?: string }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size="icon">
-            <Palette className="absolute h-[1.2rem] w-[1.2rem] " />
+            <Palette className="absolute h-[1.2rem] w-[1.2rem]" />
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>

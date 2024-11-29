@@ -1,20 +1,22 @@
 import { FC } from 'react';
+import { cn } from '../lib/utils';
 
 interface IPlaylistTitle {
   title: string;
   isDW: boolean;
+  className?: string;
 }
 
-const PlaylistTitle: FC<IPlaylistTitle> = ({ title, isDW }) => {
+const PlaylistTitle: FC<IPlaylistTitle> = ({ title, isDW, className }) => {
   return (
-    <div className="pl-3 pr-3">
-      <a
-        className={`inline-flex rounded-md border border-transparent px-4 py-2 font-medium text-white shadow-sm ${
-          isDW ? 'bg-emerald-600' : 'bg-yellow-600'
-        } w-[100%] transition-opacity hover:opacity-80`}
-      >
-        {title}
-      </a>
+    <div
+      className={cn(
+        `rounded-md border border-transparent px-4 py-2 font-medium text-primary`,
+        isDW ? 'bg-secondary' : 'bg-third',
+        className
+      )}
+    >
+      {title}
     </div>
   );
 };

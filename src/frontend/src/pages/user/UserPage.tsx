@@ -107,12 +107,7 @@ export const UserPage: FC = () => {
         </header> */}
       <div className="xl:flex 2xl:justify-center">
         <div className="lg:flex justify-center">
-          <Playlist
-            title={PlaylistName}
-            songs={PlSongs}
-            isDW={isDW}
-            style={'max-h-[70vh] max-w-md'}
-          />
+          <Playlist title={PlaylistName} songs={PlSongs} isDW={isDW} />
           <SavePlaylist
             playbackSong={CurrentSong}
             fullPlaylist={PlSongs}

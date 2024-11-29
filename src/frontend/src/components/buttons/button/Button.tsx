@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { BaseButtonClass } from '../BaseButton';
+import { cn } from '../../../lib/utils';
 
 interface IClickButton {
   title: string;
@@ -11,14 +12,14 @@ interface IClickButton {
 const ClickButton: FC<IClickButton> = ({
   title = 'Button',
   onClick,
-  color = 'bg-blue-700',
+  color = 'bg-secondary',
 }) => {
   return (
     <button
       tabIndex={0}
       role="link"
       onClick={onClick}
-      className={`${BaseButtonClass} ${color} btn text-white`}
+      className={cn(BaseButtonClass, `btn text-primary`, color)}
     >
       {title}
     </button>

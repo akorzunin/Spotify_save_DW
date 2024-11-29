@@ -10,7 +10,7 @@ import {
   parseFormOutputDate,
 } from '../../utils/dbManager';
 import { formDataMap } from '../../interfaces/FormDataMap';
-import Button from '../buttons/BaseButton';
+import { Button } from '../../shadcn/ui/button';
 
 export const TextFormStyle =
   'w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white';
@@ -35,10 +35,10 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   const [FilterDislikesHint, setFilterDislikesHint] = useState(false);
   const [SaveFullPlHint, setSaveFullPlHint] = useState(false);
   const [SendmailHint, setSendmailHint] = useState(false);
-  const [SubmitMessage, setSubmitMessage] = useState('');
+  const [SubmitMessage] = useState('');
   const [autosaveChecked, setAutosaveChecked] = useState(false);
   const [filterDislikesChecked, setFilterDislikesChecked] = useState(false);
-  const showHint = (event) => {
+  const showHint = (event: { target: { id: string } }) => {
     if (event) {
       if (event.target.id == 'autosave') {
         setAutosaveHint(true);
@@ -54,7 +54,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
       }
     }
   };
-  const hideHint = (event) => {
+  const hideHint = (event: { target: { id: string } }) => {
     if (event) {
       if (event.target.id == 'autosave') {
         setAutosaveHint(false);
@@ -70,9 +70,11 @@ const SettingsPanel: FC<ISettingsPanel> = ({
       }
     }
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: {
+    currentTarget: { elements: Iterable<unknown> | ArrayLike<unknown> };
+  }) => {
     const formData = {};
-    Array.from(event.currentTarget.elements).map((item: any) => {
+    Array.from(event.currentTarget.elements).map((item: HTMLInputElement) => {
       if (!item.id) return null;
       if (item.type === 'checkbox') {
         return (formData[item.id] = item.checked);
@@ -135,12 +137,12 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   };
 
   return (
-    <div className="mb-3 w-[448px]">
+    <div className="w-[448px]">
       <SettingsTitle />
       <AccountStatus IsPremium={IsPremium} />
-      <div className="mx-3 mt-3 rounded-md bg-emerald-600 bg-opacity-20 p-3">
+      <div className="m-3 rounded-md bg-secondary bg-opacity-30 p-4">
         <form onSubmit={handleSubmit} className="w-full max-w-lg">
-          <div className="relative mb-4 flex items-center">
+          <div className="relative flex items-center">
             <input
               id="email-checkbox"
               type="checkbox"
@@ -150,7 +152,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
             <label
               id="email-checkbox-label"
               htmlFor="email-checkbox"
-              className="mx-2 cursor-pointer whitespace-nowrap font-medium text-gray-900"
+              className="cursor-pointer whitespace-nowrap py-2 font-medium text-primary-foreground"
               onMouseEnter={showHint}
               onMouseLeave={hideHint}
             >
@@ -179,13 +181,6 @@ const SettingsPanel: FC<ISettingsPanel> = ({
             </div>
           )}
           <div className="flex-none">
-            <label
-              id="dw-link-label"
-              htmlFor="dw-link"
-              className="mx-2 whitespace-nowrap font-medium text-gray-900"
-            >
-              Dw playlist id
-            </label>
             <input
               id="dw-link"
               type="text"
@@ -193,7 +188,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
               className={`${TextFormStyle}`}
             />
           </div>
-          <div className="relative mb-4 flex items-center">
+          <div className="relative flex items-center">
             <input
               id="autosave-checkbox"
               type="checkbox"
@@ -205,7 +200,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
             <label
               id="autosave"
               htmlFor="autosave-checkbox"
-              className="mx-2 cursor-pointer whitespace-nowrap font-medium text-gray-900"
+              className="cursor-pointer whitespace-nowrap font-medium text-primary-foreground"
               onMouseEnter={showHint}
               onMouseLeave={hideHint}
             >
@@ -224,7 +219,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
                 <label
                   id="filter-dislikes"
                   htmlFor="filter-dislikes-checkbox"
-                  className="mx-2 cursor-pointer whitespace-nowrap font-medium text-gray-900"
+                  className="mx-2 cursor-pointer whitespace-nowrap font-medium text-primary-foreground"
                   onMouseEnter={showHint}
                   onMouseLeave={hideHint}
                 >
@@ -240,7 +235,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
                     <label
                       id="save-full-playlist"
                       htmlFor="save-full-playlist-checkbox"
-                      className="mx-2 cursor-pointer whitespace-nowrap font-medium text-gray-900"
+                      className="mx-2 cursor-pointer whitespace-nowrap font-medium text-primary-foreground"
                       onMouseEnter={showHint}
                       onMouseLeave={hideHint}
                     >
@@ -284,24 +279,14 @@ const SettingsPanel: FC<ISettingsPanel> = ({
               type="datetime-local"
             />
           )}
-          <div className="flex justify-between">
+          <div className="flex justify-end py-3">
             <div>{SubmitMessage}</div>
-            <Button style="" title="Submit" color="bg-white h-10" />
+            <Button>Submit</Button>
           </div>
         </form>
-        <div className="flex flex-col gap-y-3">
-          <Button
-            style=""
-            title="Collect current DW"
-            link={undefined}
-            color="bg-white text-black w-40"
-          />
-          <Button
-            style=""
-            title="Play DW playlist"
-            link={undefined}
-            color="bg-white text-black w-36"
-          />
+        <div className="flex w-48 flex-col gap-y-3">
+          <Button>Collect current DW</Button>
+          <Button>Play DW playlist</Button>
         </div>
       </div>
     </div>

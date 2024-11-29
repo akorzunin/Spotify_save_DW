@@ -3,9 +3,9 @@ import * as apiManager from '../utils/apiManager';
 import * as timeMangment from '../utils/timeMangment';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
-import ClickButton from './buttons/button/Button';
 import { Song } from '../interfaces/Song';
 import { ICurrentSong } from '../types/song';
+import { Button } from '../shadcn/ui/button';
 
 interface ISavePlaylist {
   playbackSong: ICurrentSong;
@@ -125,27 +125,26 @@ const SavePlaylist: FC<ISavePlaylist> = ({
         />
         <div className="mt-3 flex justify-between pl-3 pr-3">
           <div className="relative inline-flex">
-            <ClickButton
-              title={savePlState}
-              onClick={saveUserPlaylist}
-              color={'bg-emerald-600'}
-            />
+            <Button variant="secondary" onClick={saveUserPlaylist}>
+              {savePlState}
+            </Button>
             <span className={`flex rounded-full ${PingState}`}>
               <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 animate-ping rounded-full bg-purple-700 opacity-75"></span>
               <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 rounded-full bg-purple-700"></span>
             </span>
           </div>
-          <ClickButton
-            title="Clear"
-            onClick={onRefresh}
-            color={'bg-yellow-600'}
-          />
-          <ClickButton title="Spin" onClick={onSpin} color="bg-emerald-600" />
-          <ClickButton
-            title="From playback"
+          <Button variant="third" onClick={onRefresh}>
+            Clear
+          </Button>
+          <Button variant="secondary" onClick={onSpin}>
+            Spin
+          </Button>
+          <Button
+            variant={listenPlayback ? 'secondary' : 'third'}
             onClick={() => setListenPlayback(!listenPlayback)}
-            color={listenPlayback ? 'bg-emerald-600' : 'bg-yellow-600'}
-          />
+          >
+            From playback
+          </Button>
         </div>
         <SaveSongPlaylist songs={savedSongs} alertDeleted={handleDelete} />
       </div>
