@@ -174,4 +174,11 @@
     --secondary: var(--color-slate-500);
     --third: var(--color-slate-600);
   }
+  .office-dark {
+    --main-background: var(--color-slate-900);
+    --background: var(--color-slate-800);
+    --foreground: var(--color-slate-200);
+    --secondary: var(--color-slate-400);
+    --third: var(--color-slate-500);
+  }
 }
