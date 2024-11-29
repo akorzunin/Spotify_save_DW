@@ -1,3 +1,5 @@
+@import './utils/tw-colors.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -93,47 +95,41 @@
     /* background of the whole page */
     --main-background: linear-gradient(
       45deg,
-      /* fuchsia-400 */ #e879f9 0%,
-      /* cyan-400 */ #22d3ee 52%,
-      /* green-400 */ #4ade80 90%
+      var(--color-fuchsia-400) 0%,
+      var(--color-cyan-400) 52%,
+      var(--color-green-400) 90%
     );
     /* fall-back to main-background */
-    /* slate-100 */
-    --background: #f1f5f9;
+    --background: var(--color-slate-100);
 
     /* text color on top level elements */
-    /* slate-900 */
-    --foreground: #0f172a;
+    --foreground: var(--color-slate-900);
 
     /* buttons color, ui elements fill */
-    /* slate-900 */
     --primary: var(--background);
     /* slate-100 */
     --primary-foreground: var(--foreground);
 
     /* buttons for user actions */
-    /* emerald-600 */
-    --secondary: #059669;
+    --secondary: var(--color-emerald-600);
     /* text color */
     --secondary-foreground: var(--primary);
 
     /* buttons for important actions */
-    /* yellow-600 */
-    --third: #ca8a04;
-    --third-foreground: #000;
+    --third: var(--color-yellow-600);
+    --third-foreground: var(--color-black);
 
     --accent: hsl(from var(--background) h s calc(l - 20));
     --accent-foreground: hsl(from var(--foreground) h s calc(l + 20));
 
-    /* red-500 */
-    --destructive: #ef4444;
+    --destructive: var(--color-red-500);
     /* text color */
     --destructive-foreground: var(--primary);
 
     /* inactive or not important elements */
     --muted: hsl(217.2 32.6% 17.5%);
     /* muted text color */
-    --muted-foreground: #64748b;
+    --muted-foreground: var(--color-slate-500);
 
     /* background color for big elements like forms */
     --card: 0 0% 100%;
@@ -143,8 +139,7 @@
     /* border on focused elements */
     --input: hsl(214.3 31.8% 91.4%);
     /* ring color around focused elements */
-    /* slate-600 */
-    --ring: #64748b;
+    --ring: var(--color-slate-500);
     --border: var(--background);
 
     --popover: var(--background);
@@ -155,27 +150,28 @@
   .dark {
     --main-background: linear-gradient(
       45deg,
-      /* fuchsia-400 */ #86198f 0%,
-      /* cyan-400 */ #155e75 52%,
-      /* green-400 */ #166534 90%
+      var(--color-fuchsia-800) 0%,
+      var(--color-cyan-800) 52%,
+      var(--color-green-800) 90%
     );
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --secondary: #166534;
+    --background: var(--color-slate-900);
+    --foreground: var(--color-slate-100);
+    --secondary: var(--color-green-800);
     --secondary-foreground: var(--foreground);
-    --third: #854d0e;
+    --third: var(--color-yellow-800);
     --secondary-foreground: var(--foreground);
-    --destructive: #b91c1c;
+    --destructive: var(--color-red-700);
     --destructive-foreground: var(--foreground);
 
     --accent: hsl(from var(--background) h s calc(l + 20));
     --accent-foreground: hsl(from var(--foreground) h s calc(l - 20));
   }
+
   .office-light {
-    --main-background: #f1f5f9;
-    --background: #e2e8f0;
-    --foreground: #1e293b;
-    --secondary: #64748b;
-    --third: #475569;
+    --main-background: var(--color-slate-100);
+    --background: var(--color-slate-200);
+    --foreground: var(--color-slate-800);
+    --secondary: var(--color-slate-500);
+    --third: var(--color-slate-600);
   }
 }
