@@ -10,8 +10,7 @@ const AccountStatus: FC<IAccountStatus> = ({ IsPremium }) => {
     <div className="mt-3 px-3">
       <div
         className={cn(
-          `inline-flex w-full rounded-md border border-transparent px-4 py-2
-          font-medium text-secondary-foreground shadow-sm transition-opacity hover:opacity-80`,
+          `inline-flex w-full rounded-md border border-transparent px-4 py-2 font-medium text-secondary-foreground shadow-sm transition-opacity hover:opacity-80`,
           IsPremium ? 'bg-secondary' : 'bg-third'
         )}
       >

@@ -58,7 +58,7 @@ const Footer: FC<IFooter> = ({ className }) => {
 
       <div className="bg-primary">
         <div className="flex items-center justify-between truncate px-5 py-4">
-          <p className="text-sm text-muted-foreground ">
+          <p className="text-sm text-muted-foreground">
             2022 —{' '}
             <a
               href="https://github.com/akorzunin"

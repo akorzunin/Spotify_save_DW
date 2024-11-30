@@ -96,7 +96,7 @@
     --main-background: linear-gradient(
       45deg,
       var(--color-fuchsia-400) 0%,
-      var(--color-cyan-400) 52%,
+      var(--color-cyan-300) 52%,
       var(--color-green-400) 90%
     );
     /* fall-back to main-background */
@@ -151,7 +151,7 @@
     --main-background: linear-gradient(
       45deg,
       var(--color-fuchsia-800) 0%,
-      var(--color-cyan-800) 52%,
+      var(--color-cyan-900) 52%,
       var(--color-green-800) 90%
     );
     --background: var(--color-slate-900);

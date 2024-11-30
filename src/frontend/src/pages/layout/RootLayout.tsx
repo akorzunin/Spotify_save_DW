@@ -8,7 +8,7 @@ export function RootLayout() {
   return (
     <div className="container relative">
       <header className="flex items-center justify-between py-4">
-        <div className="text-6xl font-bold text-primary">
+        <div className="text-6xl font-bold text-primary-foreground">
           <Link to="/app/">DWMan</Link>
         </div>
         <div className="flex gap-x-3">
