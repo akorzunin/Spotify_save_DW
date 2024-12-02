@@ -154,12 +154,14 @@
       var(--color-cyan-900) 52%,
       var(--color-green-800) 90%
     );
-    --background: var(--color-slate-900);
-    --foreground: var(--color-slate-100);
+    --background: var(--color-slate-100);
+    --foreground: var(--color-slate-900);
+    --border: var(--color-slate-800);
+    --primary: var(--color-slate-800);
+    --primary-foreground: var(--background);
     --secondary: var(--color-green-800);
-    --secondary-foreground: var(--foreground);
+    --secondary-foreground: var(--color-slate-100);
     --third: var(--color-yellow-800);
-    --secondary-foreground: var(--foreground);
     --destructive: var(--color-red-700);
     --destructive-foreground: var(--foreground);
 
