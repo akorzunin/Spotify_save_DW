@@ -115,13 +115,16 @@ export const getUserPlayback = async () => {
   return false;
 };
 
-const isPlaybackPlaylist = (data): string | boolean => {
+const isPlaybackPlaylist = (
+  data: SpotifyApi.CurrentlyPlayingObject
+): string | boolean => {
+  if (!data.context) {
+    console.warn('No context');
+    return false;
+  }
   try {
     if (data.context.type === 'playlist') {
       return data.context.uri;
-    } else if (data.context.type === 'collection') {
-      console.warn('No playlist found, collection is playing');
-      return false;
     } else if (data.context.type === 'album') {
       console.warn('No playlist found, album is playing');
       return false;
@@ -130,7 +133,7 @@ const isPlaybackPlaylist = (data): string | boolean => {
     }
   } catch (err) {
     if (err instanceof TypeError) {
-      if (data.item.type === 'track') {
+      if (data.item?.type === 'track') {
         console.warn('No playlist found');
         return false;
       }
@@ -187,7 +190,6 @@ export const getPlayBackSongs = async (
   };
   const playlistUri = isPlaybackPlaylist(data);
   let songs: Song[] = [];
-  let plInfo;
   const prevPlaylistUri = prevData[1] && prevData[1].uri;
   if (playlistUri && playlistUri !== prevPlaylistUri) {
     // fetch all songs from new playlist
@@ -205,7 +207,7 @@ export const getPlayBackSongs = async (
       imgUrl: data.item.album.images[2].url,
     },
   ];
-  return [songs, plInfo, currentSong];
+  return [songs, false, currentSong];
 };
 const generatePlData = async (name?: string, description?: string) => {
   const plData: { name: string; description: string } = {
@@ -224,7 +226,7 @@ const generatePlData = async (name?: string, description?: string) => {
   }
   return plData;
 };
-export const saveUserPl = async (songs) => {
+export const saveUserPl = async (songs: Song[]) => {
   // Create new playlist
   const userData = await getUserData();
   const PlData = await generatePlData();
@@ -279,7 +281,9 @@ export const saveUserPl = async (songs) => {
   return false;
 };
 
-export const updatePlaylistDescription = async (plData) => {
+export const updatePlaylistDescription = async (
+  plData: SpotifyApi.CreatePlaylistResponse
+) => {
   const playtlistDetails = await generatePlData();
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl(`/v1/playlists/${plData.id}`, false), {
