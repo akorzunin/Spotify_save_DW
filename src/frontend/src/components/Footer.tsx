@@ -11,7 +11,7 @@ const Footer: FC<IFooter> = ({ className }) => {
   return (
     <footer className={cn('', className)}>
       <div className="border-b border-primary p-0.5" />
-      <div className="flex justify-end gap-4 px-5 py-8">
+      <div className="flex justify-end gap-4 px-4 py-4">
         <div className="flex gap-3">
           Contact me
           <span>

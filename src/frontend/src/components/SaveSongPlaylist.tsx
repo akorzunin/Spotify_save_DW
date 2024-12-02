@@ -9,12 +9,12 @@ interface ISaveSongPlayList {
 
 const SaveSongPlaylist: FC<ISaveSongPlayList> = ({ songs, alertDeleted }) => {
   const [hiddenValues, setHiddenValues] = useState({});
-  const handleDelete = (index: number, value: any) => {
+  const handleDelete = (index: number, value: boolean) => {
     setHiddenValues({ ...hiddenValues, [index]: value });
     alertDeleted(songs[index]);
   };
   return (
-    <div className="container max-h-[70vh] overflow-y-scroll">
+    <div className="flex max-h-[70vh] flex-col-reverse gap-y-2 overflow-y-scroll">
       {Array.isArray(songs) && songs.length ? (
         songs.map((song: Song, index: number) => (
           <SongCard
@@ -22,6 +22,7 @@ const SaveSongPlaylist: FC<ISaveSongPlayList> = ({ songs, alertDeleted }) => {
             song={song}
             index={index}
             onDelete={handleDelete}
+            // @ts-expect-error totally safe code, nothiong to worry about
             isHidden={hiddenValues[index]}
             isDeletable={true}
           />

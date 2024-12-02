@@ -16,7 +16,12 @@ const Playlist: FC<IPlayList> = ({ title, songs, isDW, className }) => {
   return (
     <div className="flex w-full flex-col gap-y-3">
       <PlaylistTitle title={'Playlist: ' + title} isDW={isDW} />
-      <div className={cn(``, className)}>
+      <div
+        className={cn(
+          `flex max-h-[70vh] flex-col gap-y-2 overflow-y-scroll`,
+          className
+        )}
+      >
         {Array.isArray(songs) && songs.length ? (
           songs.map((song: Song, index: number) => (
             <SongCard

@@ -1,24 +1,18 @@
 import { useState, useEffect, FC } from 'react';
-import Footer from '../../components/Footer';
-import SongCard from '../../components/SongCard';
 import * as cookieHandle from '../../utils/cookieHandle';
 import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
-import { Burger } from '../../components/Burger';
-import BurgerMenu from '../../components/BurgerMenu';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
-import Button from '../../components/buttons/BaseButton';
 // import { Button as Buttonv2 } from '../../components/shadcn/ui/button';
 import { emptySong } from '../../interfaces/Song';
-import UserCard from '../../components/UserCard';
 import Playlist from '../../components/Playlist';
 import { ICurrentSong } from '../../types/song';
 import { useQuery } from '@tanstack/react-query';
-import { deleteCookiesAndLocalStorage } from '../../utils/cookieHandle';
+import { useAtom } from 'jotai';
+import { CurrentSongAtom } from '../../store/store';
 
 export const UserPage: FC = () => {
-  const ButtonStyle = 'text-neutral-900';
   const { userId } = useParams();
 
   const [User] = useState({
@@ -31,9 +25,8 @@ export const UserPage: FC = () => {
   const [isDW, setIsDW] = useState(false);
   const [DwPlaylistId, setDwPlaylistId] = useState('');
   const [PlaylistName, setPlaylistName] = useState('No playlist name');
-  const [CurrentSong, setCurrentSong] = useState<ICurrentSong>(emptySong);
-  const [burgerClass, setburgerClass] = useState('');
-  const [cookie, setCookie] = useState(cookieHandle.readCookies()[0]);
+  const [CurrentSong, setCurrentSong] = useAtom(CurrentSongAtom);
+  const [cookie] = useState(cookieHandle.readCookies()[0]);
 
   const isDiscoverWeekly = (data): boolean => {
     return data.images[0].url.search('discover') > 0;
