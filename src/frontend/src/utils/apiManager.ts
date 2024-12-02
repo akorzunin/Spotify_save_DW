@@ -1,17 +1,15 @@
-import { SpotifyCookie } from '../interfaces/Cookies';
 import { readCookies, setCookies } from './cookieHandle';
 import { emptySong, Song } from '../interfaces/Song';
 
 import * as timeMangment from './timeMangment';
-import { DefaultUserImage } from '../components/UserCard';
 import { SpotifyApi } from '../api/SpotifyApi';
 import { Playback } from '../interfaces/Playback';
 import { getSpotifyUrl } from './utils';
 import { getAccessToken } from './auth';
 import { OpenAPI } from '../api/client';
 
-const checkStatusCode = (res) => {
-  const logErr = (res) => {
+const checkStatusCode = (res: Response) => {
+  const logErr = (res: Response) => {
     res.json().then((err) => {
       console.table(err.error);
     });
@@ -84,7 +82,7 @@ export const getUserData = async (): Promise<UserData> => {
   }
   let userImage: string;
   if (!data.images) {
-    userImage = DefaultUserImage;
+    userImage = '';
   } else {
     userImage = data.images[0].url;
   }

@@ -6,9 +6,6 @@ import { getUserData } from '../utils/apiManager';
 import { Avatar, AvatarFallback, AvatarImage } from '../shadcn/ui/avatar';
 import { formatFollowerNumber } from '../utils/utils';
 
-export const DefaultUserImage =
-  'https://i.scdn.co/image/ab6775700000ee8549835514e2fac464191927c7';
-
 const UserCard: FC = () => {
   const { userId } = useParams();
 
@@ -20,20 +17,18 @@ const UserCard: FC = () => {
     },
   });
   return (
-    <div className="flex items-center gap-4 p-4">
+    <div className="flex items-center gap-4 p-2">
       {/* all user pictures can be only 64x64 */}
       <Avatar className="h-[64px] w-[64px]">
         <AvatarImage src={user?.img} className="h-full" />
         <AvatarFallback>NA</AvatarFallback>
       </Avatar>
       <div>
-        <div className="p-0.5">
-          <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-black">
-            {user?.name}
-          </div>
-          <div className="text-shadow-md xl:block mt-[2px] hidden text-base leading-6 text-black opacity-80">
-            {formatFollowerNumber(user?.followers || 0)} followers
-          </div>
+        <div className="text-shadow-md mr-6 text-lg font-semibold leading-6 text-primary-foreground">
+          {user?.name}
+        </div>
+        <div className="text-primary-foreground opacity-80">
+          {formatFollowerNumber(user?.followers || 0)} followers
         </div>
         <WeekCounter />
       </div>
