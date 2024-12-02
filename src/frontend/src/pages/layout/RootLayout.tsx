@@ -19,7 +19,12 @@ export function RootLayout() {
         {userId ? (
           <div className="flex w-full items-center justify-between">
             <UserCard />
-            <SongCard song={CurrentSong} index={NaN} isDeletable={false} />
+            <SongCard
+              className="w-80"
+              song={CurrentSong}
+              index={NaN}
+              isDeletable={false}
+            />
             <div className="gap-x-3 desktop:hidden">
               <Button variant="ghost" size="icon">
                 <Menu />

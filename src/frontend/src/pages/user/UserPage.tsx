@@ -63,67 +63,21 @@ export const UserPage: FC = () => {
   }, [playback]);
 
   return (
-    <>
-      {/* <main className="container mx-auto min-h-screen"> */}
-      {/* <header className="relative mb-12 flex flex-col justify-between md:flex-row">
-          <UserCard />
-          <SongCard
-            song={CurrentSong}
-            index={NaN}
-            isDeletable={false}
-            onDelete={undefined}
-            isHidden={undefined}
-          />
-          <div className="hidden items-center gap-3 lg:flex">
-            <Button
-              style={ButtonStyle}
-              title="Help"
-              link="/app/help"
-              color="bg-white text-black"
-            />
-            <Button
-              style={ButtonStyle}
-              title="Home"
-              link="/"
-              color="bg-white text-black"
-            />
-
-            <Button
-              title="Logout"
-              link="/"
-              color="bg-red-500 ml-12"
-              onClick={deleteCookiesAndLocalStorage}
-              style=" text-white"
-            />
-          </div>
-          <div className="block lg:hidden">
-            <Burger
-              burgerClass={burgerClass}
-              handleBM={() => {
-                setburgerClass(burgerClass ? '' : 'header__burger-menu_active');
-              }}
-            />
-          </div>
-        </header> */}
-      <div className="xl:flex 2xl:justify-center">
-        <div className="lg:flex justify-center">
-          <Playlist title={PlaylistName} songs={PlSongs} isDW={isDW} />
-          <SavePlaylist
-            playbackSong={CurrentSong}
-            fullPlaylist={PlSongs}
-            isDW={isDW}
-          />
-        </div>
-        <div className="flex justify-center">
-          <SettingsPanel
-            IsPremium={User.isPremium}
-            userId={userId}
-            DwPlaylistId={DwPlaylistId}
-          />
-        </div>
+    <div className="flex items-center justify-center p-2">
+      <div className="flex w-[448px] flex-col items-center gap-y-3">
+        <Playlist title={PlaylistName} songs={PlSongs} isDW={isDW} />
+        <SavePlaylist
+          playbackSong={CurrentSong}
+          fullPlaylist={PlSongs}
+          isDW={isDW}
+        />
+        <SettingsPanel
+          IsPremium={User.isPremium}
+          userId={userId}
+          DwPlaylistId={DwPlaylistId}
+        />
       </div>
-      {/* <BurgerMenu burgerClass={burgerClass} ButtonStyle={ButtonStyle} /> */}
-    </>
+    </div>
   );
 };
 

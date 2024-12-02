@@ -8,6 +8,6 @@ export interface Song {
 
 export const emptySong: Song = {
   name: 'No track data',
-  imgUrl: 'https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2',
+  imgUrl: '',
   artists: ['No artist data'],
 };

@@ -14,7 +14,7 @@ interface IPlayList {
 
 const Playlist: FC<IPlayList> = ({ title, songs, isDW, className }) => {
   return (
-    <div className={'flex-col'}>
+    <div className="flex w-full flex-col gap-y-3">
       <PlaylistTitle title={'Playlist: ' + title} isDW={isDW} />
       <div className={cn(``, className)}>
         {Array.isArray(songs) && songs.length ? (

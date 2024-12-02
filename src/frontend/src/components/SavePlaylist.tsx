@@ -117,13 +117,13 @@ const SavePlaylist: FC<ISavePlaylist> = ({
   }, [listenPlayback]);
 
   return (
-    <div className="flex justify-center">
-      <div className={`${IsSpinning ? 'animate-spin' : ''} mb-3 w-[448px]`}>
+    <div className="flex w-full flex-col gap-y-3">
+      <div className={`${IsSpinning ? 'animate-spin' : ''}`}>
         <PlaylistTitle
           title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
           isDW={true}
         />
-        <div className="mt-3 flex justify-between pl-3 pr-3">
+        <div className="flex justify-between gap-3 p-3">
           <div className="relative inline-flex">
             <Button variant="secondary" onClick={saveUserPlaylist}>
               {savePlState}

@@ -13,7 +13,7 @@ import { formDataMap } from '../../interfaces/FormDataMap';
 import { Button } from '../../shadcn/ui/button';
 
 export const TextFormStyle =
-  'w-full mb-3 appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white';
+  'w-full appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white';
 export const CheckboxFormStyle =
   'w-4 h-4 bg-gray-100 rounded border-transparent cursor-pointer';
 export const HintFormStyle =
@@ -137,10 +137,10 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   };
 
   return (
-    <div className="w-[448px]">
+    <div className="flex w-full flex-col gap-y-3">
       <SettingsTitle />
       <AccountStatus IsPremium={IsPremium} />
-      <div className="m-3 rounded-md bg-secondary bg-opacity-30 p-4">
+      <div className="rounded-md bg-secondary bg-opacity-30 p-4">
         <form onSubmit={handleSubmit} className="w-full max-w-lg">
           <div className="relative flex items-center">
             <input

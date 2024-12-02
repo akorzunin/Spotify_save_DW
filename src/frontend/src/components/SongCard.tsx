@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Song } from '../interfaces/Song';
 import { cn } from '../lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '../shadcn/ui/avatar';
 
 interface ISongCard {
   song: Song;
@@ -8,6 +9,7 @@ interface ISongCard {
   isDeletable: boolean;
   onDelete?: (index: number, value: boolean) => void;
   isHidden?: boolean;
+  className?: string;
 }
 
 const SongCard: FC<ISongCard> = ({
@@ -16,6 +18,7 @@ const SongCard: FC<ISongCard> = ({
   isDeletable,
   onDelete,
   isHidden,
+  className,
 }) => {
   const handleChange = () => {
     if (isDeletable) {
@@ -26,18 +29,16 @@ const SongCard: FC<ISongCard> = ({
   return (
     <div
       className={cn(
-        'flex max-w-sm rounded-md border-2 border-solid text-primary-foreground',
-        isHidden && 'hidden'
+        'flex items-center gap-x-2 rounded-md border-2 border-solid p-2 text-primary-foreground',
+        isHidden && 'hidden',
+        className
       )}
     >
-      <div className="inline">{Number.isNaN(index) ? '' : index}</div>
-      <img
-        src={song.imgUrl}
-        alt="Song cover"
-        width="64"
-        height="64"
-        className=""
-      />
+      <div className="">{Number.isNaN(index) ? '' : index}</div>
+      <Avatar className="h-[64px] w-[64px] rounded-none">
+        <AvatarImage src={song.imgUrl} className="h-full" alt="song cover" />
+        <AvatarFallback className="rounded-none">NA</AvatarFallback>
+      </Avatar>
       <div className="items-center">
         <div className="truncate">{song.name}</div>
         <div className="truncate opacity-80">
