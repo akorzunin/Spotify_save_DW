@@ -22,35 +22,50 @@ const SongCard: FC<ISongCard> = ({
 }) => {
   const handleChange = () => {
     if (isDeletable) {
-      console.log('Deletable');
       if (onDelete) onDelete(index, true);
     }
   };
   return (
     <div
       className={cn(
-        'flex items-center gap-x-2 rounded-md border-2 border-solid p-2 text-primary-foreground',
+        'flex items-center justify-between rounded-md border-2 border-solid p-2 text-primary-foreground',
         isHidden && 'hidden',
         className
       )}
     >
-      <div className="">{Number.isNaN(index) ? '' : index}</div>
-      <Avatar className="h-[64px] w-[64px] rounded-none">
-        <AvatarImage src={song.imgUrl} className="h-full" alt="song cover" />
-        <AvatarFallback className="rounded-none">NA</AvatarFallback>
-      </Avatar>
-      <div className="items-center">
-        <div className="truncate">{song.name}</div>
-        <div className="truncate opacity-80">
-          {song.artists.map((artist) => artist).join(', ')}
+      <div className="flex w-full items-center gap-x-3">
+        <div className="flex">{Number.isNaN(index) ? '' : index}</div>
+        <Avatar className="h-[64px] w-[64px] rounded-none">
+          <AvatarImage src={song.imgUrl} className="h-full" alt="song cover" />
+          <AvatarFallback className="rounded-none">NA</AvatarFallback>
+        </Avatar>
+        <div className="w-[50%]">
+          <p className="truncate">{song.name}</p>
+          <p className="truncate opacity-80">
+            {song.artists.map((artist) => artist).join(', ')}
+          </p>
         </div>
       </div>
-      <button
-        className={`${!isDeletable && 'hidden'} hover:pointer m-3 cursor-pointer rounded-md border-2 border-solid transition hover:border-transparent hover:bg-red-400`}
-        onClick={handleChange}
-      >
-        X
-      </button>
+      <div className="flex gap-x-3">
+        <button
+          className={cn(
+            'hover:pointer cursor-pointer rounded-md border-2 border-solid px-4 transition hover:border-transparent hover:bg-destructive',
+            !isDeletable && 'hidden'
+          )}
+          onClick={handleChange}
+        >
+          X
+        </button>
+        <button
+          className={cn(
+            'hover:pointer cursor-pointer rounded-md border-2 border-solid px-4 transition hover:border-transparent hover:bg-third',
+            true && 'hidden'
+          )}
+          onClick={() => {}}
+        >
+          {'>'}
+        </button>
+      </div>
     </div>
   );
 };
