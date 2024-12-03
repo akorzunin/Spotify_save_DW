@@ -1,101 +1,37 @@
 import { FC, useEffect, useState } from 'react';
-import * as apiManager from '../utils/apiManager';
-import * as timeMangment from '../utils/timeMangment';
+import { saveUserPl } from '../utils/apiManager';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
-import { Song } from '../interfaces/Song';
-import { ICurrentSong } from '../types/song';
 import { Button } from '../shadcn/ui/button';
+import { useAtom, useAtomValue } from 'jotai';
+import { CurrentSongAtom, saveSongSetAtom } from '../store/store';
+import { fullYear, weekNumber } from '../utils/timeMangment';
 
-interface ISavePlaylist {
-  playbackSong: ICurrentSong;
-  fullPlaylist: ICurrentSong[];
-  isDW: boolean;
-}
-
-const SavePlaylist: FC<ISavePlaylist> = ({
-  playbackSong,
-  fullPlaylist,
-  isDW,
-}) => {
+const SavePlaylist: FC = () => {
   const [IsSpinning, setIsSpinning] = useState(false);
   const [savePlState, setSavePlState] = useState('Save');
-  const [playedSongsSet, setPlayedSongsSet] = useState(new Set());
-  const [savedSongs, setSavedSongs] = useState<ICurrentSong[]>([]);
   const [listenPlayback, setListenPlayback] = useState(true);
   const [PingState, setPingState] = useState('hidden');
-  const [isPlSaved, setIsPlSaved] = useState(false);
 
-  const handleDelete = (song: Song) => {
-    const newSet = playedSongsSet;
-    newSet.delete(hashSong(song));
-    setPlayedSongsSet(newSet);
-  };
+  const [Key, setKey] = useState('');
+
+  const playbackSong = useAtomValue(CurrentSongAtom);
+  const [SaveSongSet, setSaveSongSet] = useAtom(saveSongSetAtom);
+
   const onRefresh = () => {
-    setSavedSongs([]);
-    setPlayedSongsSet(new Set());
     setPingState('hidden');
-    setIsPlSaved(false);
     setSavePlState('Save');
+    // TODO new set
   };
   const onSpin = () => {
     setIsSpinning(!IsSpinning);
   };
-  const hash = (str: string): number =>
-    Array.from(str).reduce(
-      (hash, char) => 0 | (31 * hash + char.charCodeAt(0)),
-      0
-    );
-
-  const hashSong = (song: Song | ICurrentSong): number =>
-    hash(song.name + song.artists);
-
-  const updateSavedSongs = () => {
-    if (listenPlayback && playbackSong.name !== 'No track data') {
-      const fullPlSet = new Set(
-        fullPlaylist.map((x) => hash(x.name + x.artists))
-      );
-
-      // add song to SavePlaylist
-      if (!playedSongsSet.has(hashSong(playbackSong))) {
-        if (Array.isArray(savedSongs))
-          setSavedSongs([...savedSongs, playbackSong]);
-        else {
-          setSavedSongs([playbackSong]);
-        }
-      }
-      // complete playlist check
-      if (isDW) {
-        const hashedSong = hashSong(playbackSong);
-        if (fullPlSet.has(hashedSong) && !playedSongsSet.has(hashedSong)) {
-          setPlayedSongsSet(playedSongsSet.add(hashedSong));
-        } else if (playedSongsSet.size > 1) {
-          // all playable song are already saved
-          if (!isPlSaved) {
-            console.log('all SET');
-            setPingState('');
-          }
-        }
-      }
-    }
-  };
-  const filterSongsBySet = () => {
-    const toSave = playedSongsSet;
-    const allSongs = savedSongs;
-    const result = allSongs.map((song) => {
-      return { ...song, hash: hashSong(song) };
-    });
-
-    return result.filter((x) => toSave.has(x.hash));
-  };
 
   const saveUserPlaylist = async () => {
-    const songs = filterSongsBySet();
     setSavePlState('Saving...');
-    const res = await apiManager.saveUserPl(songs);
+    const res = await saveUserPl(SaveSongSet.items);
     if (!res || res.ok) {
       setPingState('hidden');
-      setIsPlSaved(true);
       setSavePlState('Saved');
     } else {
       setSavePlState('Error');
@@ -107,20 +43,15 @@ const SavePlaylist: FC<ISavePlaylist> = ({
   };
 
   useEffect(() => {
-    updateSavedSongs();
-  }, [playbackSong]);
-
-  useEffect(() => {
-    // add song if user just turned "from playback"
-    //but new song did not appeared yet
-    updateSavedSongs();
-  }, [listenPlayback]);
+    setSaveSongSet(playbackSong);
+    setKey(SaveSongSet.key); // WTF React???
+  }, [playbackSong, listenPlayback, SaveSongSet, setSaveSongSet]);
 
   return (
     <div className="flex w-full flex-col gap-y-3">
       <div className={`${IsSpinning ? 'animate-spin' : ''}`}>
         <PlaylistTitle
-          title={`Saved playlist: ${timeMangment.fullYear}_${timeMangment.weekNumber}`}
+          title={`Saved playlist: ${fullYear}_${weekNumber}`}
           isDW={true}
         />
         <div className="flex justify-between gap-3 p-3">
@@ -129,6 +60,7 @@ const SavePlaylist: FC<ISavePlaylist> = ({
               {savePlState}
             </Button>
             <span className={`flex rounded-full ${PingState}`}>
+              {/* TODO: use cn */}
               <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 animate-ping rounded-full bg-purple-700 opacity-75"></span>
               <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 rounded-full bg-purple-700"></span>
             </span>
@@ -146,7 +78,9 @@ const SavePlaylist: FC<ISavePlaylist> = ({
             From playback
           </Button>
         </div>
-        <SaveSongPlaylist songs={savedSongs} alertDeleted={handleDelete} />
+        <SaveSongPlaylist
+          key={Key} // this componen will not rerender if we use shallow value of SaveSongSet.items.length
+        />
       </div>
     </div>
   );

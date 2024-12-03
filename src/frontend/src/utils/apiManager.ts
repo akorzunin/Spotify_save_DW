@@ -181,14 +181,23 @@ export const getPlayBackSongs = async (
   if (data.item?.type !== 'track') {
     throw new Error('Cant handle this type of song');
   }
-
   const currentSong: Song = {
     name: data.item.name,
     imgUrl: data.item.album.images[2].url,
     artists: data.item.artists.map((artist) => artist.name),
     id: data.item.uri,
   };
-  const playlistUri = isPlaybackPlaylist(data);
+  let playlistUri: string | boolean = false;
+  try {
+    playlistUri = isPlaybackPlaylist(data);
+  } catch (err) {
+    console.warn(err);
+  }
+  if (data.currently_playing_type === 'track' && playlistUri === false) {
+    console.warn('Currently playing track');
+    return [[], false, currentSong];
+  }
+
   let songs: Song[] = [];
   const prevPlaylistUri = prevData[1] && prevData[1].uri;
   if (playlistUri && playlistUri !== prevPlaylistUri) {

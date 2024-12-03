@@ -7,7 +7,7 @@ interface ISongCard {
   song: Song;
   index: number;
   isDeletable: boolean;
-  onDelete?: (index: number, value: boolean) => void;
+  onDelete?: (song: Song, index: number) => void;
   isHidden?: boolean;
   className?: string;
 }
@@ -22,7 +22,7 @@ const SongCard: FC<ISongCard> = ({
 }) => {
   const handleChange = () => {
     if (isDeletable) {
-      if (onDelete) onDelete(index, true);
+      if (onDelete) onDelete(song, index);
     }
   };
   return (

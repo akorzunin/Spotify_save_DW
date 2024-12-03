@@ -53,17 +53,13 @@ export const UserPage: FC = () => {
     }
     setCurrentSong(currentSong);
     setPlSongs(songs);
-  }, [playback]);
+  }, [playback, setCurrentSong]);
 
   return (
     <div className="flex items-center justify-center p-2">
       <div className="flex w-[448px] flex-col items-center gap-y-3">
         <Playlist title={PlaylistName} songs={PlSongs} isDW={isDW} />
-        <SavePlaylist
-          playbackSong={CurrentSong}
-          fullPlaylist={PlSongs}
-          isDW={isDW}
-        />
+        <SavePlaylist fullPlaylist={PlSongs} isDW={isDW} />
         <SettingsPanel
           IsPremium={User.isPremium}
           userId={userId}

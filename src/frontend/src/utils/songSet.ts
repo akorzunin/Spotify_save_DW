@@ -1,21 +1,24 @@
+import { emptySong, Song } from '../interfaces/Song';
+
 export class SongSet {
+  items: Song[];
   constructor() {
     this.items = [];
   }
 
-  add(item) {
-    if (!this.has(item)) {
+  add(item: Song) {
+    if (!this.has(item) && item.name !== emptySong.name) {
       this.items.push(item);
     }
   }
 
-  has(item) {
+  has(item: Song) {
     return this.items.some((existingItem) =>
       this.deepEqual(existingItem, item)
     );
   }
 
-  delete(item) {
+  delete(item: Song) {
     this.items = this.items.filter(
       (existingItem) => !this.deepEqual(existingItem, item)
     );
@@ -25,11 +28,12 @@ export class SongSet {
     return this.items.length;
   }
 
-  deepEqual(obj1, obj2) {
+  deepEqual(obj1: Song, obj2: Song) {
     if (typeof obj1 !== typeof obj2) return false;
 
     if (typeof obj1 !== 'object') return obj1 === obj2;
 
+    // TODO: override comparrison logic for Song
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
 
@@ -40,6 +44,10 @@ export class SongSet {
     }
 
     return true;
+  }
+
+  get key() {
+    return this.items.reduce((acc, item) => acc + item.id, '');
   }
 }
 
