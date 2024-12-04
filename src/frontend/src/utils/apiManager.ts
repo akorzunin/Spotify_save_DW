@@ -218,7 +218,7 @@ export const getPlayBackSongs = async (
   ];
   return [songs, false, currentSong];
 };
-const generatePlData = async (name?: string, description?: string) => {
+export const generatePlData = async (name?: string, description?: string) => {
   const plData: { name: string; description: string } = {
     name: '',
     description: '',
