@@ -6,12 +6,16 @@ import { Button } from '../shadcn/ui/button';
 import { useAtom, useAtomValue } from 'jotai';
 import { CurrentSongAtom, saveSongSetAtom } from '../store/store';
 import { fullYear, weekNumber } from '../utils/timeMangment';
+import { cn } from '../lib/utils';
+
+const dotClassName =
+  'absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 bg-purple-700';
 
 const SavePlaylist: FC = () => {
   const [IsSpinning, setIsSpinning] = useState(false);
   const [savePlState, setSavePlState] = useState('Save');
   const [listenPlayback, setListenPlayback] = useState(true);
-  const [PingState, setPingState] = useState('hidden');
+  const [PingState, setPingState] = useState<'' | 'hidden'>('hidden');
 
   const [Key, setKey] = useState('');
 
@@ -59,10 +63,14 @@ const SavePlaylist: FC = () => {
             <Button variant="secondary" onClick={saveUserPlaylist}>
               {savePlState}
             </Button>
-            <span className={`flex rounded-full ${PingState}`}>
-              {/* TODO: use cn */}
-              <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 animate-ping rounded-full bg-purple-700 opacity-75"></span>
-              <span className="absolute right-[-6px] top-[-6px] inline-flex h-3 w-3 rounded-full bg-purple-700"></span>
+            <span className={cn('flex rounded-full', PingState)}>
+              <span
+                className={cn(
+                  dotClassName,
+                  'animate-ping rounded-full opacity-75'
+                )}
+              ></span>
+              <span className={cn(dotClassName, 'rounded-full')}></span>
             </span>
           </div>
           <Button variant="third" onClick={onRefresh}>
