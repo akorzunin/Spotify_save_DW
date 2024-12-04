@@ -1,5 +1,7 @@
 import { emptySong, Song } from '../interfaces/Song';
 
+const keys = ['name', 'artists', 'id'] as const;
+
 export class SongSet {
   items: Song[];
   constructor() {
@@ -31,16 +33,10 @@ export class SongSet {
   deepEqual(obj1: Song, obj2: Song) {
     if (typeof obj1 !== typeof obj2) return false;
 
-    if (typeof obj1 !== 'object') return obj1 === obj2;
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
 
-    // TODO: override comparrison logic for Song
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    if (keys1.length !== keys2.length) return false;
-
-    for (const key of keys1) {
-      if (!this.deepEqual(obj1[key], obj2[key])) return false;
+    for (const key of keys) {
+      if (!(obj1[key] === obj2[key])) return false;
     }
 
     return true;
@@ -50,15 +46,3 @@ export class SongSet {
     return this.items.reduce((acc, item) => acc + item.id, '');
   }
 }
-
-// Usage
-// const customSet = new CustomSet();
-
-// customSet.add({ name: "Charlie", age: 35 });
-// customSet.add({ name: "David", age: 40 });
-
-// console.log(customSet.has({ name: "Charlie", age: 35 })); // true
-// console.log(customSet.size); // 2
-
-// customSet.delete({ name: "David", age: 40 });
-// console.log(customSet.size); // 1
