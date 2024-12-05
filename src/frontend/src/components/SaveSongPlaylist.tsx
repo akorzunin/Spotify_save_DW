@@ -1,20 +1,14 @@
 import { FC, useState } from 'react';
 import SongCard from './SongCard';
 import { emptySong, Song } from '../interfaces/Song';
-import { useAtom, useAtomValue } from 'jotai';
-import { deleteSongSetAtom, SongSetAtom } from '../store/store';
+import { useAtomValue } from 'jotai';
+import { SongSetAtom } from '../store/store';
 import { Button } from '../shadcn/ui/button';
 
 const SaveSongPlaylist: FC = () => {
   const [, setKey] = useState('');
   const songs = useAtomValue(SongSetAtom);
-  const [, deleteSong] = useAtom(deleteSongSetAtom);
 
-  const handleDelete = (song: Song, index: number) => {
-    console.log(song, index);
-    deleteSong(song);
-    setKey(songs.key); // force rerender
-  };
   const rerender = () => {
     console.log(songs.items);
     setKey(self.crypto.randomUUID());
@@ -27,7 +21,6 @@ const SaveSongPlaylist: FC = () => {
             key={self.crypto.randomUUID()}
             song={song}
             index={index + 1}
-            onDelete={handleDelete}
             isDeletable={true}
           />
         ))

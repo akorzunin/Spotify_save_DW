@@ -20,10 +20,10 @@ export function RootLayout() {
           <div className="flex w-full items-center justify-between">
             <UserCard />
             <SongCard
-              className="w-80"
+              className="hidden tablet:flex tablet:w-[320px] desktop:w-[380px]"
               song={CurrentSong}
               index={NaN}
-              isDeletable={false}
+              isAddable={true}
             />
             <div className="gap-x-3 desktop:hidden">
               <Button variant="ghost" size="icon">

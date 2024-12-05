@@ -45,4 +45,10 @@ export class SongSet {
   get key() {
     return this.items.reduce((acc, item) => acc + item.id, '');
   }
+
+  clone() {
+    const newSet = new SongSet();
+    newSet.items = this.items;
+    return newSet;
+  }
 }

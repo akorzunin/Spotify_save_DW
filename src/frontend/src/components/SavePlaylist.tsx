@@ -1,10 +1,14 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { saveUserPl } from '../utils/apiManager';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
 import { Button } from '../shadcn/ui/button';
 import { useAtom, useAtomValue } from 'jotai';
-import { CurrentSongAtom, saveSongSetAtom } from '../store/store';
+import {
+  clrearSongSetAtom,
+  CurrentSongAtom,
+  SongSetAtom,
+} from '../store/store';
 import { fullYear, weekNumber } from '../utils/timeMangment';
 import { cn } from '../lib/utils';
 
@@ -17,18 +21,14 @@ const SavePlaylist: FC = () => {
   const [listenPlayback, setListenPlayback] = useState(true);
   const [PingState, setPingState] = useState<'' | 'hidden'>('hidden');
 
-  const [Key, setKey] = useState('');
-
   const playbackSong = useAtomValue(CurrentSongAtom);
-  const [SaveSongSet, setSaveSongSet] = useAtom(saveSongSetAtom);
+  const [SaveSongSet, setSaveSongSet] = useAtom(SongSetAtom);
+  const [, clrearSongSet] = useAtom(clrearSongSetAtom);
 
-  const onRefresh = () => {
+  const onClear = () => {
     setPingState('hidden');
     setSavePlState('Save');
-    // TODO new set
-  };
-  const onSpin = () => {
-    setIsSpinning(!IsSpinning);
+    clrearSongSet();
   };
 
   const saveUserPlaylist = async () => {
@@ -46,14 +46,11 @@ const SavePlaylist: FC = () => {
     }, 5000);
   };
 
-  useEffect(() => {
-    setSaveSongSet(playbackSong);
-    setKey(SaveSongSet.key); // WTF React???
-  }, [playbackSong, listenPlayback, SaveSongSet, setSaveSongSet]);
+  useMemo(() => setSaveSongSet(playbackSong), [playbackSong, setSaveSongSet]);
 
   return (
     <div className="flex w-full flex-col gap-y-3">
-      <div className={`${IsSpinning ? 'animate-spin' : ''}`}>
+      <div className={IsSpinning ? 'animate-spin' : ''}>
         <PlaylistTitle
           title={`Saved playlist: ${fullYear}_${weekNumber}`}
           isDW={true}
@@ -73,10 +70,13 @@ const SavePlaylist: FC = () => {
               <span className={cn(dotClassName, 'rounded-full')}></span>
             </span>
           </div>
-          <Button variant="third" onClick={onRefresh}>
+          <Button variant="third" onClick={onClear}>
             Clear
           </Button>
-          <Button variant="secondary" onClick={onSpin}>
+          <Button
+            variant="secondary"
+            onClick={() => setIsSpinning(!IsSpinning)}
+          >
             Spin
           </Button>
           <Button
@@ -86,9 +86,7 @@ const SavePlaylist: FC = () => {
             From playback
           </Button>
         </div>
-        <SaveSongPlaylist
-          key={Key} // this componen will not rerender if we use shallow value of SaveSongSet.items.length
-        />
+        <SaveSongPlaylist />
       </div>
     </div>
   );

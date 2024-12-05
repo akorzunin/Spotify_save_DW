@@ -28,8 +28,7 @@ const Playlist: FC<IPlayList> = ({ title, songs, isDW, className }) => {
               key={index.toString()}
               song={song}
               index={index}
-              isDeletable={false}
-              isHidden={undefined}
+              isAddable={true}
             />
           ))
         ) : (

@@ -6,19 +6,22 @@ export const easterEggCountAtom = atom(0);
 
 export const CurrentSongAtom = atom<Song>(emptySong);
 
-export const SongSetAtom = atom<SongSet>(new SongSet());
-export const saveSongSetAtom = atom(
+export const _SongSetAtom = atom<SongSet>(new SongSet());
+export const SongSetAtom = atom(
   (get) => {
-    return get(SongSetAtom);
+    return get(_SongSetAtom);
   },
   (_get, set, update: Song) => {
-    const prevSongSet = _get(SongSetAtom);
+    const prevSongSet = _get(_SongSetAtom);
     prevSongSet.add(update);
-    return set(SongSetAtom, prevSongSet);
+    return set(_SongSetAtom, prevSongSet.clone());
   }
 );
 export const deleteSongSetAtom = atom(null, (_get, set, update: Song) => {
-  const prevSongSet = _get(SongSetAtom);
+  const prevSongSet = _get(_SongSetAtom);
   prevSongSet.delete(update);
-  return set(SongSetAtom, prevSongSet);
+  return set(_SongSetAtom, prevSongSet.clone());
+});
+export const clrearSongSetAtom = atom(null, (_get, set) => {
+  return set(_SongSetAtom, new SongSet());
 });
