@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { saveUserPl } from '../utils/apiManager';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
@@ -33,20 +33,19 @@ const SavePlaylist: FC = () => {
 
   const saveUserPlaylist = async () => {
     setSavePlState('Saving...');
-    const res = await saveUserPl(SaveSongSet.items);
-    if (!res || res.ok) {
+    const ok = await saveUserPl(SaveSongSet.items);
+    if (ok) {
       setPingState('hidden');
       setSavePlState('Saved');
     } else {
       setSavePlState('Error');
-      console.log(res);
     }
     setTimeout(() => {
       setSavePlState('Save');
     }, 5000);
   };
 
-  useMemo(() => setSaveSongSet(playbackSong), [playbackSong, setSaveSongSet]);
+  useEffect(() => setSaveSongSet(playbackSong), [playbackSong, setSaveSongSet]);
 
   return (
     <div className="flex w-full flex-col gap-y-3">

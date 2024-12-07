@@ -4,13 +4,13 @@ import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
 import { useParams } from 'react-router';
 import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
-// import { Button as Buttonv2 } from '../../components/shadcn/ui/button';
-import { emptySong } from '../../interfaces/Song';
+import { emptySong, Song } from '../../interfaces/Song';
 import Playlist from '../../components/Playlist';
-import { ICurrentSong } from '../../types/song';
 import { useQuery } from '@tanstack/react-query';
 import { useAtom } from 'jotai';
 import { CurrentSongAtom } from '../../store/store';
+import { cn } from '../../lib/utils';
+import { SpotifyApi } from '../../api/SpotifyApi';
 
 export const UserPage: FC = () => {
   const { userId } = useParams();
@@ -21,14 +21,14 @@ export const UserPage: FC = () => {
     followers: undefined,
     isPremium: false,
   });
-  const [PlSongs, setPlSongs] = useState<ICurrentSong[]>([emptySong]);
+  const [PlSongs, setPlSongs] = useState<Song[]>([emptySong]);
   const [isDW, setIsDW] = useState(false);
   const [DwPlaylistId, setDwPlaylistId] = useState('');
   const [PlaylistName, setPlaylistName] = useState('No playlist name');
-  const [CurrentSong, setCurrentSong] = useAtom(CurrentSongAtom);
+  const [, setCurrentSong] = useAtom(CurrentSongAtom);
   const [cookie] = useState(cookieHandle.readCookies()[0]);
 
-  const isDiscoverWeekly = (data): boolean => {
+  const isDiscoverWeekly = (data: SpotifyApi.PlaylistObjectFull): boolean => {
     return data.images[0].url.search('discover') > 0;
   };
 
@@ -58,8 +58,13 @@ export const UserPage: FC = () => {
   return (
     <div className="flex items-center justify-center p-2">
       <div className="flex w-[448px] flex-col items-center gap-y-3">
-        <Playlist title={PlaylistName} songs={PlSongs} isDW={isDW} />
-        <SavePlaylist fullPlaylist={PlSongs} isDW={isDW} />
+        <Playlist
+          title={PlaylistName}
+          songs={PlSongs}
+          isDW={isDW}
+          className={cn(PlSongs.length === 0 && 'hidden')}
+        />
+        <SavePlaylist />
         <SettingsPanel
           IsPremium={User.isPremium}
           userId={userId}

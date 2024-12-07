@@ -143,11 +143,17 @@ const isPlaybackPlaylist = (
     }
   }
 };
+
+const badPlaylistIds: string[] = [];
+
 const getPlaylistSongs = async (
   playlistUri: string,
   currentSong: Song
 ): Promise<Playback> => {
-  const playlistId = playlistUri.split(':').pop();
+  const playlistId = playlistUri.split(':').pop() as string;
+  if (badPlaylistIds.includes(playlistId)) {
+    return [[], false, currentSong];
+  }
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl(`/v1/playlists/${playlistId}`, false), {
     headers: {
@@ -156,6 +162,13 @@ const getPlaylistSongs = async (
       Authorization: `Bearer ${token}`,
     },
   });
+  if (!res.ok) {
+    // seems like u cant get special playlists like "Discover Weekly" or Daily mixes
+    if (res.status === 404) {
+      badPlaylistIds.push(playlistId);
+    }
+    return [[], false, currentSong];
+  }
   const data = (await res.json()) as SpotifyApi.PlaylistObjectFull;
   const songs: Song[] = [];
   data.tracks.items.forEach((song) => {
@@ -287,8 +300,9 @@ export const saveUserPl = async (songs: Song[]) => {
       const data =
         (await plRes.json()) as SpotifyApi.AddTracksToPlaylistResponse;
       console.info('Created', data);
-      const updatedRes = await updatePlaylistDescription(resData);
-      return updatedRes;
+      // const updatedRes = await updatePlaylistDescription(resData);
+      // return updatedRes;
+      return true;
     }
   }
   return false;

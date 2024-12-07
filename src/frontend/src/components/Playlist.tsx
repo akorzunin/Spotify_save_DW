@@ -7,22 +7,17 @@ import { cn } from '../lib/utils';
 
 interface IPlayList {
   title: string;
-  songs: string;
+  songs: Song[];
   isDW: boolean;
   className?: string;
 }
 
 const Playlist: FC<IPlayList> = ({ title, songs, isDW, className }) => {
   return (
-    <div className="flex w-full flex-col gap-y-3">
+    <div className={cn('flex w-full flex-col gap-y-3', className)}>
       <PlaylistTitle title={'Playlist: ' + title} isDW={isDW} />
-      <div
-        className={cn(
-          `flex max-h-[70vh] flex-col gap-y-2 overflow-y-scroll`,
-          className
-        )}
-      >
-        {Array.isArray(songs) && songs.length ? (
+      <div className="flex max-h-[70vh] flex-col gap-y-2 overflow-y-scroll">
+        {songs.length > 0 ? (
           songs.map((song: Song, index: number) => (
             <SongCard
               key={index.toString()}
