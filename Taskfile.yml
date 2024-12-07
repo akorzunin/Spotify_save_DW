@@ -13,14 +13,22 @@ tasks:
     cmds:
       - caddy run --config ./caddy/dev/Caddyfile.frontend  --adapter caddyfile
 
+  pnpm-install:
+    desc: Install pnpm dependencies
+    dir: '{{ .EXEC_DIR| default "src/frontend" }}'
+    cmds:
+      - pnpm i
+    preconditions:
+      - sh: type pnpm
+
   frontend-dev-internal:
     desc: Start frontend development server
     internal: true
     env:
       VITE_API_URL: "{{ .VITE_API_URL }}"
     dir: src/frontend
-    preconditions:
-      - sh: pnpm i
+    deps:
+      - pnpm-install
     interactive: true
     cmds:
       - pnpm run dev
@@ -38,6 +46,8 @@ tasks:
           VITE_API_URL: "https://api.test-dwman.localhost"
 
   debug-web:
+    aliases:
+      - dw
     desc: Run vite dev server and local reverse proxy from web
     deps:
       - caddy-frontend-dev
@@ -61,25 +71,51 @@ tasks:
   build-web:
     desc: Build frontend application
     dir: src/frontend
-    preconditions:
-      - sh: pnpm i
+    deps:
+      - pnpm-install
     cmds:
       - pnpm run build
 
   test-backend:
+    aliases:
+      - tb
+    desc: Run backend tests
     interactive: true
     cmd: pytest . -vv
 
   test-frontend:
+    aliases:
+      - tf
+    desc: Run frontend tests
     interactive: true
+    deps:
+      - task: pnpm-install
+        vars:
+          EXEC_DIR: tests/frontend
     dir: tests/frontend
     cmd: pnpm run test-unit
 
   test-all:
+    aliases:
+      - ta
+    desc: Run all tests
     deps:
       - test-backend
       - test-frontend
     cmd: echo Finished runnig tests
+
+  test-frontend-watch:
+    aliases:
+      - tw
+      - tfw
+    desc: Run frontend tests in watch mode
+    interactive: true
+    deps:
+      - task: pnpm-install
+        vars:
+          EXEC_DIR: tests/frontend
+    dir: tests/frontend
+    cmd: pnpm run test-unit-watch
 
   # test-react-frontend:
   #   preconditions:
