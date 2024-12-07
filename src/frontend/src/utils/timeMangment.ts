@@ -18,3 +18,19 @@ export const getWeekNumber = (d: Date): number[] => {
 
 export const [fullYear, weekNumber] = getWeekNumber(new Date());
 export const currentTime = dayjs().format();
+
+export interface TimeData {
+  fullYear: number;
+  weekNumber: number;
+  currentTime: string;
+}
+// in case we need current time in other places
+export const getTimeData = (d: Date = new Date()): TimeData => {
+  const [fullYear, weekNumber] = getWeekNumber(d);
+  const currentTime = dayjs(d).format();
+  return {
+    fullYear: fullYear,
+    weekNumber: weekNumber,
+    currentTime: currentTime,
+  };
+};

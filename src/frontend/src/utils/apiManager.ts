@@ -1,12 +1,12 @@
 import { readCookies, setCookies } from './cookieHandle';
 import { emptySong, Song } from '../interfaces/Song';
 
-import * as timeMangment from './timeMangment';
 import { SpotifyApi } from '../api/SpotifyApi';
 import { Playback } from '../interfaces/Playback';
 import { getSpotifyUrl } from './utils';
 import { getAccessToken } from './auth';
 import { OpenAPI } from '../api/client';
+import { getTimeData } from './timeMangment';
 
 const checkStatusCode = (res: Response) => {
   const logErr = (res: Response) => {
@@ -218,18 +218,22 @@ export const getPlayBackSongs = async (
   ];
   return [songs, false, currentSong];
 };
-export const generatePlData = async (name?: string, description?: string) => {
+export const generatePlData = async (
+  name?: string,
+  description?: string,
+  date = getTimeData()
+) => {
   const plData: { name: string; description: string } = {
     name: '',
     description: '',
   };
   if (!name) {
-    plData.name = `${timeMangment.fullYear}_${timeMangment.weekNumber}`;
+    plData.name = `${date.fullYear}_${date.weekNumber}`;
   }
   if (!description) {
     // replace regular space w/ U+205F cause of bug
     plData.description =
-      `Creation date: ${timeMangment.currentTime}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
+      `Creation date: ${date.currentTime}. This playlist was created by web service. Link to github repo /akorzunin/Spotify_save_DW`
         .split(' ')
         .join(' ');
   }

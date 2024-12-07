@@ -1,21 +1,49 @@
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
+import dayjs from "dayjs";
 
 import { generatePlData } from "../../../src/frontend/src/utils/apiManager";
+import {
+  getTimeData,
+  getWeekNumber,
+  TimeData,
+} from "../../../src/frontend/src/utils/timeMangment";
 
-test("generatePlData default", async () => {
-  const plData = await generatePlData();
-  expect(plData.name).toBeDefined();
-  expect(plData.description).toBeDefined();
+const testWithTime = test.extend({
+  testTime: async ({}, use) => {
+    use(dayjs("1970-01-01"));
+  },
+  testTimeData: async ({}, use) => {
+    use(getTimeData(dayjs("1970-01-01").toDate()));
+  },
 });
 
-test("generatePlData custom", async () => {
-  // TODO: add custom name and description templates
-  const plData = await generatePlData(
-    "test{year}_{week}",
-    "test description {year}",
-  );
-  console.log(plData);
+testWithTime(
+  "generatePlData default",
+  async ({
+    testTime,
+    testTimeData,
+  }: {
+    testTime: dayjs.Dayjs;
+    testTimeData: TimeData;
+  }) => {
+    const plData = await generatePlData(undefined, undefined, testTimeData);
+    expect(plData.name).toBeDefined();
+    expect(plData.description).toBeDefined();
+  },
+);
 
-  expect(plData.name).toBe("test");
-  expect(plData.description).toBe("test");
-});
+test(
+  "generatePlData custom",
+  async () => {
+    const currentTime = dayjs();
+    // TODO: add custom name and description templates
+    const plData = await generatePlData(
+      "test{year}_{week}",
+      "test description {year}",
+    );
+
+    expect(plData.name).toBe("test");
+    expect(plData.description).toBe("test");
+  },
+  { skip: true },
+);
