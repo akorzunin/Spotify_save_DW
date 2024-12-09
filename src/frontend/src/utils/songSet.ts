@@ -1,6 +1,8 @@
 import { emptySong, Song } from '../interfaces/Song';
 
-const keys = ['name', 'artists', 'id'] as const;
+// don't use artists for camparison cause its Array
+// and Arrays in js cant be compared well
+const keys = ['name', 'imgUrl', 'id'] as const;
 
 export class SongSet {
   items: Song[];

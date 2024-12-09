@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 import { emptySong, Song } from '../interfaces/Song';
 import { SongSet } from '../utils/songSet';
+import { User } from '../api/client';
 
 export const easterEggCountAtom = atom(0);
 
@@ -24,4 +25,11 @@ export const deleteSongSetAtom = atom(null, (_get, set, update: Song) => {
 });
 export const clrearSongSetAtom = atom(null, (_get, set) => {
   return set(_SongSetAtom, new SongSet());
+});
+
+export const UserDataAtom = atom<User>({
+  user_id: '',
+  is_premium: false,
+  refresh_token: '',
+  created_at: '',
 });

@@ -59,14 +59,14 @@ export const refreshToken = () => {
       console.error(err);
     });
 };
-export interface UserData {
+export interface SpotifyUserData {
   name: string;
   img: string;
   followers: number;
   id: string;
   isPremium: boolean;
 }
-export const getUserData = async (): Promise<UserData> => {
+export const getUserData = async (): Promise<SpotifyUserData> => {
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me/', false), {
     headers: {

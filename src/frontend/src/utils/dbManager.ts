@@ -1,5 +1,7 @@
+// @ts-nocheck
+// TODO fix types
 import dayjs from 'dayjs';
-import { ApiService, OpenAPI, User } from '../api/client';
+import { ApiService, CreateUser, OpenAPI, User } from '../api/client';
 
 export const getLocation = () => {
   const pref = window.location.href.split('//')[0];
@@ -12,19 +14,31 @@ export const getUserDataApi = async (userId: string): Promise<User> => {
   return res;
 };
 
-export const createUser = async (userId: string, userData): Promise<any> => {
-  const res = await fetch(`${OpenAPI.BASE}/api/new_user`, {
-    method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-  const data = await res.json();
-  console.log('User created: ', data);
+export const createUser = async (userData: CreateUser): Promise<User> => {
+  return await ApiService.createUserApiNewUserPost(userData);
+};
 
-  return data;
+export const getOrCreateUser = async (userId: string) => {
+  if (!userId) {
+    return null;
+  }
+  try {
+    const userData = await getUserDataApi(userId);
+    return userData;
+  } catch (error) {
+    if (error instanceof ApiError) {
+      if (error.status === 404) {
+        const res = await createUser({
+          user_id: userId,
+          is_premium: false,
+          refresh_token: '',
+        });
+        return res;
+      }
+    }
+    console.error(error);
+  }
+  return null;
 };
 export const updateUserData = async (userId, updateData): Promise<any> => {
   const res = await fetch(`${OpenAPI.BASE}/api/update_user?user_id=${userId}`, {

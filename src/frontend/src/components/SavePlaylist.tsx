@@ -45,7 +45,11 @@ const SavePlaylist: FC = () => {
     }, 5000);
   };
 
-  useEffect(() => setSaveSongSet(playbackSong), [playbackSong, setSaveSongSet]);
+  useEffect(() => {
+    if (listenPlayback) {
+      setSaveSongSet(playbackSong);
+    }
+  }, [playbackSong, setSaveSongSet]);
 
   return (
     <div className="flex w-full flex-col gap-y-3">

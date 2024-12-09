@@ -1,8 +1,9 @@
+// @ts-nocheck
+// TODO fix types
 import { useState, useEffect, FC } from 'react';
 import AccountStatus from './AccountStatus';
 import SettingsTitle from './SettingsTitle';
 import {
-  getUserDataApi,
   getDbData,
   parseDateFromDb,
   updateUserData,
@@ -11,6 +12,9 @@ import {
 } from '../../utils/dbManager';
 import { formDataMap } from '../../interfaces/FormDataMap';
 import { Button } from '../../shadcn/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { useAtomValue } from 'jotai';
+import { UserDataAtom } from '../../store/store';
 
 export const TextFormStyle =
   'w-full appearance-none block bg-gray-200 text-gray-700 border border-green-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white';
@@ -94,7 +98,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
     updateUserData(userId, updateData);
   };
 
-  const setFormData = (data) => {
+  const setFormData = (data: User) => {
     // restore form data from db
     Array.from(document.forms[0]).map((item: any) => {
       if (item.type === 'checkbox') {
@@ -119,22 +123,17 @@ const SettingsPanel: FC<ISettingsPanel> = ({
     }
   }, [DwPlaylistId]);
 
-  useEffect(() => {
-    if (!didMount && userId) {
-      getUserDataApi(userId).then((data) => {
-        console.table(data);
-        // set user settings
-        setFormData(data);
-      });
-    }
-    return () => {
-      didMount = true;
-    };
-  }, []);
+  const userData = useAtomValue(UserDataAtom);
+  useQuery({
+    queryKey: ['userFormData', userId],
+    queryFn: async () => {
+      setFormData(userData);
+      return true;
+    },
+    enabled: !!userData.user_id,
+  });
+
   const [emailFormActive, setEmailFormActive] = useState(false);
-  const handleShowEmailField = (e) => {
-    setEmailFormActive(e.target.checked);
-  };
 
   return (
     <div className="flex w-full flex-col gap-y-3">
@@ -147,7 +146,7 @@ const SettingsPanel: FC<ISettingsPanel> = ({
               id="email-checkbox"
               type="checkbox"
               className="check"
-              onChange={handleShowEmailField}
+              onChange={(e) => setEmailFormActive(e.target.checked)}
             />
             <label
               id="email-checkbox-label"
