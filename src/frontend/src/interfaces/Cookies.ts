@@ -11,4 +11,4 @@ export const SpotifyCookieKeys = [
   'expires_in',
   'refresh_token',
   'scope',
-];
+] as const;

@@ -1,5 +1,6 @@
-import { atom } from 'jotai';
-import { SpotifyCookie } from '../interfaces/Cookies';
+// TODO : add auth store
+// import { atom } from 'jotai';
+// import { SpotifyCookie } from '../interfaces/Cookies';
 import { atomWithStorage } from 'jotai/utils';
 
 export const accessTokenAtom = atomWithStorage('access_token', '');

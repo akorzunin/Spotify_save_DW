@@ -15,8 +15,8 @@ export const setCookies = (cookies: SpotifyCookie) => {
 export const readCookies = () => {
   const cookiesLib = new Cookies();
   const allCookies = cookiesLib.getAll();
-  const spotifyCookies = {};
-  SpotifyCookieKeys.forEach((key: string) => {
+  const spotifyCookies: Record<string, string> = {};
+  SpotifyCookieKeys.forEach((key) => {
     spotifyCookies[key] = cookiesLib.get(key);
   });
   return [spotifyCookies, allCookies];
@@ -34,7 +34,7 @@ interface IapiSpotifyMe {
   type: string;
   uri: string;
 }
-export const getUserPath = async (cookie: SpotifyCookie, isDirect = false) => {
+export const getUserPath = async (isDirect = false) => {
   const token = await getAccessToken();
   const res = await fetch(getSpotifyUrl('/v1/me', isDirect), {
     headers: {
@@ -45,6 +45,8 @@ export const getUserPath = async (cookie: SpotifyCookie, isDirect = false) => {
   });
   const data = (await res.json()) as IapiSpotifyMe;
   if (data.id) return '/app/user/' + data.id;
+  // TODO put some data about use to userAtom mb
+  // then we can remove this cal from main page component
   return '/login';
 };
 export const isValidCookies = (cookie: SpotifyCookie) => {
