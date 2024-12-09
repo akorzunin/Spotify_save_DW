@@ -1,9 +1,13 @@
 FROM node:20-alpine as frontend
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable pnpm
 WORKDIR /frontend
 COPY ["src/frontend/package.json", "./"]
-RUN npm install
+COPY ["src/frontend/pnpm-lock.yaml", "./"]
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 COPY ["src/frontend", "./"]
-RUN npm run build
+RUN pnpm run build
 
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.11-slim
