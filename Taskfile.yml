@@ -14,6 +14,7 @@ tasks:
       - caddy run --config ./caddy/dev/Caddyfile.frontend  --adapter caddyfile
 
   pnpm-install:
+    interactive: true
     desc: Install pnpm dependencies
     dir: '{{ .EXEC_DIR| default "src/frontend" }}'
     cmds:
@@ -69,6 +70,9 @@ tasks:
       - backend-dev
 
   build-web:
+    interactive: true
+    aliases:
+      - bw
     desc: Build frontend application
     dir: src/frontend
     deps:
