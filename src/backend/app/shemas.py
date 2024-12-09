@@ -20,7 +20,7 @@ class SpotifyError(BaseModel):
 
 
 class BaseUser(BaseModel):
-    dw_playlist_id: Optional[str]
+    dw_playlist_id: str | None = None
     save_dw_weekly: bool = False
     save_full_playlist: bool = False
     filter_dislikes: bool = True
@@ -48,11 +48,11 @@ class User(BaseUser):
 class CreateUser(BaseUser):
     user_id: str
     send_mail: bool = False
-    email: Optional[EmailStr]
-    send_time: Optional[datetime]
+    email: EmailStr | None = None
+    send_time: datetime | None = None
     is_premium: bool
     refresh_token: str
-    save_time: Optional[datetime]
+    save_time: datetime | None = None
 
 
 class UpdateUser(BaseModel):
