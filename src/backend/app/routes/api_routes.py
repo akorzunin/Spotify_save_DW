@@ -1,5 +1,6 @@
 import asyncio
 
+import structlog
 from backend.app import crud, shemas
 from backend.app.auth import check_credentials, security
 from backend.app.db_connector import users
@@ -17,6 +18,8 @@ router = APIRouter(
     prefix="/api",
     tags=["API"],
 )
+
+logger = structlog.stdlib.get_logger(__name__)
 
 
 @router.post(
@@ -121,18 +124,13 @@ async def create_user(user: shemas.CreateUser):
     response_model=shemas.User,
     responses={
         status.HTTP_404_NOT_FOUND: {"model": shemas.Message},
-        status.HTTP_412_PRECONDITION_FAILED: {"model": shemas.Message},
     },
 )
 async def update_user(user: shemas.UpdateUser, user_id: str):
     """Update user"""
     if updated_user := crud.update_user(users, user, user_id):
         if message := manage_user_tasks(updated_user):
-            #  return different response if sth wrong w/ task management
-            return JSONResponse(
-                status_code=status.HTTP_412_PRECONDITION_FAILED,
-                content=message,
-            )
+            logger.warning(message.model_dump())
         return updated_user
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND,

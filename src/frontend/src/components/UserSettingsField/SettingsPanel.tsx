@@ -22,7 +22,6 @@ export const CheckboxFormStyle =
   'w-4 h-4 bg-gray-100 rounded border-transparent cursor-pointer';
 export const HintFormStyle =
   'text-sm font-light text-white bg-gray-500 absolute max-w-[192px] rounded-md transition-all duration-600 ease-in-out text-shadow-md';
-let didMount = false;
 
 interface ISettingsPanel {
   IsPremium: boolean;
@@ -77,6 +76,8 @@ const SettingsPanel: FC<ISettingsPanel> = ({
   const handleSubmit = (event: {
     currentTarget: { elements: Iterable<unknown> | ArrayLike<unknown> };
   }) => {
+    event.preventDefault();
+    event.stopPropagation();
     const formData = {};
     Array.from(event.currentTarget.elements).map((item: HTMLInputElement) => {
       if (!item.id) return null;
