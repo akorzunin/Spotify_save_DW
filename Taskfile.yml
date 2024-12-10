@@ -56,18 +56,32 @@ tasks:
     cmds:
       - echo "Debug session ended"
 
-  backend-dev:
+  debug-backend:
+    interactive: true
+    aliases:
+      - db
     desc: Start Python backend application
+    env:
+      LOG_LEVEL: ERROR
     cmds:
-      # - poetry run ./src/main.py
-      - echo "Run pyton app in debugger"
+      - poetry run uvicorn run:app --reload --log-level error --no-access-log
 
   debug-full:
+    aliases:
+      - df
     desc: Run fromtend and backend w/ reverse proxy locally
     deps:
       - caddy-dev
       - frontend-api-dev
-      - backend-dev
+      - debug-backend
+
+  debug-full-no-back:
+    aliases:
+      - dfn
+    desc: Run fromtend w/o backend w/ reverse proxy locally
+    deps:
+      - caddy-dev
+      - frontend-api-dev
 
   build-web:
     interactive: true

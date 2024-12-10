@@ -28,7 +28,7 @@ templates = Jinja2Templates(directory="src/frontend/templates")
 
 setup_logging(
     json_logs=not sys.stderr.isatty(),
-    log_level="INFO",
+    log_level=os.getenv("LOG_LEVEL", "INFO"),
 )
 access_logger = structlog.stdlib.get_logger("api.access")
 # log = structlog.stdlib.get_logger(__name__)
