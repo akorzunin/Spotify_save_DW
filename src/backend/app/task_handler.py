@@ -6,6 +6,7 @@ from typing import Literal, Optional
 import schedule
 import spotipy
 import structlog
+from pydantic import ValidationError
 from tinydb import where
 
 from backend.app import shemas
@@ -66,7 +67,12 @@ def revive_user_tasks():
         )
     save_dw_users = users.search(where("save_dw_weekly") == True)
     for user in save_dw_users:
-        task = user_save_task(shemas.SavePlUser(**user))
+        try:
+            u = shemas.SavePlUser(**user)
+        except ValidationError as e:
+            logger.exception(f"Error while creating save task: {e}")
+            continue
+        task = user_save_task(u)
         logger.info(
             f"[Save Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
