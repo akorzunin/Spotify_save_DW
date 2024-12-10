@@ -36,7 +36,8 @@ def update_user(
 ) -> shemas.User:  # TODO fix docs
     if user_upd := {k: v for k, v in user.dict().items() if v is not None}:
         db.update(user_upd, where("user_id") == user_id)
-        return db.get(where("user_id") == user_id)
+        user_doc = db.get(where("user_id") == user_id)
+        return shemas.User(**user_doc)
     raise ValueError("Could not update user")
 
 

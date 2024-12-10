@@ -56,16 +56,16 @@ class CreateUser(BaseUser):
 
 
 class UpdateUser(BaseModel):
-    send_mail: Optional[bool]
-    email: Optional[EmailStr | Literal[""]]
-    send_time: Optional[datetime | Literal[""]]
-    is_premium: Optional[bool]
-    refresh_token: Optional[str]
-    save_time: Optional[datetime | Literal[""]]
-    dw_playlist_id: Optional[str]
-    save_dw_weekly: Optional[bool]
-    save_full_playlist: Optional[bool]
-    filter_dislikes: Optional[bool]
+    send_mail: bool | None = None
+    email: EmailStr | Literal[""] | None = None
+    send_time: datetime | Literal[""] | None = None
+    is_premium: bool | None = None
+    refresh_token: str | None = None
+    save_time: datetime | Literal[""] | None = None
+    dw_playlist_id: str | None = None
+    save_dw_weekly: bool | None = None
+    save_full_playlist: bool | None = None
+    filter_dislikes: bool | None = None
 
     @validator("send_time", "save_time", pre=False)
     def parse_date(cls, value):
