@@ -58,9 +58,17 @@ def user_save_task(user: shemas.SavePlUser):
 
 def revive_user_tasks():
     """Restore tasks from db after program restart"""
-    notify_users = users.search(where("send_mail") == True)
+    notify_users = users.search(~(where("send_time").one_of([None, ""])))
     for user in notify_users:
-        task = user_notify_task(shemas.NotifyUser(**user))
+        try:
+            nt_user = shemas.NotifyUser(**user)
+        except ValidationError as e:
+            logger.exception(
+                f"Error while creating notify task: {e}",
+                user_id=user["user_id"],
+            )
+            continue
+        task = user_notify_task(nt_user)
         logger.info(
             f"[Notify Task created] Next run: {str(task.next_run)} "
             f"User: {user['user_id']}"
