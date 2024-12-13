@@ -136,8 +136,7 @@
     /* unused yet */
     --card-foreground: hsl(222.2 84% 4.9%);
 
-    /* border on focused elements */
-    --input: hsl(214.3 31.8% 91.4%);
+    --input: var(--color-slate-200);
     /* ring color around focused elements */
     --ring: var(--color-slate-500);
     --border: var(--background);

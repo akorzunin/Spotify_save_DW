@@ -11,6 +11,7 @@ import { useAtom } from 'jotai';
 import { CurrentSongAtom } from '../../store/store';
 import { cn } from '../../lib/utils';
 import { SpotifyApi } from '../../api/SpotifyApi';
+import { SettingsPanelV2 } from '../../components/settings/SettingsPanelV2';
 
 export const UserPage: FC = () => {
   const { userId } = useParams();
@@ -65,6 +66,7 @@ export const UserPage: FC = () => {
           className={cn(PlSongs.length === 0 && 'hidden')}
         />
         <SavePlaylist />
+        <SettingsPanelV2 />
         <SettingsPanel
           IsPremium={User.isPremium}
           userId={userId}
