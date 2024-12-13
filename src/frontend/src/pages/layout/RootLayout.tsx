@@ -7,7 +7,7 @@ import UserCard from '../../components/UserCard';
 import { useAtomValue } from 'jotai';
 import SongCard from '../../components/SongCard';
 import { CurrentSongAtom } from '../../store/store';
-import { Menu } from 'lucide-react';
+import BurgerMenu from '../../components/menu/BurgerMenu';
 
 export function RootLayout() {
   const { userId } = useParams();
@@ -26,9 +26,7 @@ export function RootLayout() {
               isAddable={true}
             />
             <div className="gap-x-3 desktop:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu />
-              </Button>
+              <BurgerMenu userId={userId} />
             </div>
             <div className="hidden gap-x-3 desktop:flex">
               <Button asChild>
@@ -48,7 +46,13 @@ export function RootLayout() {
             <div className="text-6xl font-bold text-primary-foreground">
               <Link to="/app/">DWMan</Link>
             </div>
-            <div className="flex gap-x-3">
+            <div className="flex gap-x-3 tablet:hidden">
+              <Button asChild>
+                <Link to={`${OpenAPI.BASE}/login`}>Login</Link>
+              </Button>
+              <BurgerMenu userId={userId} />
+            </div>
+            <div className="hidden gap-x-3 tablet:flex">
               <Button asChild>
                 <Link to="/app/user/demo_user">Layout Demo</Link>
               </Button>
