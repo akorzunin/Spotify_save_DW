@@ -1,7 +1,13 @@
 // @ts-nocheck
 // TODO fix types
 import dayjs from 'dayjs';
-import { ApiService, CreateUser, OpenAPI, User } from '../api/client';
+import {
+  ApiService,
+  CreateUser,
+  OpenAPI,
+  UpdateUser,
+  User,
+} from '../api/client';
 
 export const getLocation = () => {
   const pref = window.location.href.split('//')[0];
@@ -40,7 +46,7 @@ export const getOrCreateUser = async (userId: string) => {
   }
   return null;
 };
-export const updateUserData = async (userId, updateData): Promise<any> => {
+export const updateUserData = async (userId, updateData): Promise<unknown> => {
   const res = await fetch(`${OpenAPI.BASE}/api/update_user?user_id=${userId}`, {
     method: 'PUT',
     headers: {
@@ -53,6 +59,14 @@ export const updateUserData = async (userId, updateData): Promise<any> => {
   const data = await res.json();
   return data;
 };
+
+export const updateUserDataV2 = async (
+  userId: string,
+  updateUser: UpdateUser
+): Promise<User> => {
+  return await ApiService.updateUserApiUpdateUserPut(userId, updateUser);
+};
+
 export const getDbData = (item, data, formDataMap) => {
   return data[formDataMap[item.id]];
 };
