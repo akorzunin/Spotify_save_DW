@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { saveUserPl } from '../utils/apiManager';
 import SaveSongPlaylist from './SaveSongPlaylist';
 import PlaylistTitle from './PlaylistTitle';
@@ -6,7 +6,7 @@ import { Button } from '../shadcn/ui/button';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   clrearSongSetAtom,
-  CurrentSongAtom,
+  listenPlaybackAtom,
   SongSetAtom,
 } from '../store/store';
 import { fullYear, weekNumber } from '../utils/timeMangment';
@@ -18,11 +18,10 @@ const dotClassName =
 const SavePlaylist: FC = () => {
   const [IsSpinning, setIsSpinning] = useState(false);
   const [savePlState, setSavePlState] = useState('Save');
-  const [listenPlayback, setListenPlayback] = useState(true);
+  const [listenPlayback, setListenPlayback] = useAtom(listenPlaybackAtom);
   const [PingState, setPingState] = useState<'' | 'hidden'>('hidden');
 
-  const playbackSong = useAtomValue(CurrentSongAtom);
-  const [SaveSongSet, setSaveSongSet] = useAtom(SongSetAtom);
+  const SaveSongSet = useAtomValue(SongSetAtom);
   const [, clrearSongSet] = useAtom(clrearSongSetAtom);
 
   const onClear = () => {
@@ -44,12 +43,6 @@ const SavePlaylist: FC = () => {
       setSavePlState('Save');
     }, 5000);
   };
-
-  useEffect(() => {
-    if (listenPlayback) {
-      setSaveSongSet(playbackSong);
-    }
-  }, [playbackSong, setSaveSongSet]);
 
   return (
     <div className="flex w-full flex-col gap-y-3">

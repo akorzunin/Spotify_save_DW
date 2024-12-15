@@ -18,7 +18,7 @@ const SaveSongPlaylist: FC = () => {
       {songs.items.length > 0 ? (
         songs.items.map((song: Song, index: number) => (
           <SongCard
-            key={self.crypto.randomUUID()}
+            key={index}
             song={song}
             index={index + 1}
             isDeletable={true}

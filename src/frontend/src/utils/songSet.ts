@@ -10,10 +10,12 @@ export class SongSet {
     this.items = [];
   }
 
-  add(item: Song) {
+  add(item: Song): SongSet {
     if (!this.has(item) && item.name !== emptySong.name) {
       this.items.push(item);
+      return this.clone();
     }
+    return this;
   }
 
   has(item: Song) {
