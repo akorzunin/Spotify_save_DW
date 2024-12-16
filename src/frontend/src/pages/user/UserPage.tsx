@@ -1,8 +1,6 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, FC } from 'react';
 import * as apiManager from '../../utils/apiManager';
 import SavePlaylist from '../../components/SavePlaylist';
-import { useParams } from 'react-router';
-import SettingsPanel from '../../components/UserSettingsField/SettingsPanel';
 import { emptySong, Song } from '../../interfaces/Song';
 import Playlist from '../../components/Playlist';
 import { useQuery } from '@tanstack/react-query';
@@ -17,17 +15,8 @@ import { SpotifyApi } from '../../api/SpotifyApi';
 import { SettingsPanelV2 } from '../../components/settings/SettingsPanelV2';
 
 export const UserPage: FC = () => {
-  const { userId } = useParams();
-
-  const [User] = useState({
-    name: undefined,
-    img: undefined,
-    followers: undefined,
-    isPremium: false,
-  });
   const [PlSongs, setPlSongs] = useState<Song[]>([emptySong]);
   const [isDW, setIsDW] = useState(false);
-  const [DwPlaylistId, setDwPlaylistId] = useState('');
   const [PlaylistName, setPlaylistName] = useState('No playlist name');
   const [, setCurrentSong] = useAtom(CurrentSongAtom);
   const listenPlayback = useAtomValue(listenPlaybackAtom);
@@ -46,9 +35,6 @@ export const UserPage: FC = () => {
         setPlaylistName(playlistData.name);
         const isDiscoverWeeklyPl = isDiscoverWeekly(playlistData);
         setIsDW(isDiscoverWeeklyPl);
-        if (isDiscoverWeeklyPl) {
-          setDwPlaylistId(playlistData.id);
-        }
       }
       setCurrentSong(currentSong);
       setPlSongs(songs);
@@ -73,11 +59,6 @@ export const UserPage: FC = () => {
         />
         <SavePlaylist />
         <SettingsPanelV2 />
-        <SettingsPanel
-          IsPremium={User.isPremium}
-          userId={userId}
-          DwPlaylistId={DwPlaylistId}
-        />
       </div>
     </div>
   );

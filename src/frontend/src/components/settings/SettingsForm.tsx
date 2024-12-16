@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { UserDataAtom } from '../../store/store';
 import { Switch } from '../../shadcn/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
