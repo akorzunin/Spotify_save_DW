@@ -1,4 +1,4 @@
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { UserDataAtom } from '../../store/store';
 import { Switch } from '../../shadcn/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,42 +17,62 @@ import { Input } from '../../shadcn/ui/input';
 import { Button } from '../../shadcn/ui/button';
 import { useEffect } from 'react';
 import { ToggleGroup, ToggleGroupItem } from '../../shadcn/ui/toggle-group';
-
-const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'] as const;
-type singleWeekDay = (typeof weekDays)[number];
+import {
+  weekDays,
+  updateUserDataV2,
+  parseUserSaveTime,
+  parseFormTime,
+  parseUserWeekDay,
+  singleWeekDay,
+} from '../../utils/dbManager';
 
 const updateUserSchema = z.object({
   send_mail: z.boolean(),
-  email: z.string().email({ message: 'Invalid email' }),
-  // send_time: z.string().min(5, {
-  //   message: 'Send time must be at least 5 characters.',
-  // }),
+  email: z.string().email({ message: 'Invalid email' }).optional(),
   dw_playlist_id: z.string().min(20, {
     message: 'DW playlist id must be at least 20 characters.',
   }),
-  save_weeday: z.enum(weekDays),
-  save_time: z.string({
+  save_weekday: z.enum(weekDays).optional(),
+  save_hour_minute: z.string({
     message: 'Save time must be at least 5 characters. ex: 16:00',
   }),
-  // save_dw_weekly: z.boolean(),
-  // save_full_playlist: z.boolean(),
-  // filter_dislikes: z.boolean(),
 }) satisfies ZodType<UpdateUser>;
 
 type FormData = z.infer<typeof updateUserSchema>;
 
 export const SettingsForm = () => {
-  const userData = useAtomValue(UserDataAtom);
+  const [userData, setUserData] = useAtom(UserDataAtom);
   const form = useForm<FormData>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      send_mail: userData.send_mail ?? false,
-      email: userData.email ?? '',
-      dw_playlist_id: userData.dw_playlist_id ?? '',
-      save_weeday: 'Mo',
-      // save_dw_weekly: userData.save_dw_weekly ?? false,
+      email: '',
+      save_weekday: 'Mo',
+      save_hour_minute: '00:00',
+      dw_playlist_id: '',
     },
   });
+
+  async function onSubmit(values: FormData) {
+    const updateUser: UpdateUser = {};
+    if (values.dw_playlist_id !== '') {
+      updateUser.dw_playlist_id = values.dw_playlist_id;
+    }
+    if (values.send_mail && values.save_weekday) {
+      updateUser.send_mail = values.send_mail;
+      updateUser.email = values.email;
+      updateUser.send_time = parseFormTime(
+        values.save_hour_minute,
+        values.save_weekday
+      );
+    }
+    if (updateUser) {
+      const res = await updateUserDataV2(userData.user_id, updateUser);
+      if (!res) {
+        return;
+      }
+      setUserData(res);
+    }
+  }
   useEffect(() => {
     if (userData.user_id && userData.dw_playlist_id) {
       form.setValue('dw_playlist_id', userData.dw_playlist_id);
@@ -60,10 +80,17 @@ export const SettingsForm = () => {
     if (userData.send_mail) {
       form.setValue('send_mail', userData.send_mail);
     }
+    if (userData.send_time) {
+      form.setValue(
+        'save_weekday',
+        parseUserWeekDay(userData.send_time) || undefined
+      );
+      form.setValue('save_hour_minute', parseUserSaveTime(userData.send_time));
+    }
+    if (userData.email) {
+      form.setValue('email', userData.email);
+    }
   }, [form, userData]);
-  function onSubmit(values: FormData) {
-    console.log(values);
-  }
   return (
     <div className="rounded-md bg-secondary bg-opacity-30 p-4">
       <Form {...form}>
@@ -83,7 +110,7 @@ export const SettingsForm = () => {
               </FormItem>
             )}
           />
-          {form.getValues().send_mail && (
+          {userData.send_mail && (
             <>
               <FormField
                 control={form.control}
@@ -92,7 +119,7 @@ export const SettingsForm = () => {
                   <FormItem>
                     <FormLabel>E-mail</FormLabel>
                     <FormControl className="mt-1">
-                      <Input placeholder="pepegus@gmail.com" {...field} />
+                      <Input placeholder="pepegus@amogus.pog" {...field} />
                     </FormControl>
                     <FormMessage className="pt-1" />
                   </FormItem>
@@ -100,9 +127,9 @@ export const SettingsForm = () => {
               />
               <FormField
                 control={form.control}
-                name="save_weeday"
+                name="save_weekday"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col items-center gap-x-2">
+                  <FormItem>
                     <FormLabel className="m-0">Notification day</FormLabel>
                     <FormControl>
                       <ToggleGroup
@@ -110,17 +137,27 @@ export const SettingsForm = () => {
                         value={field.value}
                         onValueChange={(value: singleWeekDay) => {
                           if (value) {
-                            form.setValue('save_weeday', value);
+                            form.setValue('save_weekday', value);
                           }
                         }}
                       >
                         {weekDays.map((dw) => (
                           <ToggleGroupItem key={dw} value={dw}>
-                            <p className="h-4 w-4">{dw}</p>
+                            <p className="p-1">{dw}</p>
                           </ToggleGroupItem>
                         ))}
                       </ToggleGroup>
                     </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="save_hour_minute"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="m-0">Notification time</FormLabel>
+                    <Input type="time" {...field} />
                   </FormItem>
                 )}
               />
@@ -139,10 +176,6 @@ export const SettingsForm = () => {
               </FormItem>
             )}
           />
-          {/* <div className="flex items-center space-x-2">
-            <Switch />
-            <Label>Autosave</Label>
-          </div> */}
           <Button type="submit">Submit</Button>
         </form>
       </Form>

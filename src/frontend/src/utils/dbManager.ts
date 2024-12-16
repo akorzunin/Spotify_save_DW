@@ -1,7 +1,7 @@
-// @ts-nocheck
 // TODO fix types
 import dayjs from 'dayjs';
 import {
+  ApiError,
   ApiService,
   CreateUser,
   OpenAPI,
@@ -63,8 +63,17 @@ export const updateUserData = async (userId, updateData): Promise<unknown> => {
 export const updateUserDataV2 = async (
   userId: string,
   updateUser: UpdateUser
-): Promise<User> => {
-  return await ApiService.updateUserApiUpdateUserPut(userId, updateUser);
+): Promise<User | null> => {
+  try {
+    const res = await ApiService.updateUserApiUpdateUserPut(userId, updateUser);
+    return res;
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return null;
+    }
+    console.error(error);
+    throw new Error('Unknown error');
+  }
 };
 
 export const getDbData = (item, data, formDataMap) => {
@@ -90,3 +99,38 @@ export const parseFormData = (formData, formDataMap) => {
   });
   return UpdateData;
 };
+
+export const weekDays = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'] as const;
+export type singleWeekDay = (typeof weekDays)[number];
+/**
+ * parse time and weekday to iso fromatted string
+ */
+export function parseFormTime(time: string, weekday: singleWeekDay): string {
+  const dayNum = weekDays.indexOf(weekday);
+  const [hour, minute] = time.split(':', 2);
+  // first day of year is Monday
+  const t = dayjs('1973-01-01T00:00+00:00')
+    .day(dayNum + 1)
+    .hour(Number(hour))
+    .minute(Number(minute));
+
+  return t.format();
+}
+
+export function parseUserSaveTime(time: string): string {
+  const t = dayjs(time);
+  const hour = t.hour().toString().padStart(2, '0');
+  const minute = t.minute().toString().padStart(2, '0');
+  return `${hour}:${minute}`;
+}
+
+export function parseUserWeekDay(
+  time: string | undefined
+): singleWeekDay | false {
+  const t = dayjs(time);
+  if (t.isValid() === false) {
+    return false;
+  }
+  const dayNum = t.day();
+  return weekDays[dayNum - 1];
+}
