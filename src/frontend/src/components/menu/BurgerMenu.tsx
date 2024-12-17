@@ -44,7 +44,9 @@ const BurgerMenu: FC<IBurgerMenu> = ({ className, userId }) => {
             </>
           ) : (
             <Button asChild>
-              <Link to={`${OpenAPI.BASE}/login`}>Login</Link>
+              <Link reloadDocument to={`${OpenAPI.BASE}/login`}>
+                Login
+              </Link>
             </Button>
           )}
         </SheetContent>

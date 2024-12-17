@@ -48,7 +48,9 @@ export function RootLayout() {
             </div>
             <div className="flex gap-x-3 tablet:hidden">
               <Button asChild>
-                <Link to={`${OpenAPI.BASE}/login`}>Login</Link>
+                <Link reloadDocument to={`${OpenAPI.BASE}/login`}>
+                  Login
+                </Link>
               </Button>
               <BurgerMenu userId={userId} />
             </div>
@@ -60,7 +62,9 @@ export function RootLayout() {
                 <Link to="/app/help">Help</Link>
               </Button>
               <Button asChild>
-                <Link to={`${OpenAPI.BASE}/login`}>Login</Link>
+                <Link reloadDocument to={`${OpenAPI.BASE}/login`}>
+                  Login
+                </Link>
               </Button>
               <ModeToggle />
             </div>
