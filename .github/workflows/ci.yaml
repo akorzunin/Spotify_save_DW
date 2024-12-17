@@ -14,7 +14,7 @@ on:
 jobs:
   checks:
     name: run pre-commit hooks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,33 +27,34 @@ jobs:
         run: npm install -D prettier prettier-plugin-tailwindcss
       - uses: pre-commit/action@v3.0.1
 
-  # tests-frontend:
-  #   name: run playwright tests
-  #   needs: checks
-  #   defaults:
-  #     run:
-  #       working-directory: ./tests/frontend
-  #   timeout-minutes: 60
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20
-  #     - name: Install project dependencies
-  #       run: npm i
-  #       working-directory: ./src/frontend
-  #     - name: Install Playwright dependencies
-  #       run: npm i
-  #     - name: Install Playwright Browsers
-  #       run: npx playwright install --with-deps
-  #     - name: Run Playwright tests
-  #       run: npm run test-ct
+  tests-unit-frontend:
+    name: run unit test for frontend
+    needs: checks
+    defaults:
+      run:
+        working-directory: ./tests/frontend
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          cache-dependency-path: tests/frontend/pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run tests
+        run: pnpm run test-unit
 
   tests-backend:
     name: run pytest tests
     needs: checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -68,12 +69,12 @@ jobs:
 
   buid_and_push_to_registry:
     name: Push Docker image to Docker Hub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
     needs:
       - tests-backend
-      # - tests-frontend
+      - tests-unit-frontend
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -102,7 +103,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: ${{ github.ref_name == 'test' }}
     needs:
       - buid_and_push_to_registry
