@@ -75,7 +75,7 @@ export function parseFormTime(time: string, weekday: singleWeekDay): string {
     .hour(Number(hour))
     .minute(Number(minute));
 
-  return t.format();
+  return t.toISOString();
 }
 
 export function parseUserSaveTime(time: string): string {

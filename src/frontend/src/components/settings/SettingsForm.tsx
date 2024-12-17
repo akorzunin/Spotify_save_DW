@@ -4,7 +4,7 @@ import { Switch } from '../../shadcn/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
-import { UpdateUser } from '../../api/client';
+import { ApiService, UpdateUser } from '../../api/client';
 import {
   Form,
   FormControl,
@@ -95,21 +95,39 @@ export const SettingsForm = () => {
     <div className="rounded-md bg-secondary bg-opacity-30 p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="send_mail"
-            render={({ field }) => (
-              <FormItem className="flex items-center gap-x-2">
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className="m-0">Send weekly email</FormLabel>
-              </FormItem>
-            )}
-          />
+          <div className="flex justify-between">
+            <FormField
+              control={form.control}
+              name="send_mail"
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-x-2">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="m-0">Send weekly email</FormLabel>
+                </FormItem>
+              )}
+            />
+            <Button
+              onClick={async () => {
+                if (!userData.email) {
+                  console.warn('No email');
+                  return;
+                }
+                const res = await ApiService.testSaveEmailApiTestSaveEmailPost({
+                  email: userData.email,
+                  subject: 'test',
+                  text: 'test',
+                });
+                console.info(res);
+              }}
+            >
+              Test Notification
+            </Button>
+          </div>
           {userData.send_mail && (
             <>
               <FormField

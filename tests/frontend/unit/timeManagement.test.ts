@@ -18,5 +18,5 @@ test("timeData", async () => {
   const td = getTimeData();
   expect(td.fullYear).toBe(1970);
   expect(td.weekNumber).toBe(1);
-  expect(td.currentTime).toBe(dayjs().format());
+  expect(td.currentTime).toBe(dayjs().toISOString());
 });

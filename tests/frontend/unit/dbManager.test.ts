@@ -11,14 +11,18 @@ test("parseFormTime", () => {
   const testTime = "16:23";
   const testDay = { name: "Fr", index: 5 } as const;
   const time = parseFormTime(testTime, testDay.name);
-  expect(time).toBe(dayjs(`1973-01-0${testDay.index}T${testTime}`).format());
+  expect(time).toBe(
+    dayjs(`1973-01-0${testDay.index}T${testTime}`).toISOString(),
+  );
 });
 
 test("parseFormTime weekend", () => {
   const testTime = "00:00";
   const testDay = { name: "Su", index: 7 } as const;
   const time = parseFormTime(testTime, testDay.name);
-  expect(time).toBe(dayjs(`1973-01-0${testDay.index}T${testTime}`).format());
+  expect(time).toBe(
+    dayjs(`1973-01-0${testDay.index}T${testTime}`).toISOString(),
+  );
 });
 
 test("parseUserSaveTime empty", () => {
