@@ -125,7 +125,7 @@ def get_tag(user_id: str, task_type: Literal["save", "notify"]):
 
 
 def validate_user_task_data(user: shemas.User) -> bool:
-    if not user.is_premium and user.filter_dislikes:
+    if not user.is_premium and user.filter_dislikes and user.save_dw_weekly:
         # cant use playback alg on non premium users
         return False
     if not user.save_dw_weekly:
