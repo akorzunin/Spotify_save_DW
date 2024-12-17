@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { UserDataAtom } from '../../store/store';
 import { Switch } from '../../shadcn/ui/switch';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { ApiService, UpdateUser } from '../../api/client';
 import {
@@ -51,6 +51,7 @@ export const SettingsForm = () => {
       dw_playlist_id: '',
     },
   });
+  const sendMailValue = useWatch({ name: 'send_mail', control: form.control });
 
   async function onSubmit(values: FormData) {
     const updateUser: UpdateUser = {};
@@ -64,6 +65,9 @@ export const SettingsForm = () => {
         values.save_hour_minute,
         values.save_weekday
       );
+    }
+    if (values.send_mail === false) {
+      updateUser.send_mail = false;
     }
     if (updateUser) {
       const res = await updateUserDataV2(userData.user_id, updateUser);
@@ -128,7 +132,7 @@ export const SettingsForm = () => {
               Test Notification
             </Button>
           </div>
-          {userData.send_mail && (
+          {(sendMailValue || userData.send_mail) && (
             <>
               <FormField
                 control={form.control}
@@ -188,7 +192,7 @@ export const SettingsForm = () => {
               <FormItem>
                 <FormLabel>Discover Weekly playlist id</FormLabel>
                 <FormControl className="mt-1">
-                  <Input placeholder="amogus" {...field} />
+                  <Input placeholder="31aaa1aa111aa11aa1a1aa" {...field} />
                 </FormControl>
                 <FormMessage className="pt-1" />
               </FormItem>
