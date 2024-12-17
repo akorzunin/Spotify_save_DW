@@ -1,6 +1,8 @@
 # Spotify_save_DW
 
-Website: https://savespotifydw.duckdns.org/
+Website: <https://dwman.akorz-sw1.duckdns.org/>
+
+Test server: <https://test-dwman.akorz-sw1.duckdns.org/>
 
 ## How it works
 
@@ -22,66 +24,42 @@ Website: https://savespotifydw.duckdns.org/
 6. That's it! Just press Save button and playlist will be automatically created
    ![enter image description here](https://user-images.githubusercontent.com/54314123/178079251-484d8a93-b0d6-4c8d-94f7-c1da0f2f57a6.png)
 
-
-# For developers
-
 ## How to setup dev environment
 
 ### Backend
 
 Need python 3.10+, poetry 1.5+, caddy
 
-   git clone ...
-   poetry shell
-   poetry install
-   cp .env.example .env
+```sh
+git clone ...
+poetry shell
+poetry install
+cp .env.example .env
+```
 
 - setup .env values
 - copy/create test db
 - start python and caddy server\
 
-   python src/main.py
-   sudo caddy run --config .\caddy\dev\Caddyfile
-
-Export depenencies
-
-   poetry export -f requirements.txt --output requirements.txt --without-hashes --without-urls
+  python src/main.py
+  sudo caddy run --config .\caddy\dev\Caddyfile
 
 ### Frontend
 
-Need node, npm, caddy to be installed
+Instsall [caddy](https://caddyserver.com/docs/install), pnpm and task
 
-   cd src/fronend
-   npm i
-   # create env file w/ url to dev backend
-   echo "VITE_API_URL=https://test-dwman.duckdns.org" > .env
-   npm run dev
-   # run caddy in different treminal
-   # use sudo cuz caddy need accsess to port 443
-   sudo caddy run --config .\caddy\dev\Caddyfile.frontend
-   # or just run it w/o caddyfile
-   caddy reverse-proxy --from test-dwman.localhost --to localhost:3000
-   # optionally u need to run `caddy trust` in another trminal w/o closing this one
+```sh
+npm install -g pnpm
+npm install -g @go-task/cli
+```
 
-Run caddy w/o sudo on :443
+run `task dw` or `task debug-web`
+it will automatically spin up vite dev server at <https://test-dwman.localhost/> and use test server as backend
 
-   sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/caddy
+### Generate ts client
 
-go to test-dwman.localhost
-
-### Update npm deps
-
-   npx npm-check-updates -u
-   npm i
-
-## Deploy
-
-   ansible-playbook ./deploy/deploy-test/deploy-test.yml
-
-## Generate ts client
-
-   npx openapi-typescript-codegen --input http://localhost:8000/openapi.json --output ./src/frontend/src/api/client --client fetch && pre-commit run --all-files
+npx openapi-typescript-codegen --input http://localhost:8000/openapi.json --output ./src/frontend/src/api/client --client fetch && pre-commit run --all-files
 
 ## License
 
-Spotify_save_DW is free and open-source software licensed under the [Apache 2.0 License](https://github.com/create-go-app/cli/blob/master/LICENSE).
+DWMan is free and open-source software licensed under the [Apache 2.0 License](https://github.com/akorzunin/dwman/blob/master/license).
