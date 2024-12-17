@@ -42,8 +42,8 @@ def render_notification_text(dw_link, user_id):
         "src/frontend/templates/mail_notify.html",
         {
             "dw_link": dw_link,
-            "host": "https://savespotifydw.duckdns.org/",
-            "unsubscribe": f"https://savespotifydw.duckdns.org/#/user/{user_id}",
+            "host": "https://dwman.akorz-sw1.duckdns.org/",
+            "unsubscribe": f"https://dwman.akorz-sw1.duckdns.org/app/user/{user_id}",
         },
     )
 
@@ -53,7 +53,7 @@ def render_save_pl_text(dw_link, user_id):
         "src/frontend/templates/mail_save_pl.html",
         {
             "dw_link": dw_link,
-            "host": "https://savespotifydw.duckdns.org/",
-            "unsubscribe": f"https://savespotifydw.duckdns.org/#/user/{user_id}",
+            "host": "https://dwman.akorz-sw1.duckdns.org/",
+            "unsubscribe": f"https://dwman.akorz-sw1.duckdns.org/app/user/{user_id}",
         },
     )

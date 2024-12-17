@@ -1,4 +1,4 @@
-FROM node:20-alpine as frontend
+FROM node:20-alpine AS frontend
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable pnpm
@@ -9,8 +9,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 COPY ["src/frontend", "./"]
 RUN pnpm run build
 
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.11-slim
+FROM python:3.11-slim AS runner
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1 \
@@ -36,6 +35,7 @@ RUN if [ "$TARGETPLATFORM" != "linux/arm/v7" ] ; then poetry config virtualenvs.
 COPY ["src/main.py", "./src/main.py"]
 COPY ["src/backend", "./src/backend"]
 COPY ["src/configs", "./src/configs"]
+COPY ["src/frontend/templates", "./src/frontend/templates"]
 COPY --from=frontend ["/frontend/dist", "./src/frontend/dist"]
 
 EXPOSE 8000
